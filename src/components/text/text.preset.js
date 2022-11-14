@@ -19,22 +19,22 @@ export const presets = {
     // used for big headings like shop name, page heading
     h1: {
         ...BOLD,
-        fontSize: 32
+        fontSize: 24
     },
     // used for catagory text 
     catagory: {
         ...BASE_BOLD,
-        fontSize: 24
+        fontSize: 20
     },
     // used for service name / notifcation title /
     title: {
         ...BOLD,
-        fontSize: 20
+        fontSize: 16
     },
     // used for gray text
     info: {
         ...BASE_BOLD,
-        fontSize: 18,
+        fontSize: 12,
         color: colors.gray
     },
 }
