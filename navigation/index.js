@@ -77,7 +77,7 @@ function TabBarIcon({ fontFamily, name, color }) {
 export default function Navigation() {
     return (
         <NavigationContainer theme={THEME}>
-            <Tab.Navigator screenOptions={{ headerShown: false, tabBarActiveTintColor: colors.darkOrange }}>
+            <Tab.Navigator screenOptions={{ headerShown: false, tabBarActiveTintColor: '#FD9F1A' }}>
                 <Tab.Screen
                     options={{
                         title: "Home",
