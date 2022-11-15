@@ -14,30 +14,16 @@ const styles = StyleSheet.create({
         height: 200,
         position: 'relative',
     },
-    slide1: {
+    slide: {
         justifyContent: 'center',
         height: '100%',
         alignItems: 'start',
         paddingHorizontal: 20,
     },
-    slide2: {
-        flex: 1,
-        justifyContent: 'center',
-        alignItems: 'center',
-    },
-    slide3: {
-        flex: 1,
-        justifyContent: 'center',
-        alignItems: 'center',
-    },
-    logo: {
-        width: '100%',
-    }
 })
-const Slider = ({ percent, title, subTitle, style }) => {
-    const { container, wrapper, slide1, slide2, slide3, logo } = styles
+const Slider = ({ percent, title, subTitle }) => {
     return (
-        <View style={styles.slide1}>
+        <View style={styles.slide}>
             <Text preset='info' style={{ color: colors.white, fontSize: 16 }}>
                 {percent}Off
             </Text>
@@ -55,9 +41,8 @@ const Slider = ({ percent, title, subTitle, style }) => {
 }
 export default class SwiperComponent extends Component {
     render() {
-        const { container, wrapper, slide1, slide2, slide3, logo } = styles
+        const { container, wrapper } = styles
         return (
-            // showsButtons={true}
             <View style={container}>
                 <Swiper style={wrapper}
                     activeDotStyle={{
