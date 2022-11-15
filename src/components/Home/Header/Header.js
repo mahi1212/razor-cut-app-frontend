@@ -4,7 +4,7 @@ import { Ionicons } from '@expo/vector-icons';
 import Text from '../../text/text';
 import { typography } from '../../../theme/typography';
 export default function Header() {
-    const { container, logo, logoContainer, greetings } = styles
+    const { container, logo, logoContainer, greetings, wave } = styles
     // getting day or night in user local time
     const hours = new Date().getHours()
     const isDayTime = hours > 6 && hours < 18
@@ -18,7 +18,7 @@ export default function Header() {
                     <Text preset="catagory" style={{ fontFamily: typography.bold }}>RazorCut</Text>
                 </View>
                 {/* notification & bookmark icon */}
-                <View style={styles.logoContainer}>
+                <View style={styles.iconContainer}>
                     <Pressable onPress={() => { console.log("pressed in notification") }}>
                         <Ionicons name="notifications-outline" size={24} color="black" />
                     </Pressable>
@@ -30,6 +30,8 @@ export default function Header() {
             <View style={greetings}>
                 {isDayTime ? <Text preset='h1'>Morning, </Text> : <Text preset='h1'>Evening, </Text>}
                 <Text preset='h1'>{name}</Text>
+                <Image source={require('../../../../assets/images/so-so.png')} style={wave} />
+
             </View>
         </View>
     )
@@ -47,6 +49,11 @@ const styles = StyleSheet.create({
         flexDirection: 'row',
         alignItems: 'center',
     },
+    iconContainer: {
+        flexDirection: 'row',
+        alignItems: 'center',
+        marginHorizontal: 5,
+    },
     logo: {
         width: 50,
         height: 50,
@@ -54,6 +61,11 @@ const styles = StyleSheet.create({
     greetings: {
         flexDirection: 'row',
         alignItems: 'center',
+        marginLeft: 10
+    },
+    wave: {
+        height: 30,
+        width: 30,
         marginLeft: 10
     }
 })
