@@ -26,7 +26,7 @@ export default function Search() {
 const styles = StyleSheet.create({
   container: {
     backgroundColor: '#f5f4f2',
-    width: '96%',
+    width: '100%',
     alignSelf: 'center',
     justifyContent: 'center',
     alignItems: 'center',
