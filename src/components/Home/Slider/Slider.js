@@ -9,7 +9,7 @@ const styles = StyleSheet.create({
     container: {
         flex: 1,
         borderRadius: 10,
-        backgroundColor: '#FD9F1A',
+        backgroundColor: colors.darkOrange,
         marginTop: 20,
         height: 200,
         position: 'relative',
