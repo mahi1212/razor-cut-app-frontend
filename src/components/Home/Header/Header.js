@@ -18,7 +18,7 @@ export default function Header() {
                     <Text preset="catagory" style={{ fontFamily: typography.bold }}>RazorCut</Text>
                 </View>
                 {/* notification & bookmark icon */}
-                <View style={styles.logoContainer}>
+                <View style={styles.iconContainer}>
                     <Pressable onPress={() => { console.log("pressed in notification") }}>
                         <Ionicons name="notifications-outline" size={24} color="black" />
                     </Pressable>
@@ -48,6 +48,11 @@ const styles = StyleSheet.create({
     logoContainer: {
         flexDirection: 'row',
         alignItems: 'center',
+    },
+    iconContainer: {
+        flexDirection: 'row',
+        alignItems: 'center',
+        marginHorizontal: 5,
     },
     logo: {
         width: 50,
