@@ -1763,7 +1763,7 @@
     "@react-navigation/elements" "^1.3.6"
     "warn-once" "^0.1.0"
 
-"@react-navigation/native@^6.0.0":
+"@react-navigation/native@^6.0.0", "@react-navigation/native@^6.0.13":
   "integrity" "sha512-CwaJcAGbhv3p3ECablxBkw8QBCGDWXqVRwQ4QbelajNW623m3sNTC9dOF6kjp8au6Rg9B5e0KmeuY0xWbPk79A=="
   "resolved" "https://registry.npmjs.org/@react-navigation/native/-/native-6.0.13.tgz"
   "version" "6.0.13"
@@ -4377,7 +4377,7 @@
   "resolved" "https://registry.npmjs.org/lodash.throttle/-/lodash.throttle-4.1.1.tgz"
   "version" "4.1.1"
 
-"lodash@^4.17.13", "lodash@^4.17.15", "lodash@^4.17.4":
+"lodash@*", "lodash@^4.17.13", "lodash@^4.17.15", "lodash@^4.17.4":
   "integrity" "sha512-v2kDEe57lecTulaDIuNTPy3Ry4gLGJ6Z1O3vE1krgXZNrsQ+LFTGHVxVjcXPs17LhbZVGedAJv8XZ1tvj5FvSg=="
   "resolved" "https://registry.npmjs.org/lodash/-/lodash-4.17.21.tgz"
   "version" "4.17.21"
@@ -5544,6 +5544,11 @@
     "flow-parser" "^0.121.0"
     "jscodeshift" "^0.13.1"
     "nullthrows" "^1.1.1"
+
+"react-native-element-dropdown@^2.4.0":
+  "integrity" "sha512-xdwOWMsPnlICe/dvgE8aYySBF9DJE+dJqqoVFd6+vAtP+IbCDhkEZdbrgwn72c9ukFNzE4Tg8+gGCGqrN5XwrA=="
+  "resolved" "https://registry.npmjs.org/react-native-element-dropdown/-/react-native-element-dropdown-2.4.0.tgz"
+  "version" "2.4.0"
 
 "react-native-flash-message@^0.3.1":
   "integrity" "sha512-PswNvDdHBOavmIM7G4loLuEwML3oB8E8wVCuOPQ0Q6hRbExwTaF6gsTJvo5fQkyUsCi27ainSkL/F0ZijIkVig=="
