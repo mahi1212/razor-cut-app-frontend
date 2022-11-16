@@ -42,7 +42,7 @@ export default function EditProfile({ title, backBtn }) {
 
           <DropDown />
 
-          <View></View>
+          {/* <View></View> */}
           <Button title="Update" />
         </View>
       </ScrollView>
