@@ -9,13 +9,21 @@ export default function ProfileHeader({ backBtn, title }) {
   const navigation = useNavigation();
 
   return (
-    <View style={styles.container}>
+   
+   <View style={styles.container}>
+   
       {backBtn && (
+   
         <Pressable
+   
           style={{ marginRight: 15 }}
+   
           onPress={() => {
+   
             navigation.goBack();
+   
           }}
+   
         >
           <AntDesign name="arrowleft" size={24} color="black" />
         </Pressable>
