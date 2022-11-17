@@ -1,4 +1,4 @@
-import { Dimensions, FlatList, Image, RefreshControl, ScrollView, StyleSheet, View } from 'react-native'
+import { Dimensions, FlatList, Image, Pressable, RefreshControl, ScrollView, StyleSheet, View } from 'react-native'
 import React, { useEffect, useState } from 'react'
 import Text from '../components/text/text'
 import { colors } from '../theme/colors'
@@ -57,10 +57,12 @@ export default function Home() {
   const SingleCatagory = ({ text, name }) => {
     return (
       <View style={singleCatagory}>
-        <View style={catagoryImage} >
-          <Entypo name={name} size={28} color={colors.orange} />
-        </View>
-        <Text preset='title' style={singleCatagoryText}>{text}</Text>
+        <Pressable onPress={() => console.log(text)}>
+          <View style={catagoryImage} >
+            <Entypo name={name} size={28} color={colors.orange} />
+          </View>
+          <Text preset='title' style={singleCatagoryText}>{text}</Text>
+        </Pressable>
       </View>
     )
   }
@@ -84,8 +86,8 @@ export default function Home() {
         </View>
         {/* divider */}
         <View style={{ height: 1, width: '100%', backgroundColor: '#f5f4f2', marginVertical: 35 }} />
-        
-        
+
+
       </ScrollView>
       {/* <FlatList
       data={userData}
