@@ -36,7 +36,7 @@ export const singleCatagoryList = [
     {
         id: '4',
         name: 'Home visit',
-        icon:'hand'
+        icon:'briefcase'
     },
     {
         id: '5',

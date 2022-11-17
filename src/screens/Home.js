@@ -89,8 +89,7 @@ export default function Home() {
             <SingleCatagory text={item.name} icon={item.icon} />
           )}
         />
-        {/* divider */}
-        <View style={{ height: 1, width: '100%', backgroundColor: '#f5f4f2' }} />
+        <View style={{ height: 1, width: '100%', backgroundColor: '#f5f4f2', marginTop: 15 }} />
         {/* nearby salons */}
         <CatagoryTitle title="Nearby Your Location" btn="See All" />
 
@@ -106,15 +105,15 @@ const styles = StyleSheet.create({
   },
   catagory: {
     justifyContent: 'center',
-    alignItems: 'flex-end',
-    paddingBottom: spacing[4],
+    alignItems: 'center',
+    paddingVertical: spacing[2],
   },
   catagoryListStyle: {
-    width: 90,
+    width: 89,
     height: 100,
     borderRadius: 10,
     marginHorizontal: spacing[1],
-    marginVertical: spacing[2],
+    marginRight: spacing[2],
     alignItems: 'center',
     justifyContent: 'center',
   },
