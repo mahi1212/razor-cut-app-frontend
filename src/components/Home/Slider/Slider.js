@@ -44,7 +44,7 @@ export default class SwiperComponent extends Component {
         const { container, wrapper } = styles
         return (
             <View style={container}>
-                <Swiper style={wrapper}
+                <Swiper
                     activeDotStyle={{
                         backgroundColor: colors.white,
                         width: 20,

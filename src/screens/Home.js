@@ -8,9 +8,12 @@ import Header from '../components/Home/Header/Header'
 import Search from '../components/Home/Search/Search'
 import Slider from '../components/Home/Slider/Slider'
 import { Entypo } from '@expo/vector-icons';
+import CatagoryTitle from '../components/Home/CatagoryTitle/CatagoryTitle'
+import { catagoryList, singleCatagoryList } from '../components/Home/CatagoryTitle/CatagoryList'
 const width = Dimensions.get('window').width;
+
 export default function Home() {
-  const { container, catagory, singleCatagory, catagoryImage, singleCatagoryText } = styles;
+  const { container, catagory, catagoryImage, singleCatagoryText,catagoryListStyle } = styles;
   const [refreshing, setRefreshing] = useState(false);
   // const [userData, setUserData] = useState([]);
   // useEffect(() => {
@@ -42,26 +45,24 @@ export default function Home() {
   //   );
   // };
 
-  // const ItemSeparatorView = () => {
-  //   return (
-  //     <View
-  //       style={{
-  //         height: 1,
-  //         width: '100%',
-  //         backgroundColor: '#C8C8C8',
-  //       }}
-  //     />
-  //   );
-  // };
+  // {/* <FlatList
+  //     data={userData}
+  //     keyExtractor={(item, index) => index.toString()}
+  //     ItemSeparatorComponent={ItemSeparatorView}
+  //     enableEmptySections={true}
+  //     renderItem={ItemView}
+  //   /> */}
 
-  const SingleCatagory = ({ text, name }) => {
+  const SingleCatagory = ({ text, icon }) => {
     return (
-      <View style={singleCatagory}>
-        <Pressable onPress={() => console.log(text)}>
+      <View style={catagoryListStyle}>
+        <Pressable onPress={() => console.log(text)} style={{alignItems: 'center', justifyContent: 'center'}}>
           <View style={catagoryImage} >
-            <Entypo name={name} size={28} color={colors.orange} />
+            <Entypo name={icon} size={28} color={colors.orange} />
           </View>
-          <Text preset='title' style={singleCatagoryText}>{text}</Text>
+          <View style={{ justifyContent: 'flex-start' }}>
+            <Text preset='title' style={singleCatagoryText}>{text}</Text>
+          </View>
         </Pressable>
       </View>
     )
@@ -78,24 +79,23 @@ export default function Home() {
         <Search />
         <Slider />
         {/* catagory list*/}
-        <View style={catagory}>
-          <SingleCatagory text="Haircuts" name="scissors" />
-          <SingleCatagory text="Make Up" name="flat-brush" />
-          <SingleCatagory text="Manicure" name="hand" />
-          <SingleCatagory text="Massage" name="man" />
-        </View>
+        <FlatList
+          data={singleCatagoryList}
+          horizontal={true}
+          contentContainerStyle={catagory}
+          showsHorizontalScrollIndicator={false}
+          key={item => item.id}
+          renderItem={({ item }) => (
+            <SingleCatagory text={item.name} icon={item.icon} />
+          )}
+        />
         {/* divider */}
-        <View style={{ height: 1, width: '100%', backgroundColor: '#f5f4f2', marginVertical: 35 }} />
-
+        <View style={{ height: 1, width: '100%', backgroundColor: '#f5f4f2' }} />
+        {/* nearby salons */}
+        <CatagoryTitle title="Nearby Your Location" btn="See All" />
 
       </ScrollView>
-      {/* <FlatList
-      data={userData}
-      keyExtractor={(item, index) => index.toString()}
-      ItemSeparatorComponent={ItemSeparatorView}
-      enableEmptySections={true}
-      renderItem={ItemView}
-    /> */}
+
     </SafeAreaView>
   )
 }
@@ -105,18 +105,26 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   catagory: {
-    flexDirection: 'row',
-    width: width,
-    justifyContent: 'space-around',
+    justifyContent: 'center',
+    alignItems: 'flex-end',
+    paddingBottom: spacing[4],
+  },
+  catagoryListStyle: {
+    width: 90,
+    height: 100,
+    borderRadius: 10,
+    marginHorizontal: spacing[1],
+    marginVertical: spacing[2],
     alignItems: 'center',
+    justifyContent: 'center',
   },
   singleCatagory: {
     width: 80,
-    height: 80,
-    justifyContent: 'center',
+    height: 100,
+    justifyContent: 'flex-start',
     alignItems: 'center',
-    marginRight: 15,
-    marginTop: 30,
+    marginLeft: 10,
+    marginTop: 5,
   },
   catagoryImage: {
     marginVertical: spacing[2],
@@ -130,5 +138,11 @@ const styles = StyleSheet.create({
   singleCatagoryText: {
     marginTop: spacing[1],
     width: '100%',
+  },
+  nearbyHeading: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
   }
+
 })
