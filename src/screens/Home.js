@@ -1,4 +1,4 @@
-import { FlatList, RefreshControl, ScrollView, StyleSheet, View } from 'react-native'
+import { Dimensions, FlatList, Image, RefreshControl, ScrollView, StyleSheet, View } from 'react-native'
 import React, { useEffect, useState } from 'react'
 import Text from '../components/text/text'
 import { colors } from '../theme/colors'
@@ -7,8 +7,10 @@ import { SafeAreaView } from 'react-native-safe-area-context'
 import Header from '../components/Home/Header/Header'
 import Search from '../components/Home/Search/Search'
 import Slider from '../components/Home/Slider/Slider'
-
+import { Entypo } from '@expo/vector-icons';
+const width = Dimensions.get('window').width;
 export default function Home() {
+  const { container, catagory, singleCatagory, catagoryImage, singleCatagoryText } = styles;
   const [refreshing, setRefreshing] = useState(false);
   // const [userData, setUserData] = useState([]);
   // useEffect(() => {
@@ -39,7 +41,7 @@ export default function Home() {
   //     </Text>
   //   );
   // };
-  
+
   // const ItemSeparatorView = () => {
   //   return (
   //     <View
@@ -51,17 +53,39 @@ export default function Home() {
   //     />
   //   );
   // };
+
+  const SingleCatagory = ({ text, name }) => {
+    return (
+      <View style={singleCatagory}>
+        <View style={catagoryImage} >
+          <Entypo name={name} size={28} color={colors.orange} />
+        </View>
+        <Text preset='title' style={singleCatagoryText}>{text}</Text>
+      </View>
+    )
+  }
   return (
     <SafeAreaView style={{ flex: 1, marginHorizontal: spacing[2], }}>
-      <ScrollView style={styles.container} refreshControl={
+      <ScrollView style={container} refreshControl={
         <RefreshControl
           refreshing={refreshing}
-          // onRefresh={loadUserData}
+        // onRefresh={loadUserData}
         />
       }>
         <Header />
         <Search />
         <Slider />
+        {/* catagory list*/}
+        <View style={catagory}>
+          <SingleCatagory text="Haircuts" name="scissors" />
+          <SingleCatagory text="Make Up" name="flat-brush" />
+          <SingleCatagory text="Manicure" name="hand" />
+          <SingleCatagory text="Massage" name="man" />
+        </View>
+        {/* divider */}
+        <View style={{ height: 1, width: '100%', backgroundColor: '#f5f4f2', marginVertical: 35 }} />
+        
+        
       </ScrollView>
       {/* <FlatList
       data={userData}
@@ -77,6 +101,32 @@ export default function Home() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    paddingHorizontal: spacing[1],
   },
+  catagory: {
+    flexDirection: 'row',
+    width: width,
+    justifyContent: 'space-around',
+    alignItems: 'center',
+  },
+  singleCatagory: {
+    width: 80,
+    height: 80,
+    justifyContent: 'center',
+    alignItems: 'center',
+    marginRight: 15,
+    marginTop: 30,
+  },
+  catagoryImage: {
+    marginVertical: spacing[2],
+    borderRadius: '50%',
+    width: 70,
+    height: 70,
+    justifyContent: 'center',
+    alignItems: 'center',
+    backgroundColor: "#FDF1DF",
+  },
+  singleCatagoryText: {
+    marginTop: spacing[1],
+    width: '100%',
+  }
 })
