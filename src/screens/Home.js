@@ -13,42 +13,30 @@ import { catagoryList, singleCatagoryList } from '../components/Home/CatagoryTit
 const width = Dimensions.get('window').width;
 
 export default function Home() {
-  const { container, catagory, catagoryImage, singleCatagoryText,catagoryListStyle } = styles;
+  const { container, catagory, catagoryImage, singleCatagoryText, catagoryListStyle } = styles;
   const [refreshing, setRefreshing] = useState(false);
   // const [userData, setUserData] = useState([]);
   // useEffect(() => {
   //   loadUserData();
   // }, []);
 
-  // const loadUserData = () => {
-  //   fetch('https://randomuser.me/api/?results=8')
-  //     .then((response) => response.json())
-  //     .then((data) => {
-  //       setRefreshing(false);
-  //       var newdata = userData.concat(data);
-  //       setUserData(newdata);
-  //     })
-  //     .catch((error) => {
-  //       console.error(error);
-  //     });
-  // };
+  const loadUserData = () => {
+    fetch('https://randomuser.me/api/?results=8')
+      .then((response) => response.json())
+      .then((data) => {
+        setRefreshing(false);
+        var newdata = userData.concat(data);
+        setUserData(newdata);
+      })
+      .catch((error) => {
+        console.error(error);
+      });
+  };
 
-  // const ItemView = ({ item }) => {
-  //   return (
-  //     <Text
-  //       style={{
-  //         fontSize: 20,
-  //         padding: 10,
-  //       }}>
-  //       {item.id}: {item.name}
-  //     </Text>
-  //   );
-  // };
 
   // {/* <FlatList
   //     data={userData}
   //     keyExtractor={(item, index) => index.toString()}
-  //     ItemSeparatorComponent={ItemSeparatorView}
   //     enableEmptySections={true}
   //     renderItem={ItemView}
   //   /> */}
@@ -56,7 +44,7 @@ export default function Home() {
   const SingleCatagory = ({ text, icon }) => {
     return (
       <View style={catagoryListStyle}>
-        <Pressable onPress={() => console.log(text)} style={{alignItems: 'center', justifyContent: 'center'}}>
+        <Pressable onPress={() => console.log(text)} style={{ alignItems: 'center', justifyContent: 'center' }}>
           <View style={catagoryImage} >
             <Entypo name={icon} size={28} color={colors.orange} />
           </View>
@@ -72,7 +60,7 @@ export default function Home() {
       <ScrollView style={container} refreshControl={
         <RefreshControl
           refreshing={refreshing}
-        // onRefresh={loadUserData}
+          // onRefresh={loadUserData}
         />
       }>
         <Header />
@@ -94,7 +82,6 @@ export default function Home() {
         <CatagoryTitle title="Nearby Your Location" btn="See All" />
 
       </ScrollView>
-
     </SafeAreaView>
   )
 }
@@ -109,11 +96,9 @@ const styles = StyleSheet.create({
     paddingVertical: spacing[2],
   },
   catagoryListStyle: {
-    width: 89,
+    width: 90,
     height: 100,
     borderRadius: 10,
-    marginHorizontal: spacing[1],
-    marginRight: spacing[2],
     alignItems: 'center',
     justifyContent: 'center',
   },

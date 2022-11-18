@@ -70,7 +70,7 @@ const styles = StyleSheet.create({
         color: colors.darkOrange
     },
     activeCatagoryButton: {
-        width: 95,
+        width: 100,
         backgroundColor: colors.darkOrange,
         justifyContent: 'center',
         alignItems: 'center',
