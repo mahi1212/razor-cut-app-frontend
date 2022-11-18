@@ -23,16 +23,7 @@ export default function MapScreen() {
               longitudeDelta: LONGITUDE_DELTA,
             }}
           />
-      {/* <MapView
-        provider={PROVIDER_GOOGLE} // remove if not using Google Maps
-        style={styles.map}
-        region={{
-          latitude: 24.903561,
-          longitude: 91.873611,
-          latitudeDelta: 0.015,
-          longitudeDelta: 0.0121,
-        }}
-      ></MapView> */}
+    
     </View>
   );
 }
