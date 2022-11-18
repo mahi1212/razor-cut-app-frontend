@@ -15,10 +15,9 @@ const width = Dimensions.get('window').width;
 export default function Home() {
   const { container, catagory, catagoryImage, singleCatagoryText, catagoryListStyle } = styles;
   const [refreshing, setRefreshing] = useState(false);
-
+  const [isLoading, setIsLoading] = useState(false);
   const [catagories, setCatagories] = useState([]);
   const [shops, setShops] = useState([]);
-  const [isLoading, setIsLoading] = useState(false);
 
   const getCatagories = () => {
     fetch('http://192.168.0.221:5000/services')
@@ -67,24 +66,24 @@ export default function Home() {
 
   const SingleShop = ({ shop }) => {
     const { name, image, rating, address, _id } = shop;
-    const { locationAndRatingContainer, shopContainer } = styles;
+    const { locationAndRatingContainer, shopContainer, innerShopContainer, img, middleDiv, info, locationText, ratingText } = styles;
     return (
       <Pressable style={shopContainer}>
-        <View style={{ flexDirection: 'row', alignItems: 'center', marginHorizontal: 10 }}>
-          <Image source={{ uri: image }} style={{ width: 60, height: 60, borderRadius: 5 }} />
-          <View style={{ marginHorizontal: 10, paddingHorizontal: 10, justifyContent: 'space-between', alignItems: 'flex-start', height: 60, }}>
+        <View style={innerShopContainer}>
+          <Image source={{ uri: image }} style={img} />
+          <View style={middleDiv}>
             <Text preset='title'>{name}</Text>
             <Text preset='info'>{address}</Text>
-            <View style={{ flexDirection: 'row', alignItems: 'center' }} >
+            <View style={info} >
               <View style={locationAndRatingContainer}>
-                {/* location */}
+                {/* location still static*/}
                 <Entypo name="location-pin" size={16} color={colors.orange} />
-                <Text style={{ fontSize: 12, marginHorizontal: 5 }}>1.2 km</Text>
+                <Text style={locationText}>1.2 km</Text>
               </View>
               <View style={locationAndRatingContainer}>
                 {/* Rating showing based on realtime user rating */}
                 <FontAwesome name="star-half-o" size={16} color={colors.orange} />
-                <Text style={{ fontSize: 12, marginHorizontal: 5 }}>{rating.reduce((a, b) => a + b) / rating.length}</Text>
+                <Text style={ratingText}>{rating.reduce((a, b) => a + b) / rating.length}</Text>
               </View>
             </View>
           </View>
@@ -103,7 +102,7 @@ export default function Home() {
       <ScrollView style={container} showsVerticalScrollIndicator={false} refreshControl={
         <RefreshControl
           refreshing={refreshing}
-        // onRefresh={loadCatagories}
+          onRefresh={getShops}
         />
       }>
         <Header />
@@ -135,6 +134,19 @@ export default function Home() {
         </View>
         {/* most popular part*/}
         <CatagoryTitle title="Most Popular" btn="See All" />
+        <View>
+          {isLoading ? <ActivityIndicator /> :
+            shops.reverse().slice(0, 6).map((shop, index) => {
+              return (
+                <View key={index}>{
+                  shop.rating.reduce((a, b) => a + b) / shop.rating.length > 4 ?
+                    <SingleShop shop={shop} /> : <Text preset='info' style={{ position: 'absolute', top: 10, left: 30 }}>NO MORE SHOP IS THAT MUCH POPULAR</Text>
+                }
+                </View>
+              )
+            })
+          }
+        </View>
       </ScrollView>
     </SafeAreaView>
   )
@@ -195,12 +207,41 @@ const styles = StyleSheet.create({
     shadowColor: '#f5f4f2',
     shadowOffset: { width: 3, height: 2 },
     shadowOpacity: 0.1,
-    shadowRadius: 1,  
+    shadowRadius: 1,
+  },
+  innerShopContainer: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    marginHorizontal: 10
+  },
+  img: {
+    width: 60,
+    height: 60,
+    borderRadius: 5
+  },
+  middleDiv: {
+    marginHorizontal: 10,
+    paddingHorizontal: 10,
+    justifyContent: 'space-between',
+    alignItems: 'flex-start',
+    height: 60,
+  },
+  info: {
+    flexDirection: 'row',
+    alignItems: 'center'
+  },
+  locationText: {
+    fontSize: 12,
+    marginHorizontal: 5
   },
   locationAndRatingContainer: {
     flexDirection: 'row',
     alignItems: 'center',
     marginHorizontal: 1
+  },
+  ratingText: {
+    fontSize: 12,
+    marginHorizontal: 5
   }
 
 })
