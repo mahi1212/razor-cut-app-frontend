@@ -9,10 +9,6 @@ export default function CatagoryTitle({ title, btn }) {
     // for finding which tab is selected and designe them accordingly 
     const [selectedItem, setSelectedItem] = React.useState('1'); //default selected all catagory
 
-    const handleSelection = (id) => {
-        setSelectedItem(id)
-    }
-
     return (
         <View>
             <View style={headerContainer}>
@@ -64,6 +60,7 @@ const styles = StyleSheet.create({
     textStyle: {
         marginVertical: 15,
         fontSize: 18,
+        marginLeft: 5
     },
     btnStyle: {
         fontWeight: '800',
@@ -76,18 +73,17 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         paddingVertical: 10,
         borderRadius: '50%',
-        marginRigth: 15,
+        marginHorizontal: 3,
     },
     catagoryButton: {
         width: 100,
-        marginRigth: 15,
         justifyContent: 'center',
         alignItems: 'center',
         paddingVertical: 10,
         borderRadius: '50%',
-        marginHorizontal: 5,
-        borderColor: colors.darkOrange,
+        marginHorizontal: 3,
         borderWidth: 1,
+        borderColor: colors.darkOrange,
     },
     selectedItemText: {
         color: colors.white,
