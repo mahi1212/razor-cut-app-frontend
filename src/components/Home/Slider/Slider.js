@@ -41,10 +41,13 @@ const Slider = ({ percent, title, subTitle }) => {
 }
 export default class SwiperComponent extends Component {
     render() {
-        const { container, wrapper } = styles
+        const { container } = styles
         return (
             <View style={container}>
                 <Swiper
+                    // loop={true}
+                    // autoplayDirection={true}
+                    // autoplayTimeout={1000}
                     activeDotStyle={{
                         backgroundColor: colors.white,
                         width: 20,
