@@ -7,9 +7,8 @@ import { SafeAreaView } from 'react-native-safe-area-context'
 import Header from '../components/Home/Header/Header'
 import Search from '../components/Home/Search/Search'
 import Slider from '../components/Home/Slider/Slider'
-import { Entypo } from '@expo/vector-icons';
+import { Entypo, FontAwesome, MaterialCommunityIcons } from '@expo/vector-icons';
 import CatagoryTitle from '../components/Home/CatagoryTitle/CatagoryTitle'
-import { catagoryList } from '../components/Home/CatagoryTitle/CatagoryList'
 import { axios } from 'axios'
 const width = Dimensions.get('window').width;
 
@@ -21,17 +20,6 @@ export default function Home() {
   const [shops, setShops] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
 
-  // const getServices = async () => {
-  //   // https://test-service-m5rg.onrender.com/
-  //   try {
-  //     const res = await axios.get('https://test-service-m5rg.onrender.com/services');
-  //     setCatagories(res.data);
-  //   } catch (error) {
-  //     console.log(error);
-  //   } finally {
-  //     setLoading(false);
-  //   }
-  // }
   const getCatagories = () => {
     fetch('http://192.168.0.221:5000/services')
       .then((response) => response.json())
@@ -78,26 +66,41 @@ export default function Home() {
   }
 
   const SingleShop = ({ shop }) => {
-    const { name, image, rating, address, id } = shop;
+    const { name, image, rating, address, _id } = shop;
+    const { locationAndRatingContainer, shopContainer } = styles;
     return (
-      <Pressable style={{ flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', paddingVertical: 10, marginVertical: 5 }}>
-        <View style={{ flexDirection: 'row', alignItems: 'center', marginHorizontal:10}}>
+      <Pressable style={shopContainer}>
+        <View style={{ flexDirection: 'row', alignItems: 'center', marginHorizontal: 10 }}>
           <Image source={{ uri: image }} style={{ width: 60, height: 60, borderRadius: 5 }} />
-          <View style={{ marginLeft: 10, marginHorizontal: 10, paddingHorizontal: 10, justifyContent: 'space-between', alignItems:'flex-start', height: 60, }}>
-            <Text preset='title' style={{ fontSize: 16 }}>{name}</Text>
-            <Text preset='info' style={{ fontSize: 12, }}>{address}</Text>
+          <View style={{ marginHorizontal: 10, paddingHorizontal: 10, justifyContent: 'space-between', alignItems: 'flex-start', height: 60, }}>
+            <Text preset='title'>{name}</Text>
+            <Text preset='info'>{address}</Text>
+            <View style={{ flexDirection: 'row', alignItems: 'center' }} >
+              <View style={locationAndRatingContainer}>
+                {/* location */}
+                <Entypo name="location-pin" size={16} color={colors.orange} />
+                <Text style={{ fontSize: 12, marginHorizontal: 5 }}>1.2 km</Text>
+              </View>
+              <View style={locationAndRatingContainer}>
+                {/* Rating showing based on realtime user rating */}
+                <FontAwesome name="star-half-o" size={16} color={colors.orange} />
+                <Text style={{ fontSize: 12, marginHorizontal: 5 }}>{rating.reduce((a, b) => a + b) / rating.length}</Text>
+              </View>
+            </View>
           </View>
         </View>
-        <View style={{ flexDirection: 'row', alignItems: 'center' }}>
-          <Text style={{ fontSize: 12, color: '#000' }}>4.5</Text>
-          <Entypo name="star" size={16} color={colors.orange} />
-        </View>
+        <Pressable onPress={() => {
+          console.log(_id)
+        }} style={{ alignSelf: 'flex-start', paddingHorizontal: 5, }}>
+          <MaterialCommunityIcons name="bookmark-minus" size={30} color={colors.orange} />
+        </Pressable>
+
       </Pressable>
     )
   }
   return (
     <SafeAreaView style={{ flex: 1, marginHorizontal: spacing[2], }}>
-      <ScrollView style={container} refreshControl={
+      <ScrollView style={container} showsVerticalScrollIndicator={false} refreshControl={
         <RefreshControl
           refreshing={refreshing}
         // onRefresh={loadCatagories}
@@ -106,7 +109,7 @@ export default function Home() {
         <Header />
         <Search />
         <Slider />
-        {/* catagory list*/}
+        {/* catagory list part*/}
         <FlatList
           data={catagories}
           horizontal={true}
@@ -117,9 +120,9 @@ export default function Home() {
             <SingleCatagory text={item.name} icon={item.icon} />
           )}
         />
-
-        <View style={{ height: 1, width: '100%', backgroundColor: '#f5f4f2', marginTop: 15 }} />
-        {/* nearby salons */}
+        {/* divider */}
+        <View style={{ height: 1, width: '100%', backgroundColor: '#f5f4f2', marginTop: 10 }} />
+        {/* nearby salons part*/}
         <CatagoryTitle title="Nearby Your Location" btn="See All" />
         <View>
           {isLoading ? <ActivityIndicator /> :
@@ -130,6 +133,8 @@ export default function Home() {
             })
           }
         </View>
+        {/* most popular part*/}
+        <CatagoryTitle title="Most Popular" btn="See All" />
       </ScrollView>
     </SafeAreaView>
   )
@@ -176,6 +181,26 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'center',
+  },
+  shopContainer: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    paddingVertical: 10,
+    marginVertical: 5,
+    borderWidth: .4,
+    backgroundColor: '#fff',
+    borderColor: '#f5f4f2',
+    borderRadius: 10,
+    shadowColor: '#f5f4f2',
+    shadowOffset: { width: 3, height: 2 },
+    shadowOpacity: 0.1,
+    shadowRadius: 1,  
+  },
+  locationAndRatingContainer: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    marginHorizontal: 1
   }
 
 })

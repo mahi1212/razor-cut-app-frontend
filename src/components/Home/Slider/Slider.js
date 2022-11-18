@@ -10,7 +10,7 @@ const styles = StyleSheet.create({
         flex: 1,
         borderRadius: 10,
         backgroundColor: colors.darkOrange,
-        marginTop: 20,
+        marginTop: 15,
         height: 200,
         position: 'relative',
     },

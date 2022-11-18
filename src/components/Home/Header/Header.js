@@ -9,7 +9,7 @@ export default function Header() {
     const hours = new Date().getHours()
     const isDayTime = hours > 6 && hours < 18
 
-    const name = "Jenny"
+    const name = "Mahinur"
     return (
         <View>
             <View style={container}>
@@ -43,7 +43,7 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         justifyContent: 'space-between',
         marginTop: 5,
-        marginBottom: 10,
+        marginBottom: 5
     },
     logoContainer: {
         flexDirection: 'row',

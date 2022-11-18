@@ -49,7 +49,7 @@ const styles = StyleSheet.create({
         flexDirection: 'row',
         justifyContent: 'space-around',
         alignItems: 'center',
-        marginTop: 5,
+        marginBottom: 5,
         overflowY: 'scroll',
     },
     headerContainer: {
