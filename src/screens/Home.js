@@ -66,7 +66,7 @@ export default function Home() {
 
   const SingleShop = ({ shop }) => {
     const { name, image, rating, address, _id } = shop;
-    const { locationAndRatingContainer, shopContainer, innerShopContainer, img, middleDiv, info, locationText, ratingText } = styles;
+    const { locationAndRatingContainer, shopContainer, innerShopContainer, img, middleDiv, info, locationText, ratingText, bookmarkIcon } = styles;
     return (
       <Pressable style={shopContainer}>
         <View style={innerShopContainer}>
@@ -90,7 +90,8 @@ export default function Home() {
         </View>
         <Pressable onPress={() => {
           console.log(_id)
-        }} style={{ alignSelf: 'flex-start', paddingHorizontal: 5, }}>
+        }}
+          style={bookmarkIcon}>
           <MaterialCommunityIcons name="bookmark-minus" size={30} color={colors.orange} />
         </Pressable>
 
@@ -140,7 +141,7 @@ export default function Home() {
               return (
                 <View key={index}>{
                   shop.rating.reduce((a, b) => a + b) / shop.rating.length > 4 ?
-                    <SingleShop shop={shop} /> : <Text preset='info' style={{ position: 'absolute', top: 10, left: 30 }}>NO MORE SHOP IS THAT MUCH POPULAR</Text>
+                    <SingleShop shop={shop} /> : <Text preset='info' style={{ position: 'absolute', top: 10, left: 10 }}>NO MORE SHOP IS THAT MUCH POPULAR</Text>
                 }
                 </View>
               )
@@ -242,6 +243,10 @@ const styles = StyleSheet.create({
   ratingText: {
     fontSize: 12,
     marginHorizontal: 5
+  },
+  bookmarkIcon: {
+    alignSelf: 'flex-start',
+    paddingHorizontal: 5,
   }
 
 })
