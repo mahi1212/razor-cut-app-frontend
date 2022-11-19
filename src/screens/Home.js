@@ -10,44 +10,19 @@ import Slider from '../components/Home/Slider/Slider'
 import { Entypo, FontAwesome, MaterialCommunityIcons } from '@expo/vector-icons';
 import { catagoryList } from '../components/Home/CatagoryTitle/CatagoryList';
 import { LogBox } from 'react-native';
-
+import CatagoryBox from '../components/Home/CatagoryTitle/CatagoryBox'
 
 
 export default function Home() {
-  const { container, catagory, catagoryImage, singleCatagoryText, catagoryListStyle } = styles;
   // for watching loading and refreshing state
   const [refreshing, setRefreshing] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   // 
   const [status, setStatus] = useState('All'); // for keeping status of tab
-  const [datalist, setdataList] = useState(data);
-  const [data, setData] = useState([]);
-
-  const [catagories, setCatagories] = useState([]);
+  const [datalist, setdataList] = useState(shops); // for keeping data of shops
   const [shops, setShops] = useState([]);
 
-  const getTest = () => {
-    fetch(`http://192.168.0.221:5000/test`)
-      .then(res => res.json())
-      .then(data => {
-        setData(data)
-      }).catch(err => {
-        console.log(err)
-      })
-  }
 
-  const getCatagories = () => {
-    fetch('http://192.168.0.221:5000/services')
-      .then((response) => response.json())
-      .then((data) => {
-        setRefreshing(false);
-        // let newdata = catagories.concat(data);
-        setCatagories(data);
-      })
-      .catch((error) => {
-        console.error(error);
-      })
-  };
   const getShops = () => {
     setIsLoading(true)
     fetch(`http://192.168.0.221:5000/shops`)
@@ -62,30 +37,30 @@ export default function Home() {
   }
 
   useEffect(() => {
-    LogBox.ignoreLogs(['VirtualizedLists should never be nested']);
-    getCatagories();
+    // ignore warning of FlatList in console
+    LogBox.ignoreLogs(['VirtualizedLists should never be nested','Require cycle:']);
     getShops();
-    getTest();
     setStatusFilter(status);
   }, []);
 
+  // filtering data by active status tab
   const setStatusFilter = status => {
     setIsLoading(true)
     if (status === 'All') {
-      setdataList(data);
+      setdataList(shops);
       setIsLoading(false)
     } else {
-      const newData = data.filter(item => item.status === status);
+      const newData = shops.filter(item => item.status === status);
       setdataList(newData);
       setIsLoading(false)
     }
   }
 
-  // call it for the first time
+  // call setStatusFilter function for once in layout opening
   const executeOnLoad = () => {
     setStatusFilter('All');
   };
-
+  // catagory list Title and see all - Common component
   function CatagoryTitle({ title, btn }) {
     const { headerContainer, textStyle, btnStyle } = styles;
     return (
@@ -102,6 +77,7 @@ export default function Home() {
     )
   }
 
+  // status tab scrolling- Common component
   const ScrollStatusBar = () => {
     const { flatListContainer, activeCatagoryButton, catagoryButton, selectedItemText, normalItemText } = styles;
     return (
@@ -127,23 +103,7 @@ export default function Home() {
     )
   }
 
-
-
-  const SingleCatagory = ({ text, icon }) => {
-    return (
-      <View style={catagoryListStyle}>
-        <Pressable onPress={() => console.log(text)} style={{ alignItems: 'center', justifyContent: 'center' }}>
-          <View style={catagoryImage} >
-            <Entypo name={icon} size={28} color={colors.orange} />
-          </View>
-          <View style={{ justifyContent: 'flex-start' }}>
-            <Text preset='title' style={singleCatagoryText}>{text}</Text>
-          </View>
-        </Pressable>
-      </View>
-    )
-  }
-
+  // single shop design - Common component
   const SingleShop = ({ shop }) => {
     const { name, image, rating, address, _id } = shop;
     const { locationAndRatingContainer, shopContainer, innerShopContainer, img, middleDiv, info, locationText, ratingText, bookmarkIcon } = styles;
@@ -152,6 +112,7 @@ export default function Home() {
 
         <View style={innerShopContainer}>
           <Image source={{ uri: image }} style={img} />
+          {/* middle part */}
           <View style={middleDiv}>
             <Text preset='title'>{name}</Text>
             <Text preset='info'>{address}</Text>
@@ -169,7 +130,7 @@ export default function Home() {
             </View>
           </View>
         </View>
-
+        {/* bookmark icon | last half of SingleShop component*/}
         <Pressable
           onPress={() => { console.log(_id) }}
           style={bookmarkIcon}>
@@ -182,29 +143,19 @@ export default function Home() {
 
   // Here is main function code 
   return (
-    <SafeAreaView style={{ flex: 1, marginHorizontal: spacing[2], }} onLayout={executeOnLoad}>
-      <ScrollView style={container} showsVerticalScrollIndicator={false} refreshControl={
+    <SafeAreaView style={{ flex: 1, marginHorizontal: spacing[2] }} onLayout={executeOnLoad}>
+      <ScrollView style={styles.container} showsVerticalScrollIndicator={false} refreshControl={
         <RefreshControl
+        // every refresh call getShops function
           refreshing={refreshing}
-          onRefresh={getTest}
+          onRefresh={getShops}
         />
       }>
         <Header />
         <Search />
         <Slider />
         {/* catagory list part*/}
-        <View style={{ flex: 1 }}>
-          <FlatList
-            data={catagories}
-            horizontal={true}
-            contentContainerStyle={catagory}
-            showsHorizontalScrollIndicator={false}
-            key={item => item.id}
-            renderItem={({ item }) => (
-              <SingleCatagory text={item.name} icon={item.icon} />
-            )}
-          />
-        </View>
+        <CatagoryBox />
         {/* divider */}
         <View style={{ height: 1, width: '100%', backgroundColor: '#f5f4f2', marginTop: 10 }} />
         {/* nearby salons part*/}
@@ -212,18 +163,12 @@ export default function Home() {
         <ScrollStatusBar />
         <View style={{ flex: 1 }}>
           {isLoading ? <ActivityIndicator /> :
-            (datalist ? datalist.slice(0, 5).map((shop, index) => {
+            (datalist ? datalist.slice(0, 3).map((shop, index) => {
               return (
                 <SingleShop key={index} shop={shop} />
               )
             }) : <Text> <Entypo name='hand' ></Entypo>Tap and select to see your nearby shops</Text>)
           }
-          {/* <FlatList
-            data={datalist}
-            keyExtractor={item => item.status}
-            renderItem={renderShops}
-            extraData={status}
-          /> */}
         </View>
         {/* most popular part*/}
         <CatagoryTitle title="Most Popular" btn="See All" />
@@ -232,6 +177,7 @@ export default function Home() {
             (datalist && datalist.reverse().slice(0,3).map((shop, index) => {
               return (
                 <View key={index}>{
+                  // summing the rating array and dividing by the length of the array
                   shop.rating.reduce((a, b) => a + b) / shop.rating.length > 4 ?
                     <SingleShop shop={shop} /> : <Text preset='info' style={{ position: 'absolute', top: 10, left: 10 }}>NO MORE SHOP IS THAT MUCH POPULAR</Text>
                 }
@@ -239,49 +185,16 @@ export default function Home() {
               )
             }))
           }
-
         </View>
       </ScrollView>
     </SafeAreaView>
   )
 }
 
+// Styles for home screen
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-  },
-  catagory: {
-    justifyContent: 'center',
-    alignItems: 'center',
-    paddingVertical: spacing[2],
-  },
-  catagoryListStyle: {
-    width: 90,
-    height: 100,
-    borderRadius: 10,
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-  singleCatagory: {
-    width: 80,
-    height: 100,
-    justifyContent: 'flex-start',
-    alignItems: 'center',
-    marginLeft: 10,
-    marginTop: 5,
-  },
-  catagoryImage: {
-    marginVertical: spacing[2],
-    borderRadius: '50%',
-    width: 70,
-    height: 70,
-    justifyContent: 'center',
-    alignItems: 'center',
-    backgroundColor: "#FDF1DF",
-  },
-  singleCatagoryText: {
-    marginTop: spacing[1],
-    width: '100%',
   },
   nearbyHeading: {
     flexDirection: 'row',
