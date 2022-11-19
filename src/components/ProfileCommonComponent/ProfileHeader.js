@@ -43,9 +43,7 @@ const styles = StyleSheet.create({
     display: "flex",
     
     alignItems: "center",
-    
-    padding:spacing[2],
-    
+    padding:spacing[2],  
     borderBottomColor: "orange",
     borderBottomWidth: 1,  },
 });
