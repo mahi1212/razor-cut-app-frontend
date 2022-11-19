@@ -9,15 +9,23 @@ import Search from '../components/Home/Search/Search'
 import Slider from '../components/Home/Slider/Slider'
 import { Entypo, FontAwesome, MaterialCommunityIcons } from '@expo/vector-icons';
 import { catagoryList } from '../components/Home/CatagoryTitle/CatagoryList';
+import { LogBox } from 'react-native';
+
+
 
 export default function Home() {
   const { container, catagory, catagoryImage, singleCatagoryText, catagoryListStyle } = styles;
+  // for watching loading and refreshing state
   const [refreshing, setRefreshing] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
-  // old project
-  const [status, setStatus] = useState('All');
+  // 
+  const [status, setStatus] = useState('All'); // for keeping status of tab
   const [datalist, setdataList] = useState(data);
   const [data, setData] = useState([]);
+
+  const [catagories, setCatagories] = useState([]);
+  const [shops, setShops] = useState([]);
+
   const getTest = () => {
     fetch(`http://192.168.0.221:5000/test`)
       .then(res => res.json())
@@ -28,29 +36,55 @@ export default function Home() {
       })
   }
 
+  const getCatagories = () => {
+    fetch('http://192.168.0.221:5000/services')
+      .then((response) => response.json())
+      .then((data) => {
+        setRefreshing(false);
+        // let newdata = catagories.concat(data);
+        setCatagories(data);
+      })
+      .catch((error) => {
+        console.error(error);
+      })
+  };
+  const getShops = () => {
+    setIsLoading(true)
+    fetch(`http://192.168.0.221:5000/shops`)
+      .then(res => res.json())
+      .then(data => {
+        setShops(data)
+      }).catch(err => {
+        console.log(err)
+      }).finally(() => {
+        setIsLoading(false)
+      })
+  }
+
   useEffect(() => {
+    LogBox.ignoreLogs(['VirtualizedLists should never be nested']);
+    getCatagories();
+    getShops();
     getTest();
+    setStatusFilter(status);
   }, []);
 
-  const renderShops = ({ index }) => {
-    return (
-      <View key={index} style={styles.itemContainer}>
-        <Text preset='title'> Ok </Text>
-      </View>
-    )
-  }
-
   const setStatusFilter = status => {
-    if (status !== 'All') {
-      setdataList([...data.filter(e => e.status === status)]);
-    } else {
+    setIsLoading(true)
+    if (status === 'All') {
       setdataList(data);
+      setIsLoading(false)
+    } else {
+      const newData = data.filter(item => item.status === status);
+      setdataList(newData);
+      setIsLoading(false)
     }
-    setStatus(status);
   }
 
-  const [catagories, setCatagories] = useState([]);
-  const [shops, setShops] = useState([]);
+  // call it for the first time
+  const executeOnLoad = () => {
+    setStatusFilter('All');
+  };
 
   function CatagoryTitle({ title, btn }) {
     const { headerContainer, textStyle, btnStyle } = styles;
@@ -82,7 +116,7 @@ export default function Home() {
                   setStatus(item.status)
                   setStatusFilter(item.status)
                 }
-              }
+                }
               >
                 <Text preset='title' style={item.status === status ? selectedItemText : normalItemText}>{item.status}</Text>
               </TouchableOpacity>
@@ -94,35 +128,6 @@ export default function Home() {
   }
 
 
-  const getCatagories = () => {
-    fetch('http://192.168.0.221:5000/services')
-      .then((response) => response.json())
-      .then((data) => {
-        setRefreshing(false);
-        // let newdata = catagories.concat(data);
-        setCatagories(data);
-      })
-      .catch((error) => {
-        console.error(error);
-      })
-  };
-  const getShops = () => {
-    setIsLoading(true)
-    fetch(`http://192.168.0.221:5000/shops`)
-      .then(res => res.json())
-      .then(data => {
-        setShops(data)
-      }).catch(err => {
-        console.log(err)
-      }).finally(() => {
-        setIsLoading(false)
-      })
-  }
-
-  useEffect(() => {
-    getCatagories();
-    getShops();
-  }, []);
 
   const SingleCatagory = ({ text, icon }) => {
     return (
@@ -144,6 +149,7 @@ export default function Home() {
     const { locationAndRatingContainer, shopContainer, innerShopContainer, img, middleDiv, info, locationText, ratingText, bookmarkIcon } = styles;
     return (
       <Pressable style={shopContainer}>
+
         <View style={innerShopContainer}>
           <Image source={{ uri: image }} style={img} />
           <View style={middleDiv}>
@@ -163,9 +169,9 @@ export default function Home() {
             </View>
           </View>
         </View>
-        <Pressable onPress={() => {
-          console.log(_id)
-        }}
+
+        <Pressable
+          onPress={() => { console.log(_id) }}
           style={bookmarkIcon}>
           <MaterialCommunityIcons name="bookmark-minus" size={30} color={colors.orange} />
         </Pressable>
@@ -176,11 +182,11 @@ export default function Home() {
 
   // Here is main function code 
   return (
-    <SafeAreaView style={{ flex: 1, marginHorizontal: spacing[2], }}>
+    <SafeAreaView style={{ flex: 1, marginHorizontal: spacing[2], }} onLayout={executeOnLoad}>
       <ScrollView style={container} showsVerticalScrollIndicator={false} refreshControl={
         <RefreshControl
           refreshing={refreshing}
-          onRefresh={getShops}
+          onRefresh={getTest}
         />
       }>
         <Header />
@@ -206,15 +212,15 @@ export default function Home() {
         <ScrollStatusBar />
         <View style={{ flex: 1 }}>
           {isLoading ? <ActivityIndicator /> :
-            shops.slice(0, 3).map((shop, index) => {
+            (datalist ? datalist.slice(0, 5).map((shop, index) => {
               return (
                 <SingleShop key={index} shop={shop} />
               )
-            })
+            }) : <Text> <Entypo name='hand' ></Entypo>Tap and select to see your nearby shops</Text>)
           }
           {/* <FlatList
             data={datalist}
-            keyExtractor={item => item.id}
+            keyExtractor={item => item.status}
             renderItem={renderShops}
             extraData={status}
           /> */}
@@ -223,7 +229,7 @@ export default function Home() {
         <CatagoryTitle title="Most Popular" btn="See All" />
         <View>
           {isLoading ? <ActivityIndicator /> :
-            shops.reverse().slice(0, 6).map((shop, index) => {
+            (datalist && datalist.reverse().slice(0,3).map((shop, index) => {
               return (
                 <View key={index}>{
                   shop.rating.reduce((a, b) => a + b) / shop.rating.length > 4 ?
@@ -231,8 +237,9 @@ export default function Home() {
                 }
                 </View>
               )
-            })
+            }))
           }
+
         </View>
       </ScrollView>
     </SafeAreaView>
@@ -379,51 +386,5 @@ const styles = StyleSheet.create({
   normalItemText: {
     color: colors.orange,
   },
-  listTab: {
-    flex: 1,
-    backgroundColor: '#fff',
-    padding: 15,
-    flexDirection: 'row',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-  btn: {
-    padding: 10,
-    fontSize: 16,
-    width: 100,
-  },
-  activeBtn: {
-    backgroundColor: 'red',
-    width: 100,
-    padding: 10,
-    fontSize: 16,
-  },
-  textTab: {
-    fontSize: 16,
-    color: 'black',
-    textAlign: 'center',
-  },
-  activeTextTab: {
-    color: '#fff',
-    textAlign: 'center',
-  },
-  itemContainer: {
-    padding: 10,
-    flexDirection: 'row'
-  },
-  image: {
-    width: 50,
-    height: 50,
-    borderRadius: 50,
-    marginRight: 10
-  },
-  text: {
-    fontSize: 16,
-  },
-  textView: {
-    flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-  }
 
 })
