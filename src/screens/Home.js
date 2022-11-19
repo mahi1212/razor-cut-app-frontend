@@ -8,9 +8,9 @@ import Header from '../components/Home/Header/Header'
 import Search from '../components/Home/Search/Search'
 import Slider from '../components/Home/Slider/Slider'
 import { Entypo, FontAwesome, MaterialCommunityIcons } from '@expo/vector-icons';
-import { catagoryList } from '../components/Home/CatagoryTitle/CatagoryList';
+import { catagoryList } from '../components/Home/CatagoryBox/CatagoryList';
 import { LogBox } from 'react-native';
-import CatagoryBox from '../components/Home/CatagoryTitle/CatagoryBox'
+import CatagoryBox from '../components/Home/CatagoryBox/CatagoryBox'
 
 
 export default function Home() {
@@ -29,6 +29,7 @@ export default function Home() {
       .then(res => res.json())
       .then(data => {
         setShops(data)
+        setRefreshing(false)
       }).catch(err => {
         console.log(err)
       }).finally(() => {
