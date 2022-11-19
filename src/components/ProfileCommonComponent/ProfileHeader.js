@@ -34,7 +34,6 @@ export default function ProfileHeader({ backBtn, title }) {
 }
 const styles = StyleSheet.create({
   container: {
-    
     marginBottom: spacing[7],
     
     marginTop: spacing[7],
