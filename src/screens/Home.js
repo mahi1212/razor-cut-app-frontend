@@ -1,4 +1,4 @@
-import { ActivityIndicator, ActivityIndicatorComponent, Dimensions, FlatList, Image, Pressable, RefreshControl, ScrollView, StyleSheet, View } from 'react-native'
+import { ActivityIndicator, ActivityIndicatorComponent, Dimensions, FlatList, Image, Pressable, RefreshControl, ScrollView, StyleSheet, TouchableOpacity, View } from 'react-native'
 import React, { useEffect, useState } from 'react'
 import Text from '../components/text/text'
 import { colors } from '../theme/colors'
@@ -8,16 +8,91 @@ import Header from '../components/Home/Header/Header'
 import Search from '../components/Home/Search/Search'
 import Slider from '../components/Home/Slider/Slider'
 import { Entypo, FontAwesome, MaterialCommunityIcons } from '@expo/vector-icons';
-import CatagoryTitle from '../components/Home/CatagoryTitle/CatagoryTitle'
-import { axios } from 'axios'
-const width = Dimensions.get('window').width;
+import { catagoryList } from '../components/Home/CatagoryTitle/CatagoryList';
 
 export default function Home() {
   const { container, catagory, catagoryImage, singleCatagoryText, catagoryListStyle } = styles;
   const [refreshing, setRefreshing] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
+  // old project
+  const [status, setStatus] = useState('All');
+  const [datalist, setdataList] = useState(data);
+  const [data, setData] = useState([]);
+  const getTest = () => {
+    fetch(`http://192.168.0.221:5000/test`)
+      .then(res => res.json())
+      .then(data => {
+        setData(data)
+      }).catch(err => {
+        console.log(err)
+      })
+  }
+
+  useEffect(() => {
+    getTest();
+  }, []);
+
+  const renderShops = ({ index }) => {
+    return (
+      <View key={index} style={styles.itemContainer}>
+        <Text preset='title'> Ok </Text>
+      </View>
+    )
+  }
+
+  const setStatusFilter = status => {
+    if (status !== 'All') {
+      setdataList([...data.filter(e => e.status === status)]);
+    } else {
+      setdataList(data);
+    }
+    setStatus(status);
+  }
+
   const [catagories, setCatagories] = useState([]);
   const [shops, setShops] = useState([]);
+
+  function CatagoryTitle({ title, btn }) {
+    const { headerContainer, textStyle, btnStyle } = styles;
+    return (
+      <View>
+        <View style={headerContainer}>
+          <Text preset='title' style={textStyle}>{title}</Text>
+          <Pressable onPress={() => console.log('See all Pressed')
+
+          } style={{ padding: 10 }}>
+            <Text preset='title' style={btnStyle}>{btn}</Text>
+          </Pressable>
+        </View>
+      </View >
+    )
+  }
+
+  const ScrollStatusBar = () => {
+    const { flatListContainer, activeCatagoryButton, catagoryButton, selectedItemText, normalItemText } = styles;
+    return (
+      <ScrollView horizontal={true} contentContainerStyle={flatListContainer} showsHorizontalScrollIndicator={false}>
+        {
+          catagoryList.map((item, index) => {
+            return (
+              <TouchableOpacity key={index}
+                style={item.status === status ? activeCatagoryButton : catagoryButton}
+                onPress={() => {
+                  // console.log(`Pressed in ${item.status}`)
+                  setStatus(item.status)
+                  setStatusFilter(item.status)
+                }
+              }
+              >
+                <Text preset='title' style={item.status === status ? selectedItemText : normalItemText}>{item.status}</Text>
+              </TouchableOpacity>
+            )
+          })
+        }
+      </ScrollView>
+    )
+  }
+
 
   const getCatagories = () => {
     fetch('http://192.168.0.221:5000/services')
@@ -98,6 +173,8 @@ export default function Home() {
       </Pressable>
     )
   }
+
+  // Here is main function code 
   return (
     <SafeAreaView style={{ flex: 1, marginHorizontal: spacing[2], }}>
       <ScrollView style={container} showsVerticalScrollIndicator={false} refreshControl={
@@ -110,21 +187,24 @@ export default function Home() {
         <Search />
         <Slider />
         {/* catagory list part*/}
-        <FlatList
-          data={catagories}
-          horizontal={true}
-          contentContainerStyle={catagory}
-          showsHorizontalScrollIndicator={false}
-          key={item => item.id}
-          renderItem={({ item }) => (
-            <SingleCatagory text={item.name} icon={item.icon} />
-          )}
-        />
+        <View style={{ flex: 1 }}>
+          <FlatList
+            data={catagories}
+            horizontal={true}
+            contentContainerStyle={catagory}
+            showsHorizontalScrollIndicator={false}
+            key={item => item.id}
+            renderItem={({ item }) => (
+              <SingleCatagory text={item.name} icon={item.icon} />
+            )}
+          />
+        </View>
         {/* divider */}
         <View style={{ height: 1, width: '100%', backgroundColor: '#f5f4f2', marginTop: 10 }} />
         {/* nearby salons part*/}
         <CatagoryTitle title="Nearby Your Location" btn="See All" />
-        <View>
+        <ScrollStatusBar />
+        <View style={{ flex: 1 }}>
           {isLoading ? <ActivityIndicator /> :
             shops.slice(0, 3).map((shop, index) => {
               return (
@@ -132,6 +212,12 @@ export default function Home() {
               )
             })
           }
+          {/* <FlatList
+            data={datalist}
+            keyExtractor={item => item.id}
+            renderItem={renderShops}
+            extraData={status}
+          /> */}
         </View>
         {/* most popular part*/}
         <CatagoryTitle title="Most Popular" btn="See All" />
@@ -247,6 +333,97 @@ const styles = StyleSheet.create({
   bookmarkIcon: {
     alignSelf: 'flex-start',
     paddingHorizontal: 5,
+  },
+  flatListContainer: {
+    flexDirection: 'row',
+    justifyContent: 'center',
+    alignItems: 'center',
+    marginBottom: 5,
+  },
+  headerContainer: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+  },
+  textStyle: {
+    marginVertical: 15,
+    fontSize: 18,
+    marginLeft: 5
+  },
+  btnStyle: {
+    fontWeight: '800',
+    color: colors.darkOrange
+  },
+  activeCatagoryButton: {
+    width: 100,
+    backgroundColor: colors.darkOrange,
+    justifyContent: 'center',
+    alignItems: 'center',
+    paddingVertical: 10,
+    borderRadius: '50%',
+    marginHorizontal: 3,
+  },
+  catagoryButton: {
+    width: 100,
+    justifyContent: 'center',
+    alignItems: 'center',
+    paddingVertical: 10,
+    borderRadius: '50%',
+    marginHorizontal: 3,
+    borderWidth: 1,
+    borderColor: colors.darkOrange,
+  },
+  selectedItemText: {
+    color: colors.white,
+  },
+  normalItemText: {
+    color: colors.orange,
+  },
+  listTab: {
+    flex: 1,
+    backgroundColor: '#fff',
+    padding: 15,
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  btn: {
+    padding: 10,
+    fontSize: 16,
+    width: 100,
+  },
+  activeBtn: {
+    backgroundColor: 'red',
+    width: 100,
+    padding: 10,
+    fontSize: 16,
+  },
+  textTab: {
+    fontSize: 16,
+    color: 'black',
+    textAlign: 'center',
+  },
+  activeTextTab: {
+    color: '#fff',
+    textAlign: 'center',
+  },
+  itemContainer: {
+    padding: 10,
+    flexDirection: 'row'
+  },
+  image: {
+    width: 50,
+    height: 50,
+    borderRadius: 50,
+    marginRight: 10
+  },
+  text: {
+    fontSize: 16,
+  },
+  textView: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
   }
 
 })

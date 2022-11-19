@@ -38,6 +38,19 @@ export default function CatagoryTitle({ title, btn }) {
                         </Pressable>
                     )}
                 />
+                {/* {
+                    catagoryList.map((item, index) => {
+                        return (
+                            <TouchableOpacity key={index}
+                                style={[styles.btn, status === item.status && styles.activeBtn]}
+                                onPress={() => setStatusFilter(item.status)}>
+                                <Text style={[styles.textTab, status === item.status && styles.activeTextTab]}>
+                                    {item.status}
+                                </Text>
+                            </TouchableOpacity>
+                        )
+                    })
+                } */}
 
             </View>
         </View>

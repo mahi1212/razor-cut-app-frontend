@@ -1,23 +1,22 @@
 export const catagoryList = [
     {
         id: '1',
-        name: 'All',
-        icon: ""
+        status: 'All',
     },
     {
         id: '2',
-        name: 'Haircut',
+        status: 'Haircut',
     },
     {
         id: '3',
-        name: 'Makeup',
+        status: 'Makeup',
     },
     {
         id: '4',
-        name: 'Massage',
+        status: 'Massage',
     },
     {
         id: '5',
-        name: 'Home visit',
+        status: 'Home visit',
     },
 ]
