@@ -46,26 +46,26 @@ export default class SwiperComponent extends Component {
                 <Swiper
                     loop={true}
                     autoplayDirection={true}
-                    autoplayTimeout={10}
+                    autoplay={true}
                     activeDotStyle={{
                         backgroundColor: colors.darkOrange,
                         width: 20,
                         marginBottom: -20,
                         borderRadius: 10,
                     }} dotStyle={{
-                        backgroundColor: '#EEEEEE',
+                        backgroundColor: '#ccc',
                         width: 8,
                         marginBottom: -20,
                         borderRadius: 30,
                     }}>
+                    <View >
+                        <Slider percent="30%" title="OMG Offer" subTitle="Use our app for six months to get upto 30% off" backgroundImage='https://t3.ftcdn.net/jpg/03/46/05/46/240_F_346054648_MgrwaieTMqOEMcApZThjvt6PsyUC5oYH.jpg' />
+                    </View>
                     <View>
                         <Slider percent="20%" title="Todays's Special" subTitle="get a discount on your order! Only valid for today" backgroundImage='https://t4.ftcdn.net/jpg/02/76/79/81/360_F_276798195_AbKgQIAQcq21nkumNb7KoVef8GQXoeEo.jpg'/>
                     </View>
                     <View >
                         <Slider percent="10%" title="Welcome Bonus" subTitle="Let's make a bonding with us! we care about you!" backgroundImage='https://t3.ftcdn.net/jpg/01/28/40/94/360_F_128409476_MjNDWNfvtj4itt1Xn0kxDm4b16G1bepn.jpg' />
-                    </View>
-                    <View >
-                        <Slider percent="30%" title="OMG Offer" subTitle="Use our app for six months to get upto 30% off" backgroundImage='https://t4.ftcdn.net/jpg/02/80/15/21/360_F_280152178_Syn5plOpbV1ijffvGuUmm8sjDaJofqox.jpg' />
                     </View>
                 </Swiper>
 
