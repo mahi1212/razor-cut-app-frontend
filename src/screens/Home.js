@@ -21,7 +21,9 @@ export default function Home() {
   const [status, setStatus] = useState('All'); // for keeping status of tab
   const [datalist, setdataList] = useState(shops); // for keeping data of shops
   const [shops, setShops] = useState([]);
-
+  // add to cart
+  const [cart, setCart] = useState([])
+  console.log(cart)
 
   const getShops = () => {
     setIsLoading(true)
@@ -102,6 +104,8 @@ export default function Home() {
 
   // single shop design - Common component
   const SingleShop = ({ shop }) => {
+
+
     const { name, image, rating, address, _id } = shop;
     const { locationAndRatingContainer, shopContainer, innerShopContainer, img, middleDiv, info, locationText, ratingText, bookmarkIcon } = styles;
     return (
@@ -128,12 +132,25 @@ export default function Home() {
           </View>
         </View>
         {/* bookmark icon | last half of SingleShop component*/}
-        <Pressable
-          onPress={() => { console.log(_id) }}
-          style={bookmarkIcon}>
-          <MaterialCommunityIcons name="bookmark-minus" size={30} color={colors.orange} />
-        </Pressable>
-
+        {
+          cart.includes(_id) ?
+            <Pressable
+              onPress={() => {
+                const newCart = cart.filter(item => item !== _id)
+                setCart(newCart)
+              }}
+              style={bookmarkIcon}>
+              <MaterialCommunityIcons name="bookmark-minus" size={30} color={colors.orange} />
+            </Pressable>
+            :
+            <Pressable
+              onPress={() => {
+                setCart([...cart, _id])
+              }}
+              style={styles.removeBookmarkIcon}>
+              <MaterialCommunityIcons name="bookmark-plus" size={30} color={colors.orange} />
+            </Pressable>
+        }
       </Pressable>
     )
   }
@@ -253,7 +270,11 @@ const styles = StyleSheet.create({
   },
   bookmarkIcon: {
     alignSelf: 'flex-start',
-    paddingHorizontal: 5,
+    padding: 5,
+  },
+  removeBookmarkIcon: {
+    alignSelf: 'flex-start',
+    padding: 5,
   },
   flatListContainer: {
     flexDirection: 'row',

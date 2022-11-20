@@ -32,9 +32,9 @@ const Slider = ({ percent, title, subTitle, backgroundImage }) => {
             <Text preset='info' style={{ color: colors.black, width: 250, fontSize: 16 }}>
                 {subTitle}
             </Text>
-            <Text preset='h1' style={{ position: 'absolute', top: 25, right: 25, fontSize: 46, color: colors.darkOrange }}>
+            {/* <Text preset='h1' style={{ position: 'absolute', top: 25, right: 25, fontSize: 46, color: colors.darkOrange }}>
                 {percent}
-            </Text>
+            </Text> */}
         </ImageBackground>
     )
 }
