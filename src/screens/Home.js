@@ -39,7 +39,7 @@ export default function Home() {
 
   useEffect(() => {
     // ignore warning of FlatList in console
-    LogBox.ignoreLogs(['VirtualizedLists should never be nested','Require cycle:']);
+    LogBox.ignoreLogs(['VirtualizedLists should never be nested', 'Require cycle:']);
     getShops();
     setStatusFilter(status);
   }, []);
@@ -57,10 +57,6 @@ export default function Home() {
     }
   }
 
-  // call setStatusFilter function for once in layout opening
-  const executeOnLoad = () => {
-    setStatusFilter('All');
-  };
   // catagory list Title and see all - Common component
   function CatagoryTitle({ title, btn }) {
     const { headerContainer, textStyle, btnStyle } = styles;
@@ -142,12 +138,16 @@ export default function Home() {
     )
   }
 
+  // call setStatusFilter function for once in layout opening
+  const executeOnLoad = () => {
+    setStatusFilter('All');
+  };
   // Here is main function code 
   return (
     <SafeAreaView style={{ flex: 1, marginHorizontal: spacing[2] }} onLayout={executeOnLoad}>
       <ScrollView style={styles.container} showsVerticalScrollIndicator={false} refreshControl={
         <RefreshControl
-        // every refresh call getShops function
+          // every refresh call getShops function
           refreshing={refreshing}
           onRefresh={getShops}
         />
@@ -175,7 +175,7 @@ export default function Home() {
         <CatagoryTitle title="Most Popular" btn="See All" />
         <View>
           {isLoading ? <ActivityIndicator /> :
-            (datalist && datalist.reverse().slice(0,3).map((shop, index) => {
+            (datalist && datalist.reverse().slice(0, 3).map((shop, index) => {
               return (
                 <View key={index}>{
                   // summing the rating array and dividing by the length of the array

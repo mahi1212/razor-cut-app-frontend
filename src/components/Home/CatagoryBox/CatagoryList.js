@@ -17,7 +17,7 @@ export const catagoryList = [
     },
     {
         id: '5',
-        status: 'Home visit',
+        status: 'Home Visit',
     },
 ]
 
