@@ -7,13 +7,13 @@ import { SafeAreaView } from 'react-native-safe-area-context'
 import Header from '../components/Home/Header/Header'
 import Search from '../components/Home/Search/Search'
 import Slider from '../components/Home/Slider/Slider'
-import { Entypo, FontAwesome, MaterialCommunityIcons } from '@expo/vector-icons';
+import { Entypo, FontAwesome, MaterialCommunityIcons, Ionicons} from '@expo/vector-icons';
 import { catagoryList } from '../components/Home/CatagoryBox/CatagoryList';
 import { LogBox } from 'react-native';
 import CatagoryBox from '../components/Home/CatagoryBox/CatagoryBox'
 
 
-export default function Home() {
+export default function Home({navigation}) {
   // for watching loading and refreshing state
   const [refreshing, setRefreshing] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
@@ -23,7 +23,7 @@ export default function Home() {
   const [shops, setShops] = useState([]);
   // add to cart
   const [cart, setCart] = useState([])
-  console.log(cart)
+  // console.log(cart)
 
   const getShops = () => {
     setIsLoading(true)
@@ -105,7 +105,6 @@ export default function Home() {
   // single shop design - Common component
   const SingleShop = ({ shop }) => {
 
-
     const { name, image, rating, address, _id } = shop;
     const { locationAndRatingContainer, shopContainer, innerShopContainer, img, middleDiv, info, locationText, ratingText, bookmarkIcon } = styles;
     return (
@@ -131,24 +130,27 @@ export default function Home() {
             </View>
           </View>
         </View>
-        {/* bookmark icon | last half of SingleShop component*/}
+        {/* bookmark icon | this is last half of SingleShop component horizontally*/}
         {
           cart.includes(_id) ?
             <Pressable
-              onPress={() => {
-                const newCart = cart.filter(item => item !== _id)
-                setCart(newCart)
-              }}
+              // onPress={() => {
+              //   const newCart = cart.filter(item => item !== _id)
+              //   setCart(newCart)
+              //   console.log(_id, 'removed')
+              // }}
               style={bookmarkIcon}>
-              <MaterialCommunityIcons name="bookmark-minus" size={30} color={colors.orange} />
+              <MaterialCommunityIcons name="bookmark-minus" size={30} color={colors.darkOrange} />
+              
             </Pressable>
             :
             <Pressable
               onPress={() => {
                 setCart([...cart, _id])
+                console.log(_id, 'added')
               }}
               style={styles.removeBookmarkIcon}>
-              <MaterialCommunityIcons name="bookmark-plus" size={30} color={colors.orange} />
+              <Ionicons name="bookmark-outline" size={26} color="black" />
             </Pressable>
         }
       </Pressable>
@@ -169,15 +171,15 @@ export default function Home() {
           onRefresh={getShops}
         />
       }>
-        <Header />
+        <Header cart={cart} />
         <Search />
         <Slider />
         {/* catagory list part*/}
         <CatagoryBox />
         {/* divider */}
         <View style={{ height: 1, width: '100%', backgroundColor: '#f5f4f2', marginTop: 10 }} />
-        {/* nearby salons part*/}
-        <CatagoryTitle title="Nearby Your Location" btn="See All" />
+        {/* suggested salons part*/}
+        <CatagoryTitle title="Suggested For You" btn="See All" />
         <ScrollStatusBar />
         <View style={{ flex: 1 }}>
           {isLoading ? <ActivityIndicator /> :

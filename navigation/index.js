@@ -8,6 +8,7 @@ import Explore from "../src/screens/Explore";
 import Booking from "../src/screens/Booking";
 import Inbox from "../src/screens/Inbox";
 import Profile from "../src/screens/Profile";
+import Bookmark from "../src/screens/Bookmark";
 
 const THEME = {
     ...DefaultTheme,
@@ -24,6 +25,7 @@ function HomeStackScreen() {
     return (
         <HomeStack.Navigator screenOptions={{ headerShown: false }}>
             <HomeStack.Screen name="home" component={Home} />
+            <HomeStack.Screen name="Bookmark" component={Bookmark} />
         </HomeStack.Navigator>
     );
 }
