@@ -3,13 +3,15 @@ import React from 'react'
 import { Ionicons } from '@expo/vector-icons';
 import Text from '../../text/text';
 import { typography } from '../../../theme/typography';
-export default function Header() {
+import {useNavigation} from '@react-navigation/native';
+
+export default function Header({cart}) {
     const { container, logo, logoContainer, greetings, wave } = styles
     // getting day or night in user local time
     const hours = new Date().getHours()
     const isDayTime = hours > 6 && hours < 18
-
-    const name = "Jenny"
+    const navigation = useNavigation();
+    const name = "Mahinur"
     return (
         <View>
             <View style={container}>
@@ -22,7 +24,10 @@ export default function Header() {
                     <Pressable onPress={() => { console.log("pressed in notification") }}>
                         <Ionicons name="notifications-outline" size={24} color="black" />
                     </Pressable>
-                    <Pressable onPress={() => { console.log("pressed in bookmarks") }} style={{ marginLeft: 10 }}>
+                    <Pressable onPress={() => {
+                        console.log("pressed in bookmarks")
+                        navigation.navigate('Bookmark', {cart: cart})
+                    }} style={{ marginLeft: 10 }}>
                         <Ionicons name="bookmark-outline" size={24} color="black" />
                     </Pressable>
                 </View>
@@ -43,7 +48,7 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         justifyContent: 'space-between',
         marginTop: 5,
-        marginBottom: 10,
+        marginBottom: 5
     },
     logoContainer: {
         flexDirection: 'row',
