@@ -1,4 +1,4 @@
-import { ActivityIndicator, ActivityIndicatorComponent, Dimensions, FlatList, Image, Pressable, RefreshControl, ScrollView, StyleSheet, TouchableOpacity, View } from 'react-native'
+import { ActivityIndicator, Pressable, RefreshControl, ScrollView, StyleSheet, TouchableOpacity, View } from 'react-native'
 import React, { useEffect, useState } from 'react'
 import Text from '../components/text/text'
 import { colors } from '../theme/colors'
@@ -12,6 +12,8 @@ import { catagoryList } from '../components/Home/CatagoryBox/CatagoryList';
 import { LogBox } from 'react-native';
 import CatagoryBox from '../components/Home/CatagoryBox/CatagoryBox'
 
+import Image from 'react-native-image-progress';
+import AsyncStorage from '@react-native-async-storage/async-storage'
 
 export default function Home({navigation}) {
   // for watching loading and refreshing state
@@ -20,11 +22,37 @@ export default function Home({navigation}) {
   // 
   const [status, setStatus] = useState('All'); // for keeping status of tab
   const [datalist, setdataList] = useState(shops); // for keeping data of shops
+
   const [shops, setShops] = useState([]);
-  // add to cart
   const [cart, setCart] = useState([])
   // console.log(cart)
 
+  // const saveCart = async () => {
+  //   try {
+  //     await AsyncStorage.setItem('cart', JSON.stringify(cart))
+  //     alert('Added to cart')
+  //   } catch (error) {
+  //     console.log(error)
+  //   }
+  // }
+  // // get cart items from async storage
+  // const getCart = async () => {
+  //   try {
+  //     const value = await AsyncStorage.getItem('cart')
+  //     // console.log(value)
+  //     setCart(JSON.parse(value))
+  //   } catch (e) {
+  //     console.log(e)
+  //   }
+  // }
+  // useEffect(() => {
+  //   async function temp() {
+  //     await getCart();
+  //   }
+  //   temp();
+  //   return () => {}
+  // }, [])
+  
   const getShops = () => {
     setIsLoading(true)
     fetch(`http://192.168.0.221:5000/shops`)
@@ -111,7 +139,7 @@ export default function Home({navigation}) {
       <Pressable style={shopContainer}>
 
         <View style={innerShopContainer}>
-          <Image source={{ uri: image }} style={img} />
+          <Image source={{ uri: image }} style={img}  />
           {/* middle part */}
           <View style={middleDiv}>
             <Text preset='title'>{name}</Text>
@@ -134,20 +162,16 @@ export default function Home({navigation}) {
         {
           cart.includes(_id) ?
             <Pressable
-              // onPress={() => {
-              //   const newCart = cart.filter(item => item !== _id)
-              //   setCart(newCart)
-              //   console.log(_id, 'removed')
-              // }}
               style={bookmarkIcon}>
               <MaterialCommunityIcons name="bookmark-minus" size={30} color={colors.darkOrange} />
-              
             </Pressable>
             :
             <Pressable
               onPress={() => {
                 setCart([...cart, _id])
                 console.log(_id, 'added')
+                // saving to async storage
+                // saveCart()
               }}
               style={styles.removeBookmarkIcon}>
               <Ionicons name="bookmark-outline" size={26} color="black" />
@@ -194,7 +218,7 @@ export default function Home({navigation}) {
         <CatagoryTitle title="Most Popular" btn="See All" />
         <View>
           {isLoading ? <ActivityIndicator /> :
-            (datalist && datalist.reverse().slice(0, 3).map((shop, index) => {
+            (datalist && datalist.slice(0, 3).map((shop, index) => {
               return (
                 <View key={index}>{
                   // summing the rating array and dividing by the length of the array
