@@ -7,7 +7,7 @@ import { SafeAreaView } from 'react-native-safe-area-context'
 import Header from '../components/Home/Header/Header'
 import Search from '../components/Home/Search/Search'
 import Slider from '../components/Home/Slider/Slider'
-import { Entypo, FontAwesome, MaterialCommunityIcons, Ionicons} from '@expo/vector-icons';
+import { Entypo, FontAwesome, MaterialCommunityIcons, Ionicons, FontAwesome5 } from '@expo/vector-icons';
 import { catagoryList } from '../components/Home/CatagoryBox/CatagoryList';
 import { LogBox } from 'react-native';
 import CatagoryBox from '../components/Home/CatagoryBox/CatagoryBox'
@@ -15,7 +15,7 @@ import CatagoryBox from '../components/Home/CatagoryBox/CatagoryBox'
 import Image from 'react-native-image-progress';
 import AsyncStorage from '@react-native-async-storage/async-storage'
 
-export default function Home({navigation}) {
+export default function Home({ navigation }) {
   // for watching loading and refreshing state
   const [refreshing, setRefreshing] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
@@ -52,7 +52,7 @@ export default function Home({navigation}) {
   //   temp();
   //   return () => {}
   // }, [])
-  
+
   const getShops = () => {
     setIsLoading(true)
     fetch(`http://192.168.0.221:5000/shops`)
@@ -133,24 +133,28 @@ export default function Home({navigation}) {
   // single shop design - Common component
   const SingleShop = ({ shop }) => {
 
-    const { name, image, rating, address, _id } = shop;
-    const { locationAndRatingContainer, shopContainer, innerShopContainer, img, middleDiv, info, locationText, ratingText, bookmarkIcon } = styles;
+    const { name, image, rating, waiting, avgTime, address, _id } = shop;
+    const { avgTimeAndRatingContainer, shopContainer, innerShopContainer, img, middleDiv, info, avgTimeText, ratingText, bookmarkIcon } = styles;
     return (
       <Pressable style={shopContainer}>
 
         <View style={innerShopContainer}>
-          <Image source={{ uri: image }} style={img}  />
+          <Image source={{ uri: image }} style={img} />
           {/* middle part */}
           <View style={middleDiv}>
             <Text preset='title'>{name}</Text>
-            <Text preset='info'>{address}</Text>
+            <View style={{flexDirection: 'row', marginVertical: 5}}>
+              <Entypo name="location-pin" size={16} color={colors.orange} />
+              <Text preset='info'>{address}</Text>
+            </View>
+
             <View style={info} >
-              <View style={locationAndRatingContainer}>
-                {/* location still static*/}
-                <Entypo name="location-pin" size={16} color={colors.orange} />
-                <Text style={locationText}>1.2 km</Text>
+              <View style={avgTimeAndRatingContainer}>
+                {/* showing estimated time for waiting*/}
+                <FontAwesome5 name="business-time" size={16} color={colors.orange} />
+                <Text style={avgTimeText}>{((waiting * avgTime) / 60).toFixed(2)} Hour</Text>
               </View>
-              <View style={locationAndRatingContainer}>
+              <View style={avgTimeAndRatingContainer}>
                 {/* Rating showing based on realtime user rating */}
                 <FontAwesome name="star-half-o" size={16} color={colors.orange} />
                 <Text style={ratingText}>{rating.reduce((a, b) => a + b) / rating.length}</Text>
@@ -266,12 +270,11 @@ const styles = StyleSheet.create({
     marginHorizontal: 10
   },
   img: {
-    width: 60,
-    height: 60,
+    width: 65,
+    height: 65,
     borderRadius: 5
   },
   middleDiv: {
-    marginHorizontal: 10,
     paddingHorizontal: 10,
     justifyContent: 'space-between',
     alignItems: 'flex-start',
@@ -281,11 +284,11 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center'
   },
-  locationText: {
+  avgTimeText: {
     fontSize: 12,
     marginHorizontal: 5
   },
-  locationAndRatingContainer: {
+  avgTimeAndRatingContainer: {
     flexDirection: 'row',
     alignItems: 'center',
     marginHorizontal: 1
