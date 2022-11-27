@@ -60,15 +60,5 @@ const styles = StyleSheet.create({
     borderBottomColor: colors.gray,
 
     borderBottomWidth: 0.5,
-  },
-
-  textSection: {
-    marginVertical: spacing[3],
-
-    paddingVertical: spacing[3],
-
-    borderBottomColor: colors.gray,
-
-    borderBottomWidth: 0.5,
   }
 });
