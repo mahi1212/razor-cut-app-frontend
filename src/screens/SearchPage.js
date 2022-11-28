@@ -1,4 +1,4 @@
-import { View, Text, ScrollView } from 'react-native'
+import { View, Text, ScrollView, FlatList } from 'react-native'
 import React from 'react'
 import Search from '../components/Home/Search/Search'
 import { SafeAreaView } from 'react-native-safe-area-context'
@@ -35,7 +35,12 @@ export default function SearchPage() {
                     }
                     ).map((item) => {
                         return (
-                            <SingleShop key={item.id} shop={item} cart={''} />
+                            // <SingleShop key={item.name} shop={item} visibleIcon={false} />
+                            <FlatList
+                                data={searchResults}
+                                renderItem={({ item }) => <SingleShop shop={item} cart />}
+                                keyExtractor={item => item.name}
+                            />
                         )
                     }
                     )

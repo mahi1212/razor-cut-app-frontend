@@ -6,7 +6,7 @@ import { colors } from '../../../theme/colors';
 import Image from 'react-native-image-progress';
 
 
-export default function SingleShop({ shop, cart, setCart }) {
+export default function SingleShop({ shop, cart, setCart, visibleIcon }) {
     const { name, image, rating, waiting, avgTime, address, _id } = shop;
     const { avgTimeAndRatingContainer, shopContainer, innerShopContainer, img, middleDiv, info, avgTimeText, ratingText, bookmarkIcon } = styles;
     return (
@@ -49,7 +49,7 @@ export default function SingleShop({ shop, cart, setCart }) {
             </View>
             {/* bookmark icon | this is last half of SingleShop component horizontally*/}
             {
-                cart !=='' && cart.includes(_id) ?
+                visibleIcon === 'true' && cart.includes(_id) ?
                     <Pressable
                         style={bookmarkIcon}>
                         <MaterialCommunityIcons name="bookmark-minus" size={30} color={colors.darkOrange} />
@@ -72,12 +72,6 @@ export default function SingleShop({ shop, cart, setCart }) {
 
 // Styles for home screen
 const styles = StyleSheet.create({
-
-    nearbyHeading: {
-      flexDirection: 'row',
-      justifyContent: 'space-between',
-      alignItems: 'center',
-    },
     shopContainer: {
       flexDirection: 'row',
       justifyContent: 'space-between',
