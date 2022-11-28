@@ -48,7 +48,7 @@ export default function Bookmark({ route }) {
 
     return (
         <View style={{ marginHorizontal: 5, flex: 1 }} onLayout={fetchData}>
-            <PageHeader title="Bookmarks" />
+            <PageHeader title="My Bookmarks" />
             {   // if cartItems is not empty then render the FlatList
                 cartItems && <FlatList
                     data={cartItems}

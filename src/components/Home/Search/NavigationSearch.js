@@ -1,27 +1,24 @@
-import { StyleSheet, TextInput, View } from 'react-native'
+import { Pressable, StyleSheet, View } from 'react-native'
 import React, { useState } from 'react'
 import Text from '../../text/text'
 import { colors } from '../../../theme/colors';
 import { Ionicons } from '@expo/vector-icons';
+import { useNavigation } from '@react-navigation/native';
 
 
-export default function Search(props) {
-  const [searchText, setSearchText] = useState("")
-  console.log(searchText)
-  const { container, searchContainer } = styles;
+export default function NavigationSearch({route}) {
+  const { container, navigationSearchContainer } = styles;
+  const navigation = useNavigation()
   return (
     <View style={container}>
-      <View style={searchContainer}>
+      <Pressable onPress={
+        () => {
+            navigation.navigate('SearchPage')
+        }
+      } style={navigationSearchContainer}>
         <Ionicons name="ios-search-sharp" size={24} color={colors.gray} />
-        <TextInput
-          onChangeText={(text) =>{props.setSearchText(text)}}
-          value={props.searchText}
-          returnKeyType = {"next"}
-          keyboardAppearance="default"
-          autoFocus = {true}
-          placeholder="Search"
-          style={{ marginLeft: 10, fontSize: 16, width: '100%' }} />
-      </View>
+        <Text preset="h3" style={{ marginLeft: 10, fontSize: 16, width: '100%', color: 'gray' }}>Search</Text>
+      </Pressable>
     </View>
   )
 }
@@ -37,7 +34,7 @@ const styles = StyleSheet.create({
     borderRadius: 10,
     marginTop: 15,
   },
-  searchContainer: {
+  navigationSearchContainer: {
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'start',

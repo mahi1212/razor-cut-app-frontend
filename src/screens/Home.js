@@ -15,6 +15,8 @@ import CatagoryBox from '../components/Home/CatagoryBox/CatagoryBox'
 
 import Image from 'react-native-image-progress';
 import AsyncStorage from '@react-native-async-storage/async-storage'
+import NavigationSearch from '../components/Home/Search/NavigationSearch'
+import SingleShop from '../components/Home/SingleShop/SingleShop'
 
 export default function Home({ navigation }) {
   // for watching loading and refreshing state
@@ -132,70 +134,70 @@ export default function Home({ navigation }) {
   }
 
   // single shop design - Common component
-  const SingleShop = ({ shop }) => {
+  // const SingleShop = ({ shop }) => {
 
-    const { name, image, rating, waiting, avgTime, address, _id } = shop;
-    const { avgTimeAndRatingContainer, shopContainer, innerShopContainer, img, middleDiv, info, avgTimeText, ratingText, bookmarkIcon } = styles;
-    return (
-      <Pressable style={shopContainer}>
+  //   const { name, image, rating, waiting, avgTime, address, _id } = shop;
+  //   const { avgTimeAndRatingContainer, shopContainer, innerShopContainer, img, middleDiv, info, avgTimeText, ratingText, bookmarkIcon } = styles;
+  //   return (
+  //     <Pressable style={shopContainer}>
 
-        <View style={innerShopContainer}>
-          <Image source={{ uri: image }} style={img} />
-          {/* middle part */}
-          <View style={middleDiv}>
-            <Text preset='title'>{name}</Text>
-            <View style={{flexDirection: 'row', marginVertical: 5}}>
-              <Entypo name="location-pin" size={16} color={colors.orange} />
-              <Text preset='info'>{address}</Text>
-            </View>
+  //       <View style={innerShopContainer}>
+  //         <Image source={{ uri: image }} style={img} />
+  //         {/* middle part */}
+  //         <View style={middleDiv}>
+  //           <Text preset='title'>{name}</Text>
+  //           <View style={{flexDirection: 'row', marginVertical: 5}}>
+  //             <Entypo name="location-pin" size={16} color={colors.orange} />
+  //             <Text preset='info'>{address}</Text>
+  //           </View>
 
-            <View style={info} >
-              <View style={avgTimeAndRatingContainer}>
-                {/* showing estimated time for waiting*/}
-                <FontAwesome5 name="business-time" size={14} color={colors.orange} />
+  //           <View style={info} >
+  //             <View style={avgTimeAndRatingContainer}>
+  //               {/* showing estimated time for waiting*/}
+  //               <FontAwesome5 name="business-time" size={14} color={colors.orange} />
                 
-                {
-                  ((waiting * avgTime) / 60).toFixed(2) > 1 ? 
-                  <Text preset='info' style={avgTimeText}>{((waiting * avgTime) / 60).toFixed(2)} hr</Text> : 
-                  <Text preset='info' style={avgTimeText}>{(waiting * avgTime)} min</Text>
-                }
+  //               {
+  //                 ((waiting * avgTime) / 60).toFixed(2) > 1 ? 
+  //                 <Text preset='info' style={avgTimeText}>{((waiting * avgTime) / 60).toFixed(2)} hr</Text> : 
+  //                 <Text preset='info' style={avgTimeText}>{(waiting * avgTime)} min</Text>
+  //               }
 
-              </View>
-              <View style={avgTimeAndRatingContainer}>
-                {/* showing queue */}
-                <Fontisto name="person" size={12} color={colors.orange} />
-                <Text preset='info' style={avgTimeText}>{waiting} Waiting</Text>
-              </View>
-              <View style={avgTimeAndRatingContainer}>
-                {/* Rating showing based on realtime user rating */}
-                <FontAwesome name="star" size={14} color={colors.orange} />
-                <Text preset='info' style={ratingText}>{rating.reduce((a, b) => a + b) / rating.length}</Text>
-              </View>
-            </View>
-          </View>
-        </View>
-        {/* bookmark icon | this is last half of SingleShop component horizontally*/}
-        {
-          cart.includes(_id) ?
-            <Pressable
-              style={bookmarkIcon}>
-              <MaterialCommunityIcons name="bookmark-minus" size={30} color={colors.darkOrange} />
-            </Pressable>
-            :
-            <Pressable
-              onPress={() => {
-                setCart([...cart, _id])
-                console.log(_id, 'added')
-                // saving to async storage
-                // saveCart()
-              }}
-              style={styles.removeBookmarkIcon}>
-              <Ionicons name="bookmark-outline" size={26} color="black" />
-            </Pressable>
-        }
-      </Pressable>
-    )
-  }
+  //             </View>
+  //             <View style={avgTimeAndRatingContainer}>
+  //               {/* showing queue */}
+  //               <Fontisto name="person" size={12} color={colors.orange} />
+  //               <Text preset='info' style={avgTimeText}>{waiting} Waiting</Text>
+  //             </View>
+  //             <View style={avgTimeAndRatingContainer}>
+  //               {/* Rating showing based on realtime user rating */}
+  //               <FontAwesome name="star" size={14} color={colors.orange} />
+  //               <Text preset='info' style={ratingText}>{rating.reduce((a, b) => a + b) / rating.length}</Text>
+  //             </View>
+  //           </View>
+  //         </View>
+  //       </View>
+  //       {/* bookmark icon | this is last half of SingleShop component horizontally*/}
+  //       {
+  //         cart.includes(_id) ?
+  //           <Pressable
+  //             style={bookmarkIcon}>
+  //             <MaterialCommunityIcons name="bookmark-minus" size={30} color={colors.darkOrange} />
+  //           </Pressable>
+  //           :
+  //           <Pressable
+  //             onPress={() => {
+  //               setCart([...cart, _id])
+  //               console.log(_id, 'added')
+  //               // saving to async storage
+  //               // saveCart()
+  //             }}
+  //             style={styles.removeBookmarkIcon}>
+  //             <Ionicons name="bookmark-outline" size={26} color="black" />
+  //           </Pressable>
+  //       }
+  //     </Pressable>
+  //   )
+  // }
 
   // call setStatusFilter function for once in layout opening
   const executeOnLoad = () => {
@@ -212,7 +214,8 @@ export default function Home({ navigation }) {
         />
       }>
         <Header cart={cart} />
-        <Search />
+        {/* <Search /> */}
+        <NavigationSearch />
         <Slider />
         {/* catagory list part*/}
         <CatagoryBox />
@@ -225,7 +228,7 @@ export default function Home({ navigation }) {
           {isLoading ? <ActivityIndicator /> :
             (datalist ? datalist.slice(0, 3).map((shop, index) => {
               return (
-                <SingleShop key={index} shop={shop} />
+                <SingleShop key={index} shop={shop} cart={cart} setCart={setCart}/>
               )
             }) : <Text> <Entypo name='hand' ></Entypo>Tap and select to see your nearby shops</Text>)
           }
@@ -239,7 +242,7 @@ export default function Home({ navigation }) {
                 <View key={index}>{
                   // summing the rating array and dividing by the length of the array
                   shop.rating.reduce((a, b) => a + b) / shop.rating.length > 4 ?
-                    <SingleShop shop={shop} /> : <Text preset='info' style={{ position: 'absolute', top: 10, left: 10 }}>NO MORE SHOP IS THAT MUCH POPULAR</Text>
+                    <SingleShop shop={shop} cart={cart} setCart={setCart} /> : <Text preset='info' style={{ position: 'absolute', top: 10, left: 10 }}>NO MORE SHOP IS THAT MUCH POPULAR</Text>
                 }
                 </View>
               )
