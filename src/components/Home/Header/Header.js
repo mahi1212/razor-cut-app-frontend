@@ -48,8 +48,8 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         justifyContent: 'space-between',
         marginTop: 5,
-        marginBottom: 5
-    },
+        marginBottom: 5,
+},
     logoContainer: {
         flexDirection: 'row',
         alignItems: 'center',

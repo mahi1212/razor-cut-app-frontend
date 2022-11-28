@@ -7,7 +7,8 @@ import { SafeAreaView } from 'react-native-safe-area-context'
 import Header from '../components/Home/Header/Header'
 import Search from '../components/Home/Search/Search'
 import Slider from '../components/Home/Slider/Slider'
-import { Entypo, FontAwesome, MaterialCommunityIcons, Ionicons, FontAwesome5 } from '@expo/vector-icons';
+// icons package
+import { Entypo, FontAwesome, MaterialCommunityIcons, Ionicons, FontAwesome5, Fontisto } from '@expo/vector-icons';
 import { catagoryList } from '../components/Home/CatagoryBox/CatagoryList';
 import { LogBox } from 'react-native';
 import CatagoryBox from '../components/Home/CatagoryBox/CatagoryBox'
@@ -151,13 +152,24 @@ export default function Home({ navigation }) {
             <View style={info} >
               <View style={avgTimeAndRatingContainer}>
                 {/* showing estimated time for waiting*/}
-                <FontAwesome5 name="business-time" size={16} color={colors.orange} />
-                <Text style={avgTimeText}>{((waiting * avgTime) / 60).toFixed(2)} Hour</Text>
+                <FontAwesome5 name="business-time" size={14} color={colors.orange} />
+                
+                {
+                  ((waiting * avgTime) / 60).toFixed(2) > 1 ? 
+                  <Text preset='info' style={avgTimeText}>{((waiting * avgTime) / 60).toFixed(2)} hr</Text> : 
+                  <Text preset='info' style={avgTimeText}>{(waiting * avgTime)} min</Text>
+                }
+
+              </View>
+              <View style={avgTimeAndRatingContainer}>
+                {/* showing queue */}
+                <Fontisto name="person" size={12} color={colors.orange} />
+                <Text preset='info' style={avgTimeText}>{waiting} Waiting</Text>
               </View>
               <View style={avgTimeAndRatingContainer}>
                 {/* Rating showing based on realtime user rating */}
-                <FontAwesome name="star-half-o" size={16} color={colors.orange} />
-                <Text style={ratingText}>{rating.reduce((a, b) => a + b) / rating.length}</Text>
+                <FontAwesome name="star" size={14} color={colors.orange} />
+                <Text preset='info' style={ratingText}>{rating.reduce((a, b) => a + b) / rating.length}</Text>
               </View>
             </View>
           </View>

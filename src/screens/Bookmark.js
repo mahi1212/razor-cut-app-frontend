@@ -150,6 +150,7 @@ const styles = StyleSheet.create({
         marginVertical: 10,
         borderRadius: 10,
         elevation: 5,
+        backgroundColor: '#F7F9FC'
     },
     buttons: {
         width: `100%`,
