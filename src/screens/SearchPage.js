@@ -9,7 +9,7 @@ import SingleShop from '../components/Home/SingleShop/SingleShop'
 export default function SearchPage() {
     const [searchText, setSearchText] = React.useState("")
     const [searchResults, setSearchResults] = React.useState([])
-
+    const [cart, setCart] = React.useState([])
     React.useEffect(() => {
         if (searchText.length > 0) {
             fetch(`http://192.168.0.221:5000/shops`)
@@ -21,13 +21,15 @@ export default function SearchPage() {
                 })
         }
     }, [searchText])
-    console.log(searchResults)
+
     return (
         <View style={{ flex: 1, marginHorizontal: spacing[2] }}>
             <PageHeader title="Search" />
+            {/* search component */}
             <View style={{ marginTop: -15 }}>
                 <Search searchText={searchText} setSearchText={setSearchText} />
             </View>
+            {/* showing data filtering by shop name*/}
             <Text>
                 {
                     searchResults.filter((item) => {
@@ -35,10 +37,12 @@ export default function SearchPage() {
                     }
                     ).map((item) => {
                         return (
-                            // <SingleShop key={item.name} shop={item} visibleIcon={false} />
                             <FlatList
                                 data={searchResults}
-                                renderItem={({ item }) => <SingleShop shop={item} cart />}
+                                contentContainerStyle={{  width: '100%', paddingHorizontal: 10 }}
+                                renderItem={({ item }) => 
+                                    <SingleShop key={item.name} shop={item} cart={cart} setCart={setCart} visibleIcon={false} />
+                                }
                                 keyExtractor={item => item.name}
                             />
                         )

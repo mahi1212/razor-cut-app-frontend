@@ -7,7 +7,7 @@ import { Ionicons } from '@expo/vector-icons';
 
 export default function Search(props) {
   const [searchText, setSearchText] = useState("")
-  console.log(searchText)
+  // console.log(searchText)
   const { container, searchContainer } = styles;
   return (
     <View style={container}>

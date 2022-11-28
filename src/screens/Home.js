@@ -162,7 +162,7 @@ export default function Home({ navigation }) {
           {isLoading ? <ActivityIndicator /> :
             (datalist ? datalist.slice(0, 3).map((shop, index) => {
               return (
-                <SingleShop key={index} shop={shop} cart={cart} setCart={setCart} visibleIcon='true' />
+                <SingleShop key={index} shop={shop} cart={cart} setCart={setCart} visibleIcon={true} />
               )
             }) : <Text> <Entypo name='hand' ></Entypo>Tap and select to see your nearby shops</Text>)
           }
@@ -176,7 +176,7 @@ export default function Home({ navigation }) {
                 <View key={index}>{
                   // summing the rating array and dividing by the length of the array
                   shop.rating.reduce((a, b) => a + b) / shop.rating.length > 4 ?
-                    <SingleShop shop={shop} cart={cart} setCart={setCart} visibleIcon='true'/> : <Text preset='info' style={{ position: 'absolute', top: 10, left: 10 }}>NO MORE SHOP IS THAT MUCH POPULAR</Text>
+                    <SingleShop shop={shop} cart={cart} setCart={setCart} visibleIcon={true} /> : <Text preset='info' style={{ position: 'absolute', top: 10, left: 10 }}>NO MORE SHOP IS THAT MUCH POPULAR</Text>
                 }
                 </View>
               )
