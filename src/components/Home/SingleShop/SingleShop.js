@@ -1,7 +1,7 @@
 import { View, StyleSheet, Pressable, useWindowDimensions, Dimensions } from 'react-native'
 import React from 'react'
 import { Entypo, FontAwesome, MaterialCommunityIcons, Ionicons, FontAwesome5, Fontisto } from '@expo/vector-icons';
-import Text from '../../text/text';
+import Text from '../../Text/Text';
 import { colors } from '../../../theme/colors';
 import Image from 'react-native-image-progress';
 let deviceWidth = Dimensions.get('window').width

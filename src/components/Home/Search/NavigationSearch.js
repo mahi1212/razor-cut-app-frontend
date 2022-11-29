@@ -1,6 +1,6 @@
 import { Pressable, StyleSheet, View } from 'react-native'
 import React, { useState } from 'react'
-import Text from '../../text/text'
+import Text from '../../Text/Text'
 import { colors } from '../../../theme/colors';
 import { Ionicons } from '@expo/vector-icons';
 import { useNavigation } from '@react-navigation/native';

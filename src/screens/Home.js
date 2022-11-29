@@ -1,14 +1,13 @@
 import { ActivityIndicator, Pressable, RefreshControl, ScrollView, StyleSheet, TouchableOpacity, View } from 'react-native'
 import React, { useEffect, useState } from 'react'
-import Text from '../components/text/text'
+import Text from '../components/Text/Text'
 import { colors } from '../theme/colors'
 import { spacing } from '../theme/spacing'
 import { SafeAreaView } from 'react-native-safe-area-context'
 import Header from '../components/Home/Header/Header'
-import Search from '../components/Home/Search/Search'
 import Slider from '../components/Home/Slider/Slider'
 // icons package
-import { Entypo, FontAwesome, MaterialCommunityIcons, Ionicons, FontAwesome5, Fontisto } from '@expo/vector-icons';
+import { Entypo } from '@expo/vector-icons';
 import { catagoryList } from '../components/Home/CatagoryBox/CatagoryList';
 import { LogBox } from 'react-native';
 import CatagoryBox from '../components/Home/CatagoryBox/CatagoryBox'

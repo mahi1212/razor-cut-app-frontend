@@ -1,6 +1,5 @@
 import { StyleSheet, TextInput, View } from 'react-native'
 import React, { useState } from 'react'
-import Text from '../../text/text'
 import { colors } from '../../../theme/colors';
 import { Ionicons } from '@expo/vector-icons';
 

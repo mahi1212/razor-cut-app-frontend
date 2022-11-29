@@ -1,7 +1,7 @@
 import { View, Pressable, FlatList, StyleSheet, Alert } from 'react-native'
 import React, { useEffect, useState } from 'react'
 import PageHeader from '../components/Home/PageHeader/PageHeader';
-import Text from '../components/text/text';
+import Text from '../components/Text/Text';
 import { colors } from '../theme/colors';
 import { Entypo, FontAwesome, Ionicons, MaterialCommunityIcons } from '@expo/vector-icons';
 import Image from 'react-native-image-progress';

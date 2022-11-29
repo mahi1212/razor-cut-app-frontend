@@ -1,7 +1,6 @@
 import { View, Text, ScrollView, FlatList } from 'react-native'
 import React from 'react'
 import Search from '../components/Home/Search/Search'
-import { SafeAreaView } from 'react-native-safe-area-context'
 import { spacing } from '../theme/spacing'
 import PageHeader from '../components/Home/PageHeader/PageHeader'
 import SingleShop from '../components/Home/SingleShop/SingleShop'
@@ -39,7 +38,7 @@ export default function SearchPage() {
                         return (
                             <FlatList
                                 data={searchResults}
-                                contentContainerStyle={{  width: '100%', paddingHorizontal: 10 }}
+                                contentContainerStyle={{  width: '100%'}}
                                 renderItem={({ item }) => 
                                     <SingleShop key={item.name} shop={item} cart={cart} setCart={setCart} visibleIcon={false} />
                                 }

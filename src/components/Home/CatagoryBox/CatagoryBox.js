@@ -4,7 +4,7 @@ import { SingleCatagory } from '../../../screens/Home'
 import { spacing } from '../../../theme/spacing';
 import { Entypo } from '@expo/vector-icons';
 import { colors } from '../../../theme/colors';
-import Text from '../../text/text';
+import Text from '../../Text/Text';
 
 export default function CatagoryBox() {
     const { container, catagory, catagoryImage, singleCatagoryText, catagoryListStyle } = styles;
