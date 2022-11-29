@@ -27,6 +27,8 @@ export const catagoryList = [
 //       "image": "https://i.ibb.co/9Z7gp0G/engin-akyurt-g-m8-EDc4-X6-Q-unsplash.jpg",
 //       "mobile": "+8801772057255",
 //       "address": "Bondor",
+//       "waiting": "1",
+//       "avgTime": "40",
 //       "status": "Makeup",
 //       "rating": [
 //         3,
@@ -38,6 +40,8 @@ export const catagoryList = [
 //       "image": "https://i.ibb.co/3WCwR0Q/guilherme-petri-Pt-Ofb-Gk-U3u-I-unsplash.jpg",
 //       "mobile": "+8801772223344",
 //       "address": "Shahi Eidgah",
+//       "waiting": "3",
+//       "avgTime": "45",
 //       "status": "Haircut",
 //       "rating": [
 //         5,
@@ -49,6 +53,8 @@ export const catagoryList = [
 //       "image": "https://i.ibb.co/L8LCJ2Q/delfina-pan-w-Jo-B8-D3hnzc-unsplash.jpg",
 //       "mobile": "+8801719827356",
 //       "address": "Bondor",
+//       "waiting": "2",
+//       "avgTime": "35",
 //       "status": "Home Visit",
 //       "rating": [
 //         4,
@@ -60,6 +66,8 @@ export const catagoryList = [
 //       "image": "https://i.ibb.co/3WCwR0Q/guilherme-petri-Pt-Ofb-Gk-U3u-I-unsplash.jpg",
 //       "mobile": "+8801719827356",
 //       "address": "Ambarkhana",
+//       "waiting": "1",
+//       "avgTime": "40",
 //       "status": "Massage",
 //       "rating": [
 //         4,

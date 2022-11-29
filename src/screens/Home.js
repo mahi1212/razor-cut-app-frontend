@@ -1,29 +1,59 @@
-import { ActivityIndicator, ActivityIndicatorComponent, Dimensions, FlatList, Image, Pressable, RefreshControl, ScrollView, StyleSheet, TouchableOpacity, View } from 'react-native'
+import { ActivityIndicator, Pressable, RefreshControl, ScrollView, StyleSheet, TouchableOpacity, View } from 'react-native'
 import React, { useEffect, useState } from 'react'
-import Text from '../components/text/text'
+import Text from '../components/Text/Text'
 import { colors } from '../theme/colors'
 import { spacing } from '../theme/spacing'
 import { SafeAreaView } from 'react-native-safe-area-context'
 import Header from '../components/Home/Header/Header'
-import Search from '../components/Home/Search/Search'
 import Slider from '../components/Home/Slider/Slider'
-import { Entypo, FontAwesome, MaterialCommunityIcons, Ionicons} from '@expo/vector-icons';
+// icons package
+import { Entypo } from '@expo/vector-icons';
 import { catagoryList } from '../components/Home/CatagoryBox/CatagoryList';
 import { LogBox } from 'react-native';
 import CatagoryBox from '../components/Home/CatagoryBox/CatagoryBox'
 
+import Image from 'react-native-image-progress';
+import AsyncStorage from '@react-native-async-storage/async-storage'
+import NavigationSearch from '../components/Home/Search/NavigationSearch'
+import SingleShop from '../components/Home/SingleShop/SingleShop'
 
-export default function Home({navigation}) {
+export default function Home({ navigation }) {
   // for watching loading and refreshing state
   const [refreshing, setRefreshing] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   // 
   const [status, setStatus] = useState('All'); // for keeping status of tab
   const [datalist, setdataList] = useState(shops); // for keeping data of shops
+
   const [shops, setShops] = useState([]);
-  // add to cart
   const [cart, setCart] = useState([])
   // console.log(cart)
+
+  // const saveCart = async () => {
+  //   try {
+  //     await AsyncStorage.setItem('cart', JSON.stringify(cart))
+  //     alert('Added to cart')
+  //   } catch (error) {
+  //     console.log(error)
+  //   }
+  // }
+  // // get cart items from async storage
+  // const getCart = async () => {
+  //   try {
+  //     const value = await AsyncStorage.getItem('cart')
+  //     // console.log(value)
+  //     setCart(JSON.parse(value))
+  //   } catch (e) {
+  //     console.log(e)
+  //   }
+  // }
+  // useEffect(() => {
+  //   async function temp() {
+  //     await getCart();
+  //   }
+  //   temp();
+  //   return () => {}
+  // }, [])
 
   const getShops = () => {
     setIsLoading(true)
@@ -102,61 +132,6 @@ export default function Home({navigation}) {
     )
   }
 
-  // single shop design - Common component
-  const SingleShop = ({ shop }) => {
-
-    const { name, image, rating, address, _id } = shop;
-    const { locationAndRatingContainer, shopContainer, innerShopContainer, img, middleDiv, info, locationText, ratingText, bookmarkIcon } = styles;
-    return (
-      <Pressable style={shopContainer}>
-
-        <View style={innerShopContainer}>
-          <Image source={{ uri: image }} style={img} />
-          {/* middle part */}
-          <View style={middleDiv}>
-            <Text preset='title'>{name}</Text>
-            <Text preset='info'>{address}</Text>
-            <View style={info} >
-              <View style={locationAndRatingContainer}>
-                {/* location still static*/}
-                <Entypo name="location-pin" size={16} color={colors.orange} />
-                <Text style={locationText}>1.2 km</Text>
-              </View>
-              <View style={locationAndRatingContainer}>
-                {/* Rating showing based on realtime user rating */}
-                <FontAwesome name="star-half-o" size={16} color={colors.orange} />
-                <Text style={ratingText}>{rating.reduce((a, b) => a + b) / rating.length}</Text>
-              </View>
-            </View>
-          </View>
-        </View>
-        {/* bookmark icon | this is last half of SingleShop component horizontally*/}
-        {
-          cart.includes(_id) ?
-            <Pressable
-              // onPress={() => {
-              //   const newCart = cart.filter(item => item !== _id)
-              //   setCart(newCart)
-              //   console.log(_id, 'removed')
-              // }}
-              style={bookmarkIcon}>
-              <MaterialCommunityIcons name="bookmark-minus" size={30} color={colors.darkOrange} />
-              
-            </Pressable>
-            :
-            <Pressable
-              onPress={() => {
-                setCart([...cart, _id])
-                console.log(_id, 'added')
-              }}
-              style={styles.removeBookmarkIcon}>
-              <Ionicons name="bookmark-outline" size={26} color="black" />
-            </Pressable>
-        }
-      </Pressable>
-    )
-  }
-
   // call setStatusFilter function for once in layout opening
   const executeOnLoad = () => {
     setStatusFilter('All');
@@ -172,7 +147,8 @@ export default function Home({navigation}) {
         />
       }>
         <Header cart={cart} />
-        <Search />
+        {/* <Search /> */}
+        <NavigationSearch />
         <Slider />
         {/* catagory list part*/}
         <CatagoryBox />
@@ -185,7 +161,7 @@ export default function Home({navigation}) {
           {isLoading ? <ActivityIndicator /> :
             (datalist ? datalist.slice(0, 3).map((shop, index) => {
               return (
-                <SingleShop key={index} shop={shop} />
+                <SingleShop key={index} shop={shop} cart={cart} setCart={setCart} visibleIcon={true} />
               )
             }) : <Text> <Entypo name='hand' ></Entypo>Tap and select to see your nearby shops</Text>)
           }
@@ -194,12 +170,12 @@ export default function Home({navigation}) {
         <CatagoryTitle title="Most Popular" btn="See All" />
         <View>
           {isLoading ? <ActivityIndicator /> :
-            (datalist && datalist.reverse().slice(0, 3).map((shop, index) => {
+            (datalist && datalist.slice(0, 3).map((shop, index) => {
               return (
                 <View key={index}>{
                   // summing the rating array and dividing by the length of the array
                   shop.rating.reduce((a, b) => a + b) / shop.rating.length > 4 ?
-                    <SingleShop shop={shop} /> : <Text preset='info' style={{ position: 'absolute', top: 10, left: 10 }}>NO MORE SHOP IS THAT MUCH POPULAR</Text>
+                    <SingleShop shop={shop} cart={cart} setCart={setCart} visibleIcon={true} /> : <Text preset='info' style={{ position: 'absolute', top: 10, left: 10 }}>NO MORE SHOP IS THAT MUCH POPULAR</Text>
                 }
                 </View>
               )
@@ -242,12 +218,11 @@ const styles = StyleSheet.create({
     marginHorizontal: 10
   },
   img: {
-    width: 60,
-    height: 60,
+    width: 65,
+    height: 65,
     borderRadius: 5
   },
   middleDiv: {
-    marginHorizontal: 10,
     paddingHorizontal: 10,
     justifyContent: 'space-between',
     alignItems: 'flex-start',
@@ -257,11 +232,11 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center'
   },
-  locationText: {
+  avgTimeText: {
     fontSize: 12,
     marginHorizontal: 5
   },
-  locationAndRatingContainer: {
+  avgTimeAndRatingContainer: {
     flexDirection: 'row',
     alignItems: 'center',
     marginHorizontal: 1
