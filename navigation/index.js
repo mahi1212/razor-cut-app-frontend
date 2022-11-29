@@ -10,6 +10,7 @@ import Inbox from "../src/screens/Inbox";
 import Profile from "../src/screens/Profile";
 import Bookmark from "../src/screens/Bookmark";
 import SearchPage from "../src/screens/SearchPage";
+import CatagoryPage from "../src/screens/CatagoryPage";
 
 const THEME = {
     ...DefaultTheme,
@@ -28,6 +29,7 @@ function HomeStackScreen() {
             <HomeStack.Screen name="home" component={Home} />
             <HomeStack.Screen name="Bookmark" component={Bookmark} />
             <HomeStack.Screen name="SearchPage" component={SearchPage} />
+            <HomeStack.Screen name="CatagoryPage" component={CatagoryPage} />
         </HomeStack.Navigator>
     );
 }

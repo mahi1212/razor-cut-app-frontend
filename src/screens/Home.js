@@ -71,7 +71,7 @@ export default function Home({ navigation }) {
 
   useEffect(() => {
     // ignore warning of FlatList in console
-    LogBox.ignoreLogs(['VirtualizedLists should never be nested', 'Require cycle:']);
+    LogBox.ignoreLogs(['VirtualizedLists should never be nested', ]);
     getShops();
     setStatusFilter(status);
   }, []);
@@ -89,7 +89,7 @@ export default function Home({ navigation }) {
     }
   }
 
-  // catagory list Title and see all - Common component
+  // catagory list Title and see all - Common component | ex: suggested for you 
   function CatagoryTitle({ title, btn }) {
     const { headerContainer, textStyle, btnStyle } = styles;
     return (
@@ -147,7 +147,6 @@ export default function Home({ navigation }) {
         />
       }>
         <Header cart={cart} />
-        {/* <Search /> */}
         <NavigationSearch />
         <Slider />
         {/* catagory list part*/}

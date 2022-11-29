@@ -1,19 +1,23 @@
 import { View, FlatList, StyleSheet, Pressable } from 'react-native'
 import React, { useEffect, useState } from 'react'
-import { SingleCatagory } from '../../../screens/Home'
 import { spacing } from '../../../theme/spacing';
 import { Entypo } from '@expo/vector-icons';
 import { colors } from '../../../theme/colors';
 import Text from '../../Text/Text';
+import { useNavigation } from '@react-navigation/native';
 
 export default function CatagoryBox() {
-    const { container, catagory, catagoryImage, singleCatagoryText, catagoryListStyle } = styles;
+    const { catagory, catagoryImage, singleCatagoryText, catagoryListStyle } = styles;
     const [catagories, setCatagories] = useState([]);
 
     const SingleCatagory = ({ text, icon }) => {
+        const navigation = useNavigation()
         return (
             <View style={catagoryListStyle}>
-                <Pressable onPress={() => console.log(text)} style={{ alignItems: 'center', justifyContent: 'center' }}>
+                <Pressable onPress={() => {
+                    console.log(text)
+                    navigation.navigate('CatagoryPage', { text })
+                }} style={{ alignItems: 'center', justifyContent: 'center' }}>
                     <View style={catagoryImage} >
                         <Entypo name={icon} size={28} color={colors.orange} />
                     </View>
@@ -68,16 +72,16 @@ const styles = StyleSheet.create({
         borderRadius: 10,
         alignItems: 'center',
         justifyContent: 'center',
-      },
-      singleCatagory: {
+    },
+    singleCatagory: {
         width: 80,
         height: 100,
         justifyContent: 'flex-start',
         alignItems: 'center',
         marginLeft: 10,
         marginTop: 5,
-      },
-      catagoryImage: {
+    },
+    catagoryImage: {
         marginVertical: spacing[2],
         borderRadius: '50%',
         width: 70,
@@ -85,9 +89,9 @@ const styles = StyleSheet.create({
         justifyContent: 'center',
         alignItems: 'center',
         backgroundColor: "#FDF1DF",
-      },
-      singleCatagoryText: {
+    },
+    singleCatagoryText: {
         marginTop: spacing[1],
         width: '100%',
-      },
+    },
 })
