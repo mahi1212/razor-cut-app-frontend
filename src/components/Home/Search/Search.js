@@ -1,23 +1,24 @@
 import { StyleSheet, TextInput, View } from 'react-native'
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { colors } from '../../../theme/colors';
 import { Ionicons } from '@expo/vector-icons';
 
 
 export default function Search(props) {
-  const [searchText, setSearchText] = useState("")
-  // console.log(searchText)
   const { container, searchContainer } = styles;
   return (
     <View style={container}>
       <View style={searchContainer}>
         <Ionicons name="ios-search-sharp" size={24} color={colors.gray} />
         <TextInput
-          onChangeText={(text) =>{props.setSearchText(text)}}
+          onChangeText={(text) => {
+            props.setSearchText(text)
+            props.searchFilterFunction(text)
+          }}
           value={props.searchText}
-          returnKeyType = {"next"}
+          returnKeyType={"next"}
           keyboardAppearance="default"
-          autoFocus = {true}
+          autoFocus={true}
           placeholder="Search"
           style={{ marginLeft: 10, fontSize: 16, width: '100%' }} />
       </View>

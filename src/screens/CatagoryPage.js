@@ -22,7 +22,7 @@ export default function CatagoryPage({ route }) {
                 })
         }
     }, [searchText])
-
+    
     return (
         <View style={{ marginHorizontal: spacing[3] }}>
             <PageHeader title={text} />
