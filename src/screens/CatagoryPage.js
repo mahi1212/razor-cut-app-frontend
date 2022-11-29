@@ -24,9 +24,11 @@ export default function CatagoryPage({ route }) {
     }, [searchText])
 
     return (
-        <View style={{marginHorizontal: spacing[3]}}>
+        <View style={{ marginHorizontal: spacing[3] }}>
             <PageHeader title={text} />
-            <Search searchText={searchText} setSearchText={setSearchText} />
+            <View style={{marginTop: -spacing[2]}}>
+                <Search searchText={searchText} setSearchText={setSearchText} />
+            </View>
             {
                 // shop that contains the catagory text
                 searchResults.filter((item) => {
@@ -44,6 +46,7 @@ export default function CatagoryPage({ route }) {
                     )
                 })
             }
+            
         </View>
     )
 }
