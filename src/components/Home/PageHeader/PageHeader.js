@@ -2,7 +2,7 @@ import { View, Pressable } from 'react-native'
 import React from 'react'
 import { Ionicons } from '@expo/vector-icons';
 import { Colors } from 'react-native/Libraries/NewAppScreen';
-import Text from '../../text/text';
+import Text from '../../Text/Text';
 import { useNavigation } from '@react-navigation/native';
 
 export default function PageHeader({ title }) {
@@ -15,7 +15,7 @@ export default function PageHeader({ title }) {
             }}>
                 <Ionicons name="arrow-back-outline" size={30} color={Colors.darkOrange} />
             </Pressable>
-            <Text preset='catagory' style={{ flexGrow: 1, textAlign: 'center' }}>My {title}</Text>
+            <Text preset='catagory' style={{ flexGrow: 1, textAlign: 'center' }}>{title}</Text>
         </View>
     )
 }
