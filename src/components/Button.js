@@ -1,8 +1,9 @@
 import { View, TouchableOpacity, StyleSheet } from "react-native";
 import React from "react";
-import Text from "./text/text";
+import Text from "./Text/Text";
 
 export default function Button({ title, onPress, customStyles }) {
+ 
   return (
    
    <View>
@@ -12,7 +13,7 @@ export default function Button({ title, onPress, customStyles }) {
         <Text style={styles.title}>{title}</Text>
    
       </TouchableOpacity>
-   
+  
     </View>
   );
 }

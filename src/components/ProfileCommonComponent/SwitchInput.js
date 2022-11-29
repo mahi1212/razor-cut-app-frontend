@@ -2,11 +2,13 @@ import React, { useState } from "react";
 import { View, Switch, StyleSheet } from "react-native";
 import { colors } from "../../theme/colors";
 import { spacing } from "../../theme/spacing";
-import Text from "../text/text";
+import Text from "../Text/Text"
+;
 
 
 export default function SwitchInput({ text }) {
   const [isEnabled, setIsEnabled] = useState(false);
+  
   const toggleSwitch = () => setIsEnabled((previousState) => !previousState);
 
   return (

@@ -2,9 +2,9 @@ import React from "react";
 import { View } from "react-native";
 import { ScrollView } from "react-native-gesture-handler";
 import { SafeAreaView } from "react-native-safe-area-context";
-import ProfileHeader from "../components/ProfileCommonComponent/ProfileHeader";
-import Text from "../components/text/text";
-import { spacing } from "../theme/spacing";
+import Text from "../../components/Text/Text";
+import ProfileHeader from "../../components/ProfileCommonComponent/ProfileHeader";
+import { spacing } from "../../theme/spacing";
 
 export default function Privacy({ backBtn, title }) {
   return (

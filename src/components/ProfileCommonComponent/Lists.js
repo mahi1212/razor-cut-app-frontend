@@ -3,7 +3,8 @@ import React from "react";
 import { AntDesign } from "@expo/vector-icons";
 import { spacing } from "../../theme/spacing";
 import { colors } from "../../theme/colors";
-import Text from "../text/text";
+import Text from "../Text/Text";
+;
 
 
 

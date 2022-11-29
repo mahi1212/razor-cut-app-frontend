@@ -1,9 +1,9 @@
-import { View, Text, Image, StyleSheet, ScrollView } from "react-native";
+import { View, Image, StyleSheet, ScrollView } from "react-native";
 import React from "react";
 import { SafeAreaView } from "react-native-safe-area-context";
-import { spacing } from "../theme/spacing";
-import Lists from "../components/ProfileCommonComponent/Lists";
-import { colors } from "../theme/colors";
+import { spacing } from "../../theme/spacing";
+import Lists from "../../components/ProfileCommonComponent/Lists";
+import { colors } from "../../theme/colors";
 
 import {
   AntDesign,
@@ -12,6 +12,7 @@ import {
   MaterialIcons,
   FontAwesome,
 } from "@expo/vector-icons";
+import Text from "../../components/Text/Text";
 
 
 

@@ -2,10 +2,10 @@
 import React from 'react'
 import { ScrollView, StyleSheet } from 'react-native'
 import { SafeAreaView } from 'react-native-safe-area-context'
-import Button from '../components/Button'
-import ProfileHeader from '../components/ProfileCommonComponent/ProfileHeader'
-import SwitchInput from '../components/ProfileCommonComponent/SwitchInput'
-import { spacing } from '../theme/spacing'
+import Button from '../../components/Button'
+import ProfileHeader from '../../components/ProfileCommonComponent/ProfileHeader'
+import SwitchInput from '../../components/ProfileCommonComponent/SwitchInput'
+import { spacing } from '../../theme/spacing'
 
 export default function Security({ title, backBtn ,text}) {
   

@@ -2,20 +2,33 @@ import { useState } from "react";
 import { View } from "react-native";
 import { ScrollView } from "react-native-gesture-handler";
 import { SafeAreaView } from "react-native-safe-area-context";
-import ProfileHeader from "../components/ProfileCommonComponent/ProfileHeader";
-import RadioInput from "../components/ProfileCommonComponent/RadioInput";
-import Text from "../components/text/text";
-import { colors } from "../theme/colors";
-import { spacing } from "../theme/spacing";
+import Text from "../../components/Text/Text";
+import ProfileHeader from "../../components/ProfileCommonComponent/ProfileHeader";
+import RadioInput from "../../components/ProfileCommonComponent/RadioInput";
+import { spacing } from "../../theme/spacing";
+import { colors } from "../../theme/colors";
 
-const languageOptions = [
-  "Mandarin",
-  "Hindi",
-  "Spanish",
-  "French",
-  "Arabic",
-  "Bengali",
-  "Russian",
+const languageOptions  = [
+  {
+    id: "1",
+    name: "Bengali",
+  },
+  {
+    id: "2",
+    name: "Hindi",
+  },
+  {
+    id: "3",
+    name: "Spanish",
+  },
+  {
+    id: "4",
+    name: "Arabic",
+  },
+  {
+    id: "5",
+    name: "Mandarin",
+  },
 ];
 const suggestedLanguage = ["English(US)", "English(UK)"];
 
@@ -42,38 +55,30 @@ export default function Language({
             Suggested
           </Text>
 
-          {/* {suggestedLanguage.map((option,index)=>{
+           {suggestedLanguage.map((option,index)=>{
+            return (
               <RadioInput
               key={index}
               label={option}
               value={languageOption}
               setValue={setOption}
               />
-            })} */}
-          <RadioInput
-            label="English(US)"
-            value={languageOption}
-            setValue={setOption}
-          />
-          <RadioInput
-            label="English(UK)"
-            value={languageOption}
-            setValue={setOption}
-          />
+            )
+            })} 
         </View>
         {/* other options */}
         <View>
           <Text preset="h5" style={{ margin: spacing[3], fontWeight: "bold" }}>
             Language
           </Text>
-
-          {languageOptions.map((option, index) => {
-            <RadioInput
-              key={index}
-              label={option}
-              value={language}
-              setValue={setLanguage}
-            />;
+          {languageOptions.map((languagename) => {
+            return (
+                <RadioInput
+                  label={languagename.name}
+                  value={language}
+                  setValue={setLanguage}
+                />
+            );
           })}
         </View>
       </ScrollView>

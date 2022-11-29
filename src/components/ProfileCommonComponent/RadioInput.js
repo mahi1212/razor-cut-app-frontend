@@ -1,6 +1,6 @@
 import { View,StyleSheet, TouchableOpacity } from "react-native";
 import React from "react";
-import Text from "../text/text";
+import Text from "../Text/Text";
 
 export default function RadioInput({ label, value, setValue }) {
   const isSelected = value === label;
@@ -36,7 +36,7 @@ const styles = StyleSheet.create({
     height: 20,
     width: 20,
     borderRadius: 15,
-    borderWidth: 2,
+    borderWidth: 1,
     borderColor: "orange",
     marginRight: 10,
     justifyContent: "center",

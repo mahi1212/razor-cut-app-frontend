@@ -6,13 +6,14 @@ import {
   TextInput,
   View,
 } from "react-native";
-import ProfileHeader from "../components/ProfileCommonComponent/ProfileHeader";
+import ProfileHeader from "../../components/ProfileCommonComponent/ProfileHeader";
 import { MaterialIcons } from "@expo/vector-icons";
-import { colors } from "../theme/colors";
-import { spacing } from "../theme/spacing";
-import Text from "../components/text/text";
-import DropDown from "../components/DropDown";
-import Button from "../components/Button";
+import { colors } from "../../theme/colors";
+import { spacing } from "../../theme/spacing";
+import DropDown from "../../components/DropDown";
+import Button from "../../components/Button";
+import Text from "../../components/Text/Text";
+import DatePick from "../../components/DatePick";
 
 export default function EditProfile({ title, backBtn }) {
   return (
@@ -25,7 +26,6 @@ export default function EditProfile({ title, backBtn }) {
             style={styles.textSection} 
             placeholder=" Enter Your First Name"
           />
-
           <TextInput
             style={styles.textSection}
             placeholder=" Enter Your First Name"
@@ -39,7 +39,7 @@ export default function EditProfile({ title, backBtn }) {
             />
           </View>
           <DropDown />
-
+          <DatePick/>
           <DropDown />
 
           {/* <View></View> */}

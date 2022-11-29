@@ -4,8 +4,9 @@ import { DateTimePickerAndroid } from "@react-native-community/datetimepicker";
 import { spacing } from "../theme/spacing";
 import { colors } from "../theme/colors";
 import { Fontisto } from "@expo/vector-icons";
-import Text from "./text/text";
+import Text from "./Text/Text";
 export default function DatePick() {
+  
   const [date, setDate] = useState(new Date());
 
   const onChange = (event, selectedDate) => {
@@ -21,6 +22,7 @@ export default function DatePick() {
       is24Hour: true,
     });
   };
+
 
   const showDatepicker = () => {
     showMode("date");

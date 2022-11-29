@@ -3,9 +3,10 @@ import { View, StyleSheet, Pressable } from "react-native";
 import { useNavigation } from "@react-navigation/native";
 import { AntDesign } from "@expo/vector-icons";
 import { spacing } from "../../theme/spacing";
-import Text from "../text/text";
+import Text from "../Text/Text";
 
 export default function ProfileHeader({ backBtn, title }) {
+  
   const navigation = useNavigation();
 
   return (
