@@ -34,11 +34,11 @@ export default function CatagoryPage({ route }) {
                 searchResults.filter((item) => {
                     return item.status.toLowerCase().includes(text.toLowerCase())
                 }
-                ).map((item) => {
+                ).map((item, index) => {
                     // filter by search text
                     if (item.name.toLowerCase().includes(searchText.toLowerCase())) {
                         return (
-                            <SingleShop key={item.id} shop={item} cart={cart} setCart={setCart} />
+                            <SingleShop key={index.toString()} shop={item} cart={cart} setCart={setCart} />
                         )
                     }
                 })

@@ -16,6 +16,7 @@ import Image from 'react-native-image-progress';
 import AsyncStorage from '@react-native-async-storage/async-storage'
 import NavigationSearch from '../components/Home/Search/NavigationSearch'
 import SingleShop from '../components/Home/SingleShop/SingleShop'
+import CatagoryTitle from '../components/Home/CatagoryTitle/CatagoryTitle'
 
 export default function Home({ navigation }) {
   // for watching loading and refreshing state
@@ -71,7 +72,7 @@ export default function Home({ navigation }) {
 
   useEffect(() => {
     // ignore warning of FlatList in console
-    LogBox.ignoreLogs(['VirtualizedLists should never be nested', ]);
+    LogBox.ignoreLogs(['VirtualizedLists should never be nested',]);
     getShops();
     setStatusFilter(status);
   }, []);
@@ -89,22 +90,6 @@ export default function Home({ navigation }) {
     }
   }
 
-  // catagory list Title and see all - Common component | ex: suggested for you 
-  function CatagoryTitle({ title, btn }) {
-    const { headerContainer, textStyle, btnStyle } = styles;
-    return (
-      <View>
-        <View style={headerContainer}>
-          <Text preset='title' style={textStyle}>{title}</Text>
-          <Pressable onPress={() => console.log('See all Pressed')
-
-          } style={{ padding: 10 }}>
-            <Text preset='title' style={btnStyle}>{btn}</Text>
-          </Pressable>
-        </View>
-      </View >
-    )
-  }
 
   // status tab scrolling- Common component
   const ScrollStatusBar = () => {
@@ -154,7 +139,7 @@ export default function Home({ navigation }) {
         {/* divider */}
         <View style={{ height: 1, width: '100%', backgroundColor: '#f5f4f2', marginTop: 10 }} />
         {/* suggested salons part*/}
-        <CatagoryTitle title="Suggested For You" btn="See All" />
+        <CatagoryTitle title="Suggested For You" btn="See All" datalist={datalist}/>
         <ScrollStatusBar />
         <View style={{ flex: 1 }}>
           {isLoading ? <ActivityIndicator /> :
@@ -257,21 +242,7 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
     marginBottom: 5,
-  },
-  headerContainer: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    alignItems: 'center',
-  },
-  textStyle: {
-    marginVertical: 15,
-    fontSize: 18,
-    marginLeft: 5
-  },
-  btnStyle: {
-    fontWeight: '800',
-    color: colors.darkOrange
-  },
+  },  
   activeCatagoryButton: {
     width: 100,
     backgroundColor: colors.darkOrange,

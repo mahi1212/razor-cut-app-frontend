@@ -15,7 +15,7 @@ export default function PageHeader({ title }) {
             }}>
                 <Ionicons name="arrow-back-outline" size={30} color={Colors.darkOrange} />
             </Pressable>
-            <Text preset='catagory' style={{ flexGrow: 1, textAlign: 'center' }}>{title}</Text>
+            <Text preset='catagory' style={{ flexGrow: 1, paddingLeft: 10 }}>{title}</Text>
         </View>
     )
 }

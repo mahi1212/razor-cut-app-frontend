@@ -14,6 +14,7 @@ import CatagoryPage from "../src/screens/CatagoryPage";
 import Signin from "../src/screens/Signin";
 import Signup from "../src/screens/Signup";
 import { useState } from "react";
+import SeeAllPage from "../src/screens/SeeAllPage";
 
 const THEME = {
     ...DefaultTheme,
@@ -42,6 +43,7 @@ function HomeStackScreen() {
             <HomeStack.Screen name="Bookmark" component={Bookmark} />
             <HomeStack.Screen name="SearchPage" component={SearchPage} />
             <HomeStack.Screen name="CatagoryPage" component={CatagoryPage} />
+            <HomeStack.Screen name="SeeAll" component={SeeAllPage} />
         </HomeStack.Navigator>
     );
 }
@@ -93,7 +95,7 @@ function TabBarIcon({ fontFamily, name, color }) {
 }
 
 export default function Navigation() {
-    const [user, setUser] = useState('');
+    const [user, setUser] = useState('Mahi');
 
     return (
 
