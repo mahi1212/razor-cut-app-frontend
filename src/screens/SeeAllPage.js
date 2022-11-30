@@ -11,14 +11,12 @@ import { catagoryList } from '../components/Home/CatagoryBox/CatagoryList';
 export default function SeeAll({ route }) {
   const [status, setStatus] = useState('All');
   const [searchText, setSearchText] = React.useState("")
-
-
   const [filterData, setFilterData] = React.useState([])
-  const [masterData, setMasterData] = React.useState([])
 
   const [shops, setShops] = useState([]);
-  
+
   const { title } = route.params;
+  console.log(title)
   const [cart, setCart] = useState([])
 
   const getShops = () => {
@@ -27,7 +25,6 @@ export default function SeeAll({ route }) {
       .then(data => {
         setShops(data)
         setFilterData(data);
-        setMasterData(data);
       }).catch(err => {
         console.log(err)
       })
@@ -57,13 +54,11 @@ export default function SeeAll({ route }) {
     }
   }
 
-  // console.log(title)
-  // console.log(datalist)
   const searchFilterFunction = (text) => {
     // Check if searched text is not blank
     if (text) {
-      // Filter the masterDataSource
-      // Update FilteredDataSource
+      // Filter the shops data
+      // Update Filtered data
       const newData = shops.filter((item) => {
         // Applying filter for the inserted text in search bar
         // making sure bith got matched
@@ -75,7 +70,7 @@ export default function SeeAll({ route }) {
       setSearchText(text);
     } else {
       // Inserted text is blank
-      // Update FilteredDataSource with masterDataSource
+      // Update Filtereddata with shops data
       setFilterData(shops);
       setSearchText(text);
     }
@@ -117,16 +112,29 @@ export default function SeeAll({ route }) {
         </View>
         {/* showing shops in flatlist */}
         {
-          shops.length > 0 ?
-            <FlatList
-              data={filterData}
-              renderItem={({ item }) => <SingleShop shop={item} />}
-              keyExtractor={item => item._id}
-            />
-            :
-            <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
-              <Text preset='title' style={{ color: colors.darkOrange }}>No Shops Found</Text>
-            </View>
+          title === 'Most Popular' ? (
+            filterData.map((shop, index) => {
+              return (
+                <View key={index}>{
+                  // summing the rating array and dividing by the length of the array
+                  shop.rating.reduce((a, b) => a + b) / shop.rating.length > 4 ?
+                    <SingleShop shop={shop} cart={cart} setCart={setCart} visibleIcon={false} />
+                    : null
+                }
+                </View>
+              )
+            })
+          ) : (
+            (shops.length > 0) ?
+              <FlatList
+                data={filterData}
+                renderItem={({ item }) => <SingleShop shop={item} />}
+                keyExtractor={(item, index) => index.toString()}
+              />
+              :
+              <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
+                <Text preset='title' style={{ color: colors.darkOrange }}>No Shops Found</Text>
+              </View>)
         }
       </ScrollView>
     </SafeAreaView>
