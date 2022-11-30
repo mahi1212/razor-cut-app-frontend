@@ -25,7 +25,7 @@ const styles = StyleSheet.create({
     height: 50,
     backgroundColor: "#FB9400",
     alignSelf:'center',
-    marginTop:40
+    // marginTop:40
     
   },
   title: {

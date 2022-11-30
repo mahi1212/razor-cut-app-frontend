@@ -42,8 +42,11 @@ export default function EditProfile({ title, backBtn }) {
           <DatePick/>
           <DropDown />
 
-          {/* <View></View> */}
-          <Button title="Update" />
+          <View style={{marginTop:40,marginBottom:40}}>
+        
+          <Button title="Update"/>
+
+          </View>
         </View>
       </ScrollView>
     </SafeAreaView>

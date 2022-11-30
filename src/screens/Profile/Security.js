@@ -1,6 +1,6 @@
 
 import React from 'react'
-import { ScrollView, StyleSheet } from 'react-native'
+import { ScrollView, StyleSheet, View } from 'react-native'
 import { SafeAreaView } from 'react-native-safe-area-context'
 import Button from '../../components/Button'
 import ProfileHeader from '../../components/ProfileCommonComponent/ProfileHeader'
@@ -24,8 +24,12 @@ export default function Security({ title, backBtn ,text}) {
         
         <SwitchInput text="Google Authentication"/>
         
-         <Button title="Change Password"/>
-          
+        <View style={{marginTop:40,marginBottom:40}}>
+       
+        <Button title="Change Password"/>
+
+          </View>
+                    
     </ScrollView>
 
     </SafeAreaView>
