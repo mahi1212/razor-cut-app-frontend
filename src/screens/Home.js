@@ -1,4 +1,4 @@
-import { ActivityIndicator, Pressable, RefreshControl, ScrollView, StyleSheet, TouchableOpacity, View } from 'react-native'
+import { ActivityIndicator, FlatList, Pressable, RefreshControl, ScrollView, StyleSheet, TouchableOpacity, View } from 'react-native'
 import React, { useEffect, useState } from 'react'
 import Text from '../components/Text/Text'
 import { colors } from '../theme/colors'
@@ -25,6 +25,7 @@ export default function Home({ navigation }) {
   // 
   const [status, setStatus] = useState('All'); // for keeping status of tab
   const [datalist, setdataList] = useState(shops); // for keeping data of shops
+  const [filterData, setFilterData] = React.useState([])
 
   const [shops, setShops] = useState([]);
   const [cart, setCart] = useState([])
@@ -77,19 +78,22 @@ export default function Home({ navigation }) {
     setStatusFilter(status);
   }, []);
 
-  // filtering data by active status tab
   const setStatusFilter = status => {
-    setIsLoading(true)
     if (status === 'All') {
-      setdataList(shops);
-      setIsLoading(false)
+      getShops();
     } else {
-      const newData = shops.filter(item => item.status === status);
-      setdataList(newData);
-      setIsLoading(false)
+      setIsLoading(true)
+      fetch(`http://192.168.0.221:5000/catagoryShops/${status}`)
+        .then(res => res.json())
+        .then(data => {
+          setShops(data);
+        }).catch(err => {
+          console.log(err)
+        }).finally(() => {
+          setIsLoading(false)
+        })
     }
   }
-
 
   // status tab scrolling- Common component
   const ScrollStatusBar = () => {
@@ -143,18 +147,19 @@ export default function Home({ navigation }) {
         <ScrollStatusBar />
         <View style={{ flex: 1 }}>
           {isLoading ? <ActivityIndicator /> :
-            (datalist ? datalist.slice(0, 3).map((shop, index) => {
-              return (
-                <SingleShop key={index} shop={shop} cart={cart} setCart={setCart} visibleIcon={true} />
-              )
-            }) : <Text> <Entypo name='hand' ></Entypo>Tap and select to see your nearby shops</Text>)
+            (shops ? <FlatList
+              data={shops.slice(0, 3)}
+              renderItem={({ item }) => <SingleShop shop={item} cart={cart} setCart={setCart} visibleIcon={true} />}
+              keyExtractor={item => item._id}
+              showsVerticalScrollIndicator={false}
+            />: <Text> <Entypo name='hand' ></Entypo>Tap and select to see your nearby shops</Text>)
           }
         </View>
         {/* most popular part*/}
         <CatagoryTitle title="Most Popular" btn="See All" />
         <View>
           {isLoading ? <ActivityIndicator /> :
-            (datalist && datalist.reverse().slice(0, 5).map((shop, index) => {
+            (shops && shops.reverse().slice(0, 5).map((shop, index) => {
               return (
                 <View key={index}>{
                   // summing the rating array and dividing by the length of the array

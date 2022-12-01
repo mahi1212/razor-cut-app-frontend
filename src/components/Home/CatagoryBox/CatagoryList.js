@@ -86,5 +86,18 @@ export const catagoryList = [
 //         4,
 //         5
 //       ]
-//     }
+//     },
+//     {
+//       "name": "Smash Beauty",
+//       "image": "https://i.ibb.co/3WCwR0Q/guilherme-petri-Pt-Ofb-Gk-U3u-I-unsplash.jpg",
+//       "mobile": "+8801719827356",
+//       "address": "Tilagor",
+//       "waiting": "1",
+//       "avgTime": "35",
+//       "status": "Massage",
+//       "rating": [
+//         4,
+//         3
+//       ]
+//     },
 //   ]

@@ -20,7 +20,7 @@ export default function Search(props) {
           keyboardAppearance="default"
           autoFocus={true}
           placeholder="Search"
-          style={{ marginLeft: 10, fontSize: 16, width: '100%' }} />
+          style={{ marginLeft: 10, fontSize: 16, width: '100%', height: 20 }} />
       </View>
     </View>
   )

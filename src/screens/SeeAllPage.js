@@ -12,12 +12,10 @@ export default function SeeAll({ route }) {
   const [status, setStatus] = useState('All');
   const [searchText, setSearchText] = React.useState("")
   const [filterData, setFilterData] = React.useState([])
-
   const [shops, setShops] = useState([]);
-
+  const [cart, setCart] = useState([]) 
   const { title } = route.params;
-  console.log(title)
-  const [cart, setCart] = useState([])
+  // console.log(title)
 
   const getShops = () => {
     fetch(`http://192.168.0.221:5000/shops`)
@@ -128,7 +126,7 @@ export default function SeeAll({ route }) {
             (shops.length > 0) ?
               <FlatList
                 data={filterData}
-                renderItem={({ item }) => <SingleShop shop={item} />}
+                renderItem={({ item }) => <SingleShop shop={item} cart={cart} setCart={setCart} visibleIcon={false} />}
                 keyExtractor={(item, index) => index.toString()}
               />
               :
