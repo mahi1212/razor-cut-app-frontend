@@ -22,10 +22,7 @@ export default function Home({ navigation }) {
   // for watching loading and refreshing state
   const [refreshing, setRefreshing] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
-  // 
   const [status, setStatus] = useState('All'); // for keeping status of tab
-  const [datalist, setdataList] = useState(shops); // for keeping data of shops
-  const [filterData, setFilterData] = React.useState([])
 
   const [shops, setShops] = useState([]);
   const [cart, setCart] = useState([])
@@ -79,6 +76,7 @@ export default function Home({ navigation }) {
   }, []);
 
   const setStatusFilter = status => {
+    setIsLoading(true)
     if (status === 'All') {
       getShops();
     } else {
@@ -121,13 +119,10 @@ export default function Home({ navigation }) {
     )
   }
 
-  // call setStatusFilter function for once in layout opening
-  const executeOnLoad = () => {
-    setStatusFilter('All');
-  };
+
   // Here is main function code 
   return (
-    <SafeAreaView style={{ flex: 1, marginHorizontal: spacing[2] }} onLayout={executeOnLoad}>
+    <SafeAreaView style={{ flex: 1, marginHorizontal: spacing[2] }}>
       <ScrollView style={styles.container} showsVerticalScrollIndicator={false} refreshControl={
         <RefreshControl
           // every refresh call getShops function
@@ -143,7 +138,7 @@ export default function Home({ navigation }) {
         {/* divider */}
         <View style={{ height: 1, width: '100%', backgroundColor: '#f5f4f2', marginTop: 10 }} />
         {/* suggested salons part*/}
-        <CatagoryTitle title="Suggested For You" btn="See All" datalist={datalist}/>
+        <CatagoryTitle title="Suggested For You" btn="See All"/>
         <ScrollStatusBar />
         <View style={{ flex: 1 }}>
           {isLoading ? <ActivityIndicator /> :
