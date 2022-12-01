@@ -73,5 +73,31 @@ export const catagoryList = [
 //         4,
 //         3
 //       ]
-//     }
+//     },
+//     {
+//       "name": "Hair Haven",
+//       "image": "https://i.ibb.co/3WCwR0Q/guilherme-petri-Pt-Ofb-Gk-U3u-I-unsplash.jpg",
+//       "mobile": "+8801719827356",
+//       "address": "Mirabazar",
+//       "waiting": "1",
+//       "avgTime": "40",
+//       "status": "Haircut",
+//       "rating": [
+//         4,
+//         5
+//       ]
+//     },
+//     {
+//       "name": "Smash Beauty",
+//       "image": "https://i.ibb.co/3WCwR0Q/guilherme-petri-Pt-Ofb-Gk-U3u-I-unsplash.jpg",
+//       "mobile": "+8801719827356",
+//       "address": "Tilagor",
+//       "waiting": "1",
+//       "avgTime": "35",
+//       "status": "Massage",
+//       "rating": [
+//         4,
+//         3
+//       ]
+//     },
 //   ]

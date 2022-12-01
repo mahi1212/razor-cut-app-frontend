@@ -53,6 +53,10 @@ export default function SingleShop({ shop, cart, setCart, visibleIcon }) {
                 (visibleIcon === true) &&
                 (cart.includes(_id) ?
                     <Pressable
+                        onPress={
+                            // remove single shop from cart
+                            () => setCart(cart.filter((item) => item !== _id))
+                        }
                         style={bookmarkIcon}>
                         <MaterialCommunityIcons name="bookmark-minus" size={30} color={colors.darkOrange} />
                     </Pressable>
