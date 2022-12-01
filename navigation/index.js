@@ -15,6 +15,7 @@ import Signin from "../src/screens/Signin";
 import Signup from "../src/screens/Signup";
 import { useState } from "react";
 import SeeAllPage from "../src/screens/SeeAllPage";
+import ShopDetails from "../src/screens/ShopDetails";
 
 const THEME = {
     ...DefaultTheme,
@@ -44,6 +45,7 @@ function HomeStackScreen() {
             <HomeStack.Screen name="SearchPage" component={SearchPage} />
             <HomeStack.Screen name="CatagoryPage" component={CatagoryPage} />
             <HomeStack.Screen name="SeeAll" component={SeeAllPage} />
+            <HomeStack.Screen name="shopDetails" component={ShopDetails} />
         </HomeStack.Navigator>
     );
 }
