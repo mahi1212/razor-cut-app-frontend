@@ -25,7 +25,7 @@ export default function Header({cart}) {
                         <Ionicons name="notifications-outline" size={24} color="black" />
                     </Pressable>
                     <Pressable onPress={() => {
-                        console.log("pressed in bookmarks")
+                        // console.log("pressed in bookmarks")
                         navigation.navigate('Bookmark', {cart: cart})
                     }} style={{ marginLeft: 10 }}>
                         <Ionicons name="bookmark-outline" size={24} color="black" />
