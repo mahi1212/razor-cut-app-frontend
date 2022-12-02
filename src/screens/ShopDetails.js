@@ -108,6 +108,10 @@ export default function ShopDetails({ route }) {
     }
     return (
         <ScrollView contentContainerStyle={container} showsVerticalScrollIndicator={false}>
+            {/* back button */}
+            <TouchableOpacity style={styles.backButton} onPress={() => navigation.goBack()}>
+                    <Entypo name='chevron-thin-left' size={22} color={colors.darkOrange} />
+                </TouchableOpacity>
             <Image source={{ uri: shop.image }} style={imageStyle} />
             {/* heading view */}
             <View style={{ marginHorizontal: 10 }}>
@@ -124,6 +128,7 @@ export default function ShopDetails({ route }) {
                     </View>
                     <Text style={styles.text} preset='info'>{shop.street}</Text>
                 </View>
+                
                 {/* Catagory of shop */}
                 <View style={styles.iconAndText}>
                     <View style={styles.icon}>
@@ -281,6 +286,15 @@ const styles = StyleSheet.create({
         borderTopLeftRadius: 20,
         borderTopRightRadius: 20,
         justifyContent: 'center',
+    },
+    backButton: {
+        position: 'absolute',
+        top: 10,
+        left: 10,
+        zIndex: 1,
+        // backgroundColor: 'white',
+        padding: 10,
+        borderRadius: 50,
     },
     imageStyle: {
         width: width,
