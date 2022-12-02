@@ -1,4 +1,4 @@
-import { Dimensions, Pressable, ScrollView, StyleSheet, TouchableOpacity, View } from 'react-native'
+import { Dimensions, FlatList, Linking, Pressable, ScrollView, StyleSheet, TouchableOpacity, View } from 'react-native'
 import React, { useState } from 'react'
 import Text from '../components/Text/Text';
 import { colors } from '../theme/colors';
@@ -18,9 +18,11 @@ export default function ShopDetails({ route }) {
     const [isLoading, setIsLoading] = React.useState(false)
     const [status, setStatus] = useState('About'); // for keeping status of tab
     const [data, setData] = useState([])
-    console.log(data)
+    const [textData, setTextData] = useState('')
+
+    // console.log(data)
     const { shopId } = route.params;
-    const getmembers = async () => {
+    const getmembers = () => {
         fetch(`http://192.168.0.221:5000/shops/${shopId}`)
             .then(res => res.json())
             .then(data => {
@@ -29,7 +31,7 @@ export default function ShopDetails({ route }) {
                 setIsLoading(false)
             })
     }
-    const getSingleShop = async () => {
+    const getSingleShop = () => {
         setIsLoading(true)
         fetch(`http://192.168.0.221:5000/shops/${shopId}`)
             .then(res => res.json())
@@ -38,7 +40,6 @@ export default function ShopDetails({ route }) {
                 setIsLoading(false)
             })
     }
-
     useEffect(() => {
         getSingleShop()
         getmembers()
@@ -51,7 +52,7 @@ export default function ShopDetails({ route }) {
             fetch(`http://192.168.0.221:5000/shops/${shopId}`)
                 .then(res => res.json())
                 .then(data => {
-                    setData(data.about)
+                    setTextData(data.about)
                     setIsLoading(false)
                 })
         } else if (status == 'Package') {
@@ -72,110 +73,171 @@ export default function ShopDetails({ route }) {
             fetch(`http://192.168.0.221:5000/shops/${shopId}`)
                 .then(res => res.json())
                 .then(data => {
-                    setData(data.reviews)
+                    setData(data.review)
                     setIsLoading(false)
                 })
         }
     }
 
-const { container, imageStyle, heading, line, flatListContainer, activeCatagoryButton, catagoryButton, selectedItemText, normalItemText } = styles;
+    const { container, imageStyle, heading, line, flatListContainer, activeCatagoryButton, catagoryButton, selectedItemText, normalItemText } = styles;
 
-const ScrollStatusBar = () => {
-    return (
-        <ScrollView horizontal={true} contentContainerStyle={flatListContainer} showsHorizontalScrollIndicator={false}>
-            {
-                details.map((item, index) => {
-                    return (
-                        <TouchableOpacity key={index}
-                            style={item.status === status ? activeCatagoryButton : catagoryButton}
-                            onPress={() => {
-                                console.log(`Pressed in ${item.status}`)
-                                setStatus(item.status)
-                                setStatusFilter(item.status)
-                            }
-                            }
-                        >
-                            <Text preset='title' style={item.status === status ? selectedItemText : normalItemText}>{item.status}</Text>
-                        </TouchableOpacity>
-                    )
-                })
-            }
-        </ScrollView>
-    )
-}
-
-return (
-    <ScrollView contentContainerStyle={container} showsVerticalScrollIndicator={false}>
-        <Image source={{ uri: shop.image }} style={imageStyle} />
-        <View style={{ marginHorizontal: 10 }}>
-            <View style={heading}>
-                <Text preset='h1'>{shop.name}</Text>
-                <Pressable style={activeCatagoryButton}>
-                    <Text style={{ fontSize: 18, color: 'white' }}>Open</Text>
-                </Pressable>
-            </View>
-            {/* icon and text */}
-            <View style={styles.iconAndText}>
-                <View style={styles.icon}>
-                    <Entypo name='location-pin' size={22} color={colors.darkOrange} />
-                </View>
-                <Text style={styles.text} preset='info'>{shop.street}</Text>
-            </View>
-            {/* Catagory of shop */}
-            <View style={styles.iconAndText}>
-                <View style={styles.icon}>
-                    <Entypo name='awareness-ribbon' size={20} color={colors.darkOrange} />
-                </View>
-                <Text style={styles.text} preset='info'>{
-                    isLoading ? 'Loading...' : shop.status
-                }</Text>
-            </View>
-            <Catagories shop={shop} />
-            <View style={line} />
-        </View>
-
-        {/* details section */}
-        <CatagoryTitle title='OUR DETAILS' />
-        <ScrollStatusBar />
-        <View style={{ marginHorizontal: 10 }}>
-            {
-                status === 'About' ?
-                    <Text preset='info'>{data ? data : null}</Text>
-                    : status === 'Package' ?
-                        <Text preset='info'>{data ? data : null}</Text>
-                        : status === 'Gellary' ?
-                            <View style={{ flexDirection: 'row', flexWrap: 'wrap' }}>
-                                {
-                                    data ? data.map((item, index) => {
-                                        return (
-                                            <Image key={index} source={{ uri: item.image }} style={{ width: width / 3, height: width / 3, margin: 5 }} />
-                                        )
-                                    }
-                                    ) : null
+    const ScrollStatusBar = () => {
+        return (
+            <ScrollView horizontal={true} contentContainerStyle={flatListContainer} showsHorizontalScrollIndicator={false}>
+                {
+                    details.map((item, index) => {
+                        return (
+                            <TouchableOpacity key={index}
+                                style={item.status === status ? activeCatagoryButton : catagoryButton}
+                                onPress={() => {
+                                    console.log(`Pressed in ${item.status}`)
+                                    setStatus(item.status)
+                                    setStatusFilter(item.status)
                                 }
-                            </View>
-                            : status === 'Review' ?
-                                <View style={{ flexDirection: 'row', flexWrap: 'wrap' }}>
-                                    {
-                                        data ? (data.map((item, index) => {
+                                }
+                            >
+                                <Text preset='title' style={item.status === status ? selectedItemText : normalItemText}>{item.status}</Text>
+                            </TouchableOpacity>
+                        )
+                    })
+                }
+            </ScrollView>
+        )
+    }
+    const numColumns = 3;
+    return (
+        <ScrollView contentContainerStyle={container} showsVerticalScrollIndicator={false}>
+            <Image source={{ uri: shop.image }} style={imageStyle} />
+            <View style={{ marginHorizontal: 10 }}>
+                <View style={heading}>
+                    <Text preset='h1'>{shop.name}</Text>
+                    <Pressable style={activeCatagoryButton}>
+                        <Text style={{ fontSize: 18, color: 'white' }}>Open</Text>
+                    </Pressable>
+                </View>
+                {/* icon and text */}
+                <View style={styles.iconAndText}>
+                    <View style={styles.icon}>
+                        <Entypo name='location-pin' size={22} color={colors.darkOrange} />
+                    </View>
+                    <Text style={styles.text} preset='info'>{shop.street}</Text>
+                </View>
+                {/* Catagory of shop */}
+                <View style={styles.iconAndText}>
+                    <View style={styles.icon}>
+                        <Entypo name='awareness-ribbon' size={20} color={colors.darkOrange} />
+                    </View>
+                    <Text style={styles.text} preset='info'>{
+                        isLoading ? 'Loading...' : shop.status
+                    }</Text>
+                </View>
+                <Catagories shop={shop} />
+                <View style={line} />
+            </View>
+            <View style={{ marginLeft: 5 }}>
+                {/* members section */}
+                <CatagoryTitle title='OUR TEAM MEMBERS' />
+                <Members members={members} />
+                {/* details section */}
+                <CatagoryTitle title='OUR DETAILS' />
+                <ScrollStatusBar />
+                <View style={{ marginHorizontal: 10 }}>
+                    {
+                        status === 'About' ?
+                            <Text preset='info' style={{ textAlign: 'justify', paddingHorizontal: 3, }}>{textData ? textData : null}</Text>
+                            : status === 'Package' ?
+                                <FlatList
+                                    data={data}
+                                    // horizontal={true}
+                                    // showsHorizontalScrollIndicator={false}
+                                    keyExtractor={(item, index) => index.toString()}
+                                    renderItem={({ item }) => {
+                                        return (
+                                            <View style={{ flexDirection: 'row', marginVertical: 10, alignItems: 'center', padding: 7, borderWidth: .5, borderColor: '#EEEEEE', borderRadius: 35, marginRight: 5 }}>
+                                                <Image source={{ uri: item.image }} style={{ width: 100, height: 100, borderRadius: 25, overflow: 'hidden' }} />
+                                                <View style={{ marginLeft: 10 }}>
+                                                    <Text preset='title'>{item.name}</Text>
+                                                    <Text preset='info' style={{ marginVertical: 10 }}>Time: {item.time} Hours</Text>
+                                                    <Text preset='info' style={{ color: colors.darkOrange }}>Price: {item.price} ৳</Text>
+                                                </View>
+                                                {/* book button */}
+                                                <Pressable style={{ position: 'absolute', backgroundColor: colors.darkOrange, right: 30, bottom: 20, paddingHorizontal: 10, paddingVertical: 5, borderRadius: 10 }}>
+                                                    <Text style={{ fontSize: 18, color: 'white', }}>Book</Text>
+                                                </Pressable>
+                                            </View>
+                                        )
+                                    }}
+                                />
+                                : status === 'Gellary' ?
+                                    <FlatList
+                                        data={data}
+                                        horizontal={true}
+                                        showsHorizontalScrollIndicator={false}
+
+                                        keyExtractor={(item, index) => index.toString()}
+                                        renderItem={({ item }) => {
                                             return (
-                                                <View key={index} style={{ width: width / 2, height: 100, margin: 5, backgroundColor: 'white', borderRadius: 10, elevation: 5, padding: 10 }}>
-                                                    <Text preset='h1'>{item.name}</Text>
+                                                <View style={{ flexDirection: 'row', marginRight: 10, marginVertical: 10, justifyContent: 'space-around' }}>
+                                                    <Image source={{ uri: item.image }} style={{ width: 110, height: 100, borderRadius: 5, overflow: 'hidden' }} />
                                                 </View>
                                             )
                                         }
-                                        )) : 'null'
-                                    }
-                                </View>
-                                : null
-            }
+                                        }
+                                    />
+                                    : status === 'Review' ?
+                                        <FlatList
+                                            data={data}
+                                            // horizontal={true}
+                                            // showsHorizontalScrollIndicator={false}
+                                            keyExtractor={(item, index) => index.toString()}
+                                            renderItem={({ item }) => {
+                                                return (
+                                                    <View style={{ marginVertical: 10, alignItems: 'center', padding: 7, borderWidth: 1, borderColor: '#EEEEEE', borderRadius: 5, marginRight: 5, width: '100%', alignItems: 'flex-start' }}>
+                                                        <View style={{ marginLeft: 10, alignItems: 'center', justifyContent: 'flex-start', width: '100%', flexDirection: 'row' }}>
+                                                            <Image source={{ uri: item.image }} style={{ width: 60, height: 60, borderRadius: 50, overflow: 'hidden' }} />
+                                                            <Text preset='title' style={{ marginLeft: 10 }}>{item.name}</Text>
+                                                        </View>
+                                                        <Text preset='info' style={{ marginTop: 15, marginLeft: 15 }}>Review: {item.description}</Text>
+                                                    </View>
+                                                )
+                                            }}
+                                        />
+                                        : null
 
-        </View>
-        {/* members section */}
-        <CatagoryTitle title='OUR TEAM MEMBERS' />
-        <Members members={members} />
-    </ScrollView>
-)
+                    }
+
+                </View>
+                {/* Details end & working hour starts here */}
+                <CatagoryTitle title='WORKING HOURS' />
+                <View style={{ marginHorizontal: 10 }}>
+                    <View style={styles.iconAndText}>
+                        <View style={styles.icon}>
+                            <Entypo name='clock' size={20} color={colors.darkOrange} />
+                        </View>
+                        <Text style={styles.text} preset='info'>
+                            Everyday {shop.workingHours}
+                        </Text>
+                    </View>
+                </View>
+                {/* working hour ends here */}
+                {/* contact us */}
+                <CatagoryTitle title='CONTACT US' />
+                <View style={{ marginHorizontal: 10 }}>
+                    <Pressable style={styles.iconAndText} onPress={() => Linking.openURL(`tel:${shop.phone}`)}>
+                        <View style={styles.icon}>
+                            <Entypo name='phone' size={20} color={colors.darkOrange} />
+                        </View>
+                        <Text style={{fontSize: 18, color: colors.darkOrange}} preset='info'>
+                            (+88){shop.mobile}
+                        </Text>
+                    </Pressable>
+                </View>
+                {/* contact us ends here */}
+                <CatagoryTitle title='OUR LOCATION' />
+            </View>
+            
+        </ScrollView>
+    )
 }
 
 const styles = StyleSheet.create({
