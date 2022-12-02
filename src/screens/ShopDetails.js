@@ -10,6 +10,7 @@ import Members from '../components/ShopDetails/Members/Members';
 import { catagoryList, details } from '../components/Home/CatagoryBox/CatagoryList';
 import Image from 'react-native-image-progress';
 import MapView, { Marker } from 'react-native-maps';
+import { useNavigation } from '@react-navigation/native';
 
 const width = Dimensions.get('window').width;
 
@@ -81,7 +82,7 @@ export default function ShopDetails({ route }) {
     }
 
     const { container, imageStyle, heading, line, flatListContainer, activeCatagoryButton, catagoryButton, selectedItemText, normalItemText } = styles;
-
+    const navigation = useNavigation();
     const ScrollStatusBar = () => {
         return (
             <ScrollView horizontal={true} contentContainerStyle={flatListContainer} showsHorizontalScrollIndicator={false}>
@@ -105,10 +106,10 @@ export default function ShopDetails({ route }) {
             </ScrollView>
         )
     }
-    const numColumns = 3;
     return (
         <ScrollView contentContainerStyle={container} showsVerticalScrollIndicator={false}>
             <Image source={{ uri: shop.image }} style={imageStyle} />
+            {/* heading view */}
             <View style={{ marginHorizontal: 10 }}>
                 <View style={heading}>
                     <Text preset='h1'>{shop.name}</Text>
@@ -248,8 +249,8 @@ export default function ShopDetails({ route }) {
                     initialRegion={{
                         latitude: shop.latitude,
                         longitude: shop.longitude,
-                        latitudeDelta: 0,
-                        longitudeDelta: 0.95,
+                        latitudeDelta: 0.0922,
+                        longitudeDelta: 0.0421,
                     }}
                 >
                     <Marker
@@ -261,6 +262,14 @@ export default function ShopDetails({ route }) {
                         description={shop.address}
                     />
                 </MapView>
+                {/* Book now button orange color */}
+                <Pressable onPress={()=> {
+                    navigation.navigate('Appoinment', {shop: shop})
+                }}>
+                    <View style={{ backgroundColor: colors.darkOrange, padding: 10, marginHorizontal: 5, borderRadius: 30, marginVertical: 20 }}>
+                        <Text style={{ color: 'white', fontSize: 18, textAlign: 'center' }}>Book Now</Text>
+                    </View>
+                </Pressable>
             </View>
 
         </ScrollView>
