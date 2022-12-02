@@ -6,14 +6,26 @@ import { colors } from '../theme/colors';
 import { useEffect } from 'react';
 import { Entypo } from '@expo/vector-icons';
 import Catagories from '../components/ShopDetails/Catagory/Catagories';
+import CatagoryTitle from '../components/Home/CatagoryTitle/CatagoryTitle';
+import Members from '../components/ShopDetails/Members/Members';
 
 const width = Dimensions.get('window').width;
 
 export default function ShopDetails({ route }) {
     const [shop, setShop] = React.useState([])
+    const [members, setMembers] = React.useState([])
     const [isLoading, setIsLoading] = React.useState(false)
     // console.log(shop)
     const { shopId } = route.params;
+    const getmembers = async () => {
+        fetch(`http://192.168.0.221:5000/shops/${shopId}`)
+            .then(res => res.json())
+            .then(data => {
+                setShop(data)
+                setMembers(data.members)
+                setIsLoading(false)
+            })
+    }
     const getSingleShop = async () => {
         setIsLoading(true)
         fetch(`http://192.168.0.221:5000/shops/${shopId}`)
@@ -25,6 +37,7 @@ export default function ShopDetails({ route }) {
     }
     useEffect(() => {
         getSingleShop()
+        getmembers()
     }, [])
 
     const { container, imageStyle, activeCatagoryButton, heading, line } = styles;
@@ -55,7 +68,12 @@ export default function ShopDetails({ route }) {
                     }</Text>
                 </View>
                 <Catagories shop={shop} />
-                <View style={styles.line} />
+                <View style={line} />
+                {/* members section */}
+                <CatagoryTitle title='OUR TEAM MEMBERS' />
+                <Members members={members}/>
+                {/* details section */}
+                
             </View>
         </ScrollView>
     )
@@ -101,7 +119,7 @@ const styles = StyleSheet.create({
     text: {
         fontSize: 14,
     },
-    line:{
+    line: {
         width: '97%',
         height: 1,
         backgroundColor: '#EEEEEE',
