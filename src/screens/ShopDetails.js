@@ -1,13 +1,14 @@
-import { Dimensions, Pressable, ScrollView, StyleSheet, View } from 'react-native'
-import React from 'react'
+import { Dimensions, Pressable, ScrollView, StyleSheet, TouchableOpacity, View } from 'react-native'
+import React, { useState } from 'react'
 import Text from '../components/Text/Text';
-import Image from 'react-native-image-progress';
 import { colors } from '../theme/colors';
 import { useEffect } from 'react';
 import { Entypo } from '@expo/vector-icons';
 import Catagories from '../components/ShopDetails/Catagory/Catagories';
 import CatagoryTitle from '../components/Home/CatagoryTitle/CatagoryTitle';
 import Members from '../components/ShopDetails/Members/Members';
+import { catagoryList, details } from '../components/Home/CatagoryBox/CatagoryList';
+import Image from 'react-native-image-progress';
 
 const width = Dimensions.get('window').width;
 
@@ -15,7 +16,9 @@ export default function ShopDetails({ route }) {
     const [shop, setShop] = React.useState([])
     const [members, setMembers] = React.useState([])
     const [isLoading, setIsLoading] = React.useState(false)
-    // console.log(shop)
+    const [status, setStatus] = useState('About'); // for keeping status of tab
+    const [data, setData] = useState([])
+    console.log(data)
     const { shopId } = route.params;
     const getmembers = async () => {
         fetch(`http://192.168.0.221:5000/shops/${shopId}`)
@@ -35,48 +38,144 @@ export default function ShopDetails({ route }) {
                 setIsLoading(false)
             })
     }
+
     useEffect(() => {
         getSingleShop()
         getmembers()
+        setStatusFilter(status);
     }, [])
 
-    const { container, imageStyle, activeCatagoryButton, heading, line } = styles;
+    const setStatusFilter = status => {
+        setIsLoading(true)
+        if (status === 'About') {
+            fetch(`http://192.168.0.221:5000/shops/${shopId}`)
+                .then(res => res.json())
+                .then(data => {
+                    setData(data.about)
+                    setIsLoading(false)
+                })
+        } else if (status == 'Package') {
+            fetch(`http://192.168.0.221:5000/shops/${shopId}`)
+                .then(res => res.json())
+                .then(data => {
+                    setData(data.package)
+                    setIsLoading(false)
+                })
+        } else if (status == 'Gellary') {
+            fetch(`http://192.168.0.221:5000/shops/${shopId}`)
+                .then(res => res.json())
+                .then(data => {
+                    setData(data.gellary)
+                    setIsLoading(false)
+                })
+        } else {
+            fetch(`http://192.168.0.221:5000/shops/${shopId}`)
+                .then(res => res.json())
+                .then(data => {
+                    setData(data.reviews)
+                    setIsLoading(false)
+                })
+        }
+    }
+
+const { container, imageStyle, heading, line, flatListContainer, activeCatagoryButton, catagoryButton, selectedItemText, normalItemText } = styles;
+
+const ScrollStatusBar = () => {
     return (
-        <ScrollView contentContainerStyle={container} showsVerticalScrollIndicator={false}>
-            <Image source={{ uri: shop.image }} style={imageStyle} />
-            <View style={{ marginHorizontal: 10 }}>
-                <View style={heading}>
-                    <Text preset='h1'>{shop.name}</Text>
-                    <Pressable style={activeCatagoryButton}>
-                        <Text style={{ fontSize: 18, color: 'white' }}>Open</Text>
-                    </Pressable>
-                </View>
-                {/* icon and text */}
-                <View style={styles.iconAndText}>
-                    <View style={styles.icon}>
-                        <Entypo name='location-pin' size={22} color={colors.darkOrange} />
-                    </View>
-                    <Text style={styles.text} preset='info'>{shop.street}</Text>
-                </View>
-                {/* Catagory of shop */}
-                <View style={styles.iconAndText}>
-                    <View style={styles.icon}>
-                        <Entypo name='awareness-ribbon' size={20} color={colors.darkOrange} />
-                    </View>
-                    <Text style={styles.text} preset='info'>{
-                        isLoading ? 'Loading...' : shop.status
-                    }</Text>
-                </View>
-                <Catagories shop={shop} />
-                <View style={line} />
-                {/* members section */}
-                <CatagoryTitle title='OUR TEAM MEMBERS' />
-                <Members members={members}/>
-                {/* details section */}
-                
-            </View>
+        <ScrollView horizontal={true} contentContainerStyle={flatListContainer} showsHorizontalScrollIndicator={false}>
+            {
+                details.map((item, index) => {
+                    return (
+                        <TouchableOpacity key={index}
+                            style={item.status === status ? activeCatagoryButton : catagoryButton}
+                            onPress={() => {
+                                console.log(`Pressed in ${item.status}`)
+                                setStatus(item.status)
+                                setStatusFilter(item.status)
+                            }
+                            }
+                        >
+                            <Text preset='title' style={item.status === status ? selectedItemText : normalItemText}>{item.status}</Text>
+                        </TouchableOpacity>
+                    )
+                })
+            }
         </ScrollView>
     )
+}
+
+return (
+    <ScrollView contentContainerStyle={container} showsVerticalScrollIndicator={false}>
+        <Image source={{ uri: shop.image }} style={imageStyle} />
+        <View style={{ marginHorizontal: 10 }}>
+            <View style={heading}>
+                <Text preset='h1'>{shop.name}</Text>
+                <Pressable style={activeCatagoryButton}>
+                    <Text style={{ fontSize: 18, color: 'white' }}>Open</Text>
+                </Pressable>
+            </View>
+            {/* icon and text */}
+            <View style={styles.iconAndText}>
+                <View style={styles.icon}>
+                    <Entypo name='location-pin' size={22} color={colors.darkOrange} />
+                </View>
+                <Text style={styles.text} preset='info'>{shop.street}</Text>
+            </View>
+            {/* Catagory of shop */}
+            <View style={styles.iconAndText}>
+                <View style={styles.icon}>
+                    <Entypo name='awareness-ribbon' size={20} color={colors.darkOrange} />
+                </View>
+                <Text style={styles.text} preset='info'>{
+                    isLoading ? 'Loading...' : shop.status
+                }</Text>
+            </View>
+            <Catagories shop={shop} />
+            <View style={line} />
+        </View>
+
+        {/* details section */}
+        <CatagoryTitle title='OUR DETAILS' />
+        <ScrollStatusBar />
+        <View style={{ marginHorizontal: 10 }}>
+            {
+                status === 'About' ?
+                    <Text preset='info'>{data ? data : null}</Text>
+                    : status === 'Package' ?
+                        <Text preset='info'>{data ? data : null}</Text>
+                        : status === 'Gellary' ?
+                            <View style={{ flexDirection: 'row', flexWrap: 'wrap' }}>
+                                {
+                                    data ? data.map((item, index) => {
+                                        return (
+                                            <Image key={index} source={{ uri: item.image }} style={{ width: width / 3, height: width / 3, margin: 5 }} />
+                                        )
+                                    }
+                                    ) : null
+                                }
+                            </View>
+                            : status === 'Review' ?
+                                <View style={{ flexDirection: 'row', flexWrap: 'wrap' }}>
+                                    {
+                                        data ? (data.map((item, index) => {
+                                            return (
+                                                <View key={index} style={{ width: width / 2, height: 100, margin: 5, backgroundColor: 'white', borderRadius: 10, elevation: 5, padding: 10 }}>
+                                                    <Text preset='h1'>{item.name}</Text>
+                                                </View>
+                                            )
+                                        }
+                                        )) : 'null'
+                                    }
+                                </View>
+                                : null
+            }
+
+        </View>
+        {/* members section */}
+        <CatagoryTitle title='OUR TEAM MEMBERS' />
+        <Members members={members} />
+    </ScrollView>
+)
 }
 
 const styles = StyleSheet.create({
@@ -124,5 +223,36 @@ const styles = StyleSheet.create({
         height: 1,
         backgroundColor: '#EEEEEE',
         marginVertical: 10,
-    }
+    },
+    flatListContainer: {
+        flexDirection: 'row',
+        justifyContent: 'center',
+        alignItems: 'center',
+        marginBottom: 5,
+    },
+    activeCatagoryButton: {
+        width: 100,
+        backgroundColor: colors.darkOrange,
+        justifyContent: 'center',
+        alignItems: 'center',
+        paddingVertical: 10,
+        borderRadius: '50%',
+        marginHorizontal: 3,
+    },
+    catagoryButton: {
+        width: 100,
+        justifyContent: 'center',
+        alignItems: 'center',
+        paddingVertical: 10,
+        borderRadius: '50%',
+        marginHorizontal: 3,
+        borderWidth: 1,
+        borderColor: colors.darkOrange,
+    },
+    selectedItemText: {
+        color: colors.white,
+    },
+    normalItemText: {
+        color: colors.orange,
+    },
 })

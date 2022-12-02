@@ -44,12 +44,6 @@ const styles = StyleSheet.create({
   list: {
     justifyContent: "center",
     alignItems: "center",
-    padding: spacing[2],
-    // shadow
-
-
-  },
-  catagory: {
-    // paddingVertical: spacing[2],
+    padding: 7,
   },
 });

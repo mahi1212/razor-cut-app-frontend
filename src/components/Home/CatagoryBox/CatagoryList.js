@@ -21,8 +21,102 @@ export const catagoryList = [
     },
 ]
 
+export const details = [
+    {
+        id: '1',
+        status: 'About',
+    },
+    {
+        id: '2',
+        status: 'Package',
+    },
+    {
+        id: '3',
+        status: 'Gellary',
+    },
+    {
+        id: '4',
+        status: 'Review',
+    },
+]
+
 // [
-//     //     {
+//     {
+//         "name": "Pritty Parlour",
+//         "image": "https://i.ibb.co/9Z7gp0G/engin-akyurt-g-m8-EDc4-X6-Q-unsplash.jpg",
+//         "mobile": "+8801772057255",
+//         "address": "Bondor",
+//         "street": "Jail Road, House - 32/2, Bondor, Sylhet",
+//         "latitude": 24.897,
+//         "longitude": 91.871,
+//         "website": "https://www.algostackbd.com/",
+//         "waiting": "1",
+//         "avgTime": "40",
+//         "status": "Makeup",
+//         "rating": [
+//             3,
+//             4
+//         ],
+//         "members": [
+//                 {
+//                     "id": "1",
+//                     "name": "Nathan",
+//                     "image": "https://menshaircuts.com/wp-content/uploads/2021/11/best-haircuts-for-men-short-fade-spiky-side-swept-683x1024.jpg",
+//                     "position": "Sr. Barber"
+//                 },
+//                 {
+//                     "id": "2",
+//                     "name": "Sarah",
+//                     "image": "https://upload.wikimedia.org/wikipedia/commons/thumb/2/29/Sarah_Bolger_%2848484781976%29_%28cropped%29.jpg/220px-Sarah_Bolger_%2848484781976%29_%28cropped%29.jpg",
+//                     "position": "Makeup Artist"
+//                 },
+//                 {
+//                     "id": "3",
+//                     "name": "Saiba",
+//                     "image": "https://images.mubicdn.net/images/cast_member/472121/cache-568799-1595384054/image-w856.jpg",
+//                     "position": "Jr. Barber"
+//                 },
+//                 {
+//                     "id": "4",
+//                     "name": "Jenny",
+//                     "image": "https://www.sei.org/wp-content/uploads/2019/09/jenny-han-e1568180419685.jpg",
+//                     "position": "Hair Stylist"
+//                 },
+//                 {
+//                     "id": "5",
+//                     "name": "Mark",
+//                     "image": "https://i.mydramalist.com/QL1o6_5c.jpg",
+//                     "position": "Sr. Barber"
+//                 }
+//             ],
+//         "about": "This is about us",
+//         "package": "This is package",
+//         "gellary": [
+//             {
+//                 "id": "1",
+//                 "image": "https://i.ibb.co/9Z7gp0G/engin-akyurt-g-m8-EDc4-X6-Q-unsplash.jpg"
+//             },
+//             {
+//                 "id": "2",
+//                 "image": "https://i.ibb.co/9Z7gp0G/engin-akyurt-g-m8-EDc4-X6-Q-unsplash.jpg"
+//             },
+//         ],
+//         "review": [
+//             {
+//                 "id": "1",
+//                 "name": "Nathan",
+//                 "image": "https://i.ibb.co/9Z7gp0G/engin-akyurt-g-m8-EDc4-X6-Q-unsplash.jpg"
+//             },
+//             {
+//                 "id": "2",
+//                 "name": "Test",
+//                 "image": "https://i.ibb.co/9Z7gp0G/engin-akyurt-g-m8-EDc4-X6-Q-unsplash.jpg"
+//             }
+//         ]
+//     }
+// ]
+// [
+//     {
 //         "name": "Pritty Parlour",
 //         "image": "https://i.ibb.co/9Z7gp0G/engin-akyurt-g-m8-EDc4-X6-Q-unsplash.jpg",
 //         "mobile": "+8801772057255",
@@ -70,7 +164,25 @@ export const catagoryList = [
 //                     "image": "https://i.mydramalist.com/QL1o6_5c.jpg",
 //                     "position": "Sr. Barber"
 //                 }
-//             ]
+//             ],
+//             "about" : "This is about us",
+//             "package" : "This is package",
+//             "gellary" : [
+//                 {
+//                     "id": "1",
+//                     "image": "https://i.ibb.co/9Z7gp0G/engin-akyurt-g-m8-EDc4-X6-Q-unsplash.jpg"
+//                 },
+//                 {
+//                     "id": "2",
+//                     "image": "https://i.ibb.co/9Z7gp0G/engin-akyurt-g-m8-EDc4-X6-Q-unsplash.jpg"
+//                 },
+//                ],
+//             "review" : [
+//                 {
+//                     "id": "1",
+//                     "name": "Nathan",
+//                     "image": "https://menshaircuts.com/wp-content/uploads/2021/11/best-haircuts-for
+//                  ],
 //     },
 //     {
 //         "name": "The Razor Edge",
