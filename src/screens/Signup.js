@@ -14,23 +14,42 @@ export default function Signup({ navigation }) {
     navigation.navigate("Signin");
   };
 
+  const [agree, setAgree] = useState(false);
+
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [agree, setAgree] = useState(false);
+
+  //call post
+  const saveUser = (email, password) => {
+    const user = { email, password };
+    fetch("http://localhost:5012/users", {
+      method: "POST",
+      headers: {
+        "content-type": "application/json",
+      },
+      body: JSON.stringify(user),
+    }).then();
+  };
+
+  //hadle signup function
 
   const handleSignup = async () => {
     try {
-      // const isUserCreated = await auth().createUserWithEmailAndPassword(email,password)
-      // console.log(isUserCreated)
-      // console.log('hello')
       const result = await createUserWithEmailAndPassword(
         auth,
         email,
         password
       );
-      console.log(result);
-    } catch (err) {
-      console.log(err);
+      saveUser(email, password);
+      // const docRef = await addDoc(collection(db,"users2"),{
+      //   email:email,
+      //   password:password,
+      //   uid:result.user.uid,
+      //   // remember:remember,
+      // })
+      console.log("result---->", result);
+    } catch (error) {
+      console.log(error, "error-->");
     }
   };
 
