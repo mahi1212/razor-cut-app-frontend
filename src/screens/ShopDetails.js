@@ -9,6 +9,7 @@ import CatagoryTitle from '../components/Home/CatagoryTitle/CatagoryTitle';
 import Members from '../components/ShopDetails/Members/Members';
 import { catagoryList, details } from '../components/Home/CatagoryBox/CatagoryList';
 import Image from 'react-native-image-progress';
+import MapView, { Marker } from 'react-native-maps';
 
 const width = Dimensions.get('window').width;
 
@@ -227,15 +228,41 @@ export default function ShopDetails({ route }) {
                         <View style={styles.icon}>
                             <Entypo name='phone' size={20} color={colors.darkOrange} />
                         </View>
-                        <Text style={{fontSize: 18, color: colors.darkOrange}} preset='info'>
+                        <Text style={{ fontSize: 18, color: colors.darkOrange }} preset='info'>
                             (+88){shop.mobile}
                         </Text>
                     </Pressable>
                 </View>
                 {/* contact us ends here */}
-                <CatagoryTitle title='OUR LOCATION' />
+                {/* location view start here */}
+                <View style={{ flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center' }}>
+                    <CatagoryTitle title='OUR LOCATION' />
+                    <Pressable onPress={
+                        () => {
+                            Linking.openURL(`https://www.google.com/maps/dir/?api=1&destination=${shop.latitude},${shop.longitude}`)
+                        }
+                    }><Text style={{ marginHorizontal: 10, color: colors.darkOrange }}>FIND US ON MAP</Text></Pressable>
+                </View>
+                <MapView
+                    style={{ width: '100%', height: 200 }}
+                    initialRegion={{
+                        latitude: shop.latitude,
+                        longitude: shop.longitude,
+                        latitudeDelta: 0,
+                        longitudeDelta: 0.95,
+                    }}
+                >
+                    <Marker
+                        coordinate={{
+                            latitude: shop.latitude,
+                            longitude: shop.longitude,
+                        }}
+                        title={shop.name}
+                        description={shop.address}
+                    />
+                </MapView>
             </View>
-            
+
         </ScrollView>
     )
 }
