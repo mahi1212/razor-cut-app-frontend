@@ -21,7 +21,6 @@ export default function ShopDetails({ route }) {
     const [status, setStatus] = useState('About'); // for keeping status of tab
     const [data, setData] = useState([])
     const [textData, setTextData] = useState('')
-
     // console.log(data)
     const { shopId } = route.params;
     const getmembers = () => {
@@ -250,12 +249,12 @@ export default function ShopDetails({ route }) {
                     }><Text style={{ marginHorizontal: 10, color: colors.darkOrange }}>FIND US ON MAP</Text></Pressable>
                 </View>
                 <MapView
-                    style={{ width: '100%', height: 200 }}
+                    style={{ width: 400, height: 200 }}
                     initialRegion={{
                         latitude: shop.latitude,
                         longitude: shop.longitude,
-                        latitudeDelta: 0.0922,
-                        longitudeDelta: 0.0421,
+                        latitudeDelta: 0.01,
+                        longitudeDelta: 0.02,
                     }}
                 >
                     <Marker
