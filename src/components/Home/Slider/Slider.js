@@ -3,7 +3,7 @@ import { StyleSheet, View, Image, ImageBackground } from 'react-native'
 
 import Swiper from 'react-native-swiper'
 import { colors } from '../../../theme/colors'
-import Text from '../../text/text'
+import Text from '../../Text/Text'
 
 const styles = StyleSheet.create({
     container: {

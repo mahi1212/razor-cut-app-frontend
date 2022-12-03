@@ -1,7 +1,7 @@
 import { View, StyleSheet, Image, Pressable } from 'react-native'
 import React from 'react'
 import { Ionicons } from '@expo/vector-icons';
-import Text from '../../text/text';
+import Text from '../../Text/Text';
 import { typography } from '../../../theme/typography';
 import {useNavigation} from '@react-navigation/native';
 
@@ -25,7 +25,7 @@ export default function Header({cart}) {
                         <Ionicons name="notifications-outline" size={24} color="black" />
                     </Pressable>
                     <Pressable onPress={() => {
-                        console.log("pressed in bookmarks")
+                        // console.log("pressed in bookmarks")
                         navigation.navigate('Bookmark', {cart: cart})
                     }} style={{ marginLeft: 10 }}>
                         <Ionicons name="bookmark-outline" size={24} color="black" />
@@ -48,8 +48,8 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         justifyContent: 'space-between',
         marginTop: 5,
-        marginBottom: 5
-    },
+        marginBottom: 5,
+},
     logoContainer: {
         flexDirection: 'row',
         alignItems: 'center',
