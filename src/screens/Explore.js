@@ -16,9 +16,8 @@ export default function Explore() {
     latitudeDelta: 0.0922,
     longitudeDelta: 0.0421,
   })
-  const [location, setLocation] = React.useState(null)
   const [errorMsg, setErrorMsg] = React.useState(null)
-  // console.log(location)
+  const [shops, setShops] = React.useState([])
 
   useEffect(() => {
     (async () => {
@@ -39,7 +38,6 @@ export default function Explore() {
     })();
   }, []);
 
-  const [shops, setShops] = React.useState([])
   const [isLoading, setIsLoading] = React.useState(false)
   const [searchText, setSearchText] = React.useState('')
   const searchFilterFunction = (text) => {
@@ -99,10 +97,9 @@ export default function Explore() {
               }}
               title={item.name}
               description={item.address}
-            // 
-            // onPress={() => {
-            //   Linking.openURL(`https://www.google.com/maps/search/?api=1&query=${item.latitude},${item.longitude}`)
-            // }}
+              onPress={() => {
+                Linking.openURL(`https://www.google.com/maps/search/?api=1&query=${item.latitude},${item.longitude}`)
+              }}
 
             />
           ))}

@@ -11,6 +11,7 @@ import { catagoryList, details } from '../components/Home/CatagoryBox/CatagoryLi
 import Image from 'react-native-image-progress';
 import MapView, { Marker } from 'react-native-maps';
 import { useNavigation } from '@react-navigation/native';
+import * as Location from 'expo-location';
 
 const width = Dimensions.get('window').width;
 
@@ -23,6 +24,7 @@ export default function ShopDetails({ route }) {
     const [textData, setTextData] = useState('')
     // console.log(data)
     const { shopId } = route.params;
+    
     const getmembers = () => {
         fetch(`http://192.168.0.121:5000/shops/${shopId}`)
             .then(res => res.json())
@@ -109,8 +111,8 @@ export default function ShopDetails({ route }) {
         <ScrollView contentContainerStyle={container} showsVerticalScrollIndicator={false}>
             {/* back button */}
             <TouchableOpacity style={styles.backButton} onPress={() => navigation.goBack()}>
-                    <Entypo name='chevron-thin-left' size={22} color={colors.darkOrange} />
-                </TouchableOpacity>
+                <Entypo name='chevron-thin-left' size={22} color={colors.darkOrange} />
+            </TouchableOpacity>
             <Image source={{ uri: shop.image }} style={imageStyle} />
             {/* heading view */}
             <View style={{ marginHorizontal: 10 }}>
@@ -127,7 +129,7 @@ export default function ShopDetails({ route }) {
                     </View>
                     <Text style={styles.text} preset='info'>{shop.street}</Text>
                 </View>
-                
+
                 {/* Catagory of shop */}
                 <View style={styles.iconAndText}>
                     <View style={styles.icon}>
@@ -248,6 +250,7 @@ export default function ShopDetails({ route }) {
                         }
                     }><Text style={{ marginHorizontal: 10, color: colors.darkOrange }}>FIND US ON MAP</Text></Pressable>
                 </View>
+                {/* map */}
                 <MapView
                     style={{ width: 400, height: 200 }}
                     initialRegion={{
@@ -256,8 +259,11 @@ export default function ShopDetails({ route }) {
                         latitudeDelta: 0.01,
                         longitudeDelta: 0.02,
                     }}
+                    showsUserLocation={true}
                 >
+                    {/* shop location */}
                     <Marker
+                        image={require('../../assets/images/shop-marker.png')}
                         coordinate={{
                             latitude: shop.latitude,
                             longitude: shop.longitude,
@@ -267,8 +273,8 @@ export default function ShopDetails({ route }) {
                     />
                 </MapView>
                 {/* Book now button orange color */}
-                <Pressable onPress={()=> {
-                    navigation.navigate('Appoinment', {shop: shop})
+                <Pressable onPress={() => {
+                    navigation.navigate('Appoinment', { shop: shop })
                 }}>
                     <View style={{ backgroundColor: colors.darkOrange, padding: 10, marginHorizontal: 5, borderRadius: 30, marginVertical: 20 }}>
                         <Text style={{ color: 'white', fontSize: 18, textAlign: 'center' }}>Book Now</Text>
