@@ -56,7 +56,7 @@ export default function Home({ navigation }) {
 
   const getShops = () => {
     setIsLoading(true)
-    fetch(`http://192.168.0.121:5000/shops`)
+    fetch(`http://192.168.0.221:5000/shops`)
       .then(res => res.json())
       .then(data => {
         setShops(data)
@@ -81,7 +81,7 @@ export default function Home({ navigation }) {
       getShops();
     } else {
       setIsLoading(true)
-      fetch(`http://192.168.0.121:5000/catagoryShops/${status}`)
+      fetch(`http://192.168.0.221:5000/catagoryShops/${status}`)
         .then(res => res.json())
         .then(data => {
           setShops(data);
@@ -154,7 +154,7 @@ export default function Home({ navigation }) {
         <CatagoryTitle title="Most Popular" btn="See All" />
         <View>
           {isLoading ? <ActivityIndicator /> :
-            (shops && shops.reverse().slice(0, 5).map((shop, index) => {
+            (shops && shops.slice(0, 5).map((shop, index) => {
               return (
                 <View key={index}>{
                   // summing the rating array and dividing by the length of the array

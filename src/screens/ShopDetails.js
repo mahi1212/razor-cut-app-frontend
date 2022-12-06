@@ -26,7 +26,8 @@ export default function ShopDetails({ route }) {
     const { shopId } = route.params;
     
     const getmembers = () => {
-        fetch(`http://192.168.0.121:5000/shops/${shopId}`)
+        // 192.168.0.221
+        fetch(`http://192.168.0.221:5000/shops/${shopId}`)
             .then(res => res.json())
             .then(data => {
                 setShop(data)
@@ -36,7 +37,7 @@ export default function ShopDetails({ route }) {
     }
     const getSingleShop = () => {
         setIsLoading(true)
-        fetch(`http://192.168.0.121:5000/shops/${shopId}`)
+        fetch(`http://192.168.0.221:5000/shops/${shopId}`)
             .then(res => res.json())
             .then(data => {
                 setShop(data)
@@ -52,28 +53,28 @@ export default function ShopDetails({ route }) {
     const setStatusFilter = status => {
         setIsLoading(true)
         if (status === 'About') {
-            fetch(`http://192.168.0.121:5000/shops/${shopId}`)
+            fetch(`http://192.168.0.221:5000/shops/${shopId}`)
                 .then(res => res.json())
                 .then(data => {
                     setTextData(data.about)
                     setIsLoading(false)
                 })
         } else if (status == 'Package') {
-            fetch(`http://192.168.0.121:5000/shops/${shopId}`)
+            fetch(`http://192.168.0.221:5000/shops/${shopId}`)
                 .then(res => res.json())
                 .then(data => {
                     setData(data.package)
                     setIsLoading(false)
                 })
         } else if (status == 'Gellary') {
-            fetch(`http://192.168.0.121:5000/shops/${shopId}`)
+            fetch(`http://192.168.0.221:5000/shops/${shopId}`)
                 .then(res => res.json())
                 .then(data => {
                     setData(data.gellary)
                     setIsLoading(false)
                 })
         } else {
-            fetch(`http://192.168.0.121:5000/shops/${shopId}`)
+            fetch(`http://192.168.0.221:5000/shops/${shopId}`)
                 .then(res => res.json())
                 .then(data => {
                     setData(data.review)
