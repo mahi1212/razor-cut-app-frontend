@@ -40,7 +40,7 @@ export const catagories =
     },
     {
         id: '4',
-        name: 'Home Visit',
+        name: 'Home',
         icon: "briefcase"
     },
 ] 

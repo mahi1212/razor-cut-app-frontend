@@ -63,8 +63,8 @@ export default function CatagoryBox() {
 
 const styles = StyleSheet.create({
     catagory: {
-        justifyContent: 'center',
-        alignItems: 'center',
+        justifyContent: 'flex-end',
+        alignItems: 'flex-end',
         paddingVertical: spacing[2],
     },
     catagoryListStyle: {
@@ -77,10 +77,11 @@ const styles = StyleSheet.create({
     singleCatagory: {
         width: 80,
         height: 100,
-        justifyContent: 'flex-start',
-        alignItems: 'center',
+        justifyContent: 'center',
+        alignItems: 'flex-end',
         marginLeft: 10,
         marginTop: 5,
+        backgroundColor: 'green',
     },
     catagoryImage: {
         marginVertical: spacing[2],
