@@ -17,7 +17,7 @@ export default function SearchPage() {
 
 
     const fetchShops = () => {
-        fetch(`http://192.168.0.221:5000/shops`)
+        fetch(`https://razor-cut-backend.onrender.com/shops`)
             .then(res => res.json())
             .then(data => {
                 // setSearchResults(data);
