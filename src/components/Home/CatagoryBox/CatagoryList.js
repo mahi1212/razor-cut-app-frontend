@@ -21,6 +21,30 @@ export const catagoryList = [
     },
 ]
 
+export const catagories =
+[
+    {
+        id: '1',
+        name: 'Haircut',
+        icon: "scissors"
+    },
+    {
+        id: '2',
+        name: 'Makeup',
+        icon: "flat-brush"
+    },
+    {
+        id: '3',
+        name: 'Massage',
+        icon: "man"
+    },
+    {
+        id: '4',
+        name: 'Home Visit',
+        icon: "briefcase"
+    },
+] 
+
 export const details = [
     {
         id: '1',
