@@ -17,7 +17,7 @@ export default function NavigationSearch({route}) {
         }
       } style={navigationSearchContainer}>
         <Ionicons name="ios-search-sharp" size={24} color={colors.gray} />
-        <Text preset="h3" style={{ marginLeft: 10, fontSize: 16, width: '100%', color: 'gray' }}>Search</Text>
+        <Text preset="h3" style={{ marginLeft: 10, fontSize: 16, width: '100%', color: 'gray' }}>Search shop</Text>
       </Pressable>
     </View>
   )

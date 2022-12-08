@@ -113,7 +113,7 @@ export default function ShopDetails({ route }) {
         <ScrollView contentContainerStyle={container} showsVerticalScrollIndicator={false}>
             {/* back button */}
             <TouchableOpacity style={styles.backButton} onPress={() => navigation.goBack()}>
-                <Entypo name='chevron-thin-left' size={22} color={colors.darkOrange} />
+                <Entypo name='chevron-left' size={22} color={colors.darkOrange} />
             </TouchableOpacity>
             <Image source={{ uri: shop.image }} style={imageStyle} />
             {/* heading view */}
@@ -141,6 +141,7 @@ export default function ShopDetails({ route }) {
                         isLoading ? 'Loading...' : shop.status
                     }</Text>
                 </View>
+                {/* website, message, call etc section */}
                 <Catagories shop={shop} />
                 <View style={line} />
             </View>
@@ -238,7 +239,7 @@ export default function ShopDetails({ route }) {
                             <Entypo name='phone' size={20} color={colors.darkOrange} />
                         </View>
                         <Text style={{ fontSize: 18, color: colors.darkOrange }} preset='info'>
-                            (+88){shop.mobile}
+                            {shop.mobile}
                         </Text>
                     </Pressable>
                 </View>
@@ -296,6 +297,7 @@ const styles = StyleSheet.create({
     },
     backButton: {
         position: 'absolute',
+        backgroundColor: 'white',
         top: 10,
         left: 10,
         zIndex: 1,

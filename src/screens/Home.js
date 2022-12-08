@@ -154,7 +154,7 @@ export default function Home({ navigation }) {
         <CatagoryTitle title="Most Popular" btn="See All" />
         <View>
           {isLoading ? <ActivityIndicator /> :
-            (shops && shops.slice(0, 5).map((shop, index) => {
+            (shops && shops.reverse().slice(0, 5).map((shop, index) => {
               return (
                 <View key={index}>{
                   // summing the rating array and dividing by the length of the array

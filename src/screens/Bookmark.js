@@ -7,6 +7,7 @@ import { Entypo, FontAwesome, Ionicons, MaterialCommunityIcons } from '@expo/vec
 import Image from 'react-native-image-progress';
 import { Linking } from 'react-native'
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import { useNavigation } from '@react-navigation/native';
 
 export default function Bookmark({ route }) {
     const { cart } = route.params;
@@ -44,7 +45,7 @@ export default function Bookmark({ route }) {
     //     temp();
     //     return () => {}
     // }, [])
-    
+    const navigation = useNavigation();
     return (
         <View style={{ marginHorizontal: 5, flex: 1 }} onLayout={fetchData}>
             <PageHeader title="My Bookmarks" />
@@ -57,7 +58,11 @@ export default function Bookmark({ route }) {
                         const { shopImage, shopContainer, shopRating, shopInfo } = styles;
                         const { _id } = item;
                         return (
-                            <View style={shopContainer}>
+                            <Pressable onPress={
+                                () => {
+                                    navigation.navigate('shopDetails', { shopId: _id })
+                                }
+                            } style={shopContainer}>
                                 <Image source={{ uri: item.image }} style={shopImage} />
                                 <View style={shopInfo}>
                                     <Text preset='title' style={{ color: colors.black }}>{item.name}</Text>
@@ -69,7 +74,7 @@ export default function Bookmark({ route }) {
                                 </View>
                                 {/* avg waiting time */}
                                 <View>
-                                    <Text preset='h2' style={{ position: 'absolute', left: 10, bottom: 20, alignItems: 'center' }}>Estimated Time : {item.waiting*item.avgTime} Min</Text>
+                                    <Text preset='h2' style={{ position: 'absolute', left: 10, bottom: 20, alignItems: 'center' }}>Estimated Time : {item.waiting * item.avgTime} Min</Text>
                                 </View>
                                 {/* delete button */}
                                 <View style={{ width: '100%', flexDirection: 'row' }}>
@@ -111,7 +116,7 @@ export default function Bookmark({ route }) {
                                     <Text preset='h2' style={{ color: 'red', position: 'absolute', bottom: 15, fontSize: 18, backgroundColor: 'white', paddingHorizontal: 2, borderRadius: '50%', }}>{item.waiting}</Text>
                                     <Text preset='h2' style={{ paddingHorizontal: 5 }}>in waiting</Text>
                                 </View>
-                            </View>
+                            </Pressable>
                         )
                     }
                     }

@@ -1,4 +1,4 @@
-import { View, Text, ScrollView, FlatList, StyleSheet, TextInput } from 'react-native'
+import { View, Text, ScrollView, FlatList, StyleSheet, TextInput, Pressable } from 'react-native'
 import React from 'react'
 import Search from '../components/Home/Search/Search'
 import { spacing } from '../theme/spacing'
@@ -57,10 +57,11 @@ export default function SearchPage() {
     };
 
     return (
+        // search page 
         <View style={{ flex: 1, marginHorizontal: spacing[2] }}>
             <PageHeader title="Search" />
             {/* search component */}
-            <View style={{marginTop: -spacing[2]}}>
+            <View style={{ marginTop: -spacing[2] }}>
                 <Search searchText={searchText} setSearchText={setSearchText} searchFilterFunction={searchFilterFunction} />
             </View>
             {/* showing data filtering by shop name*/}
