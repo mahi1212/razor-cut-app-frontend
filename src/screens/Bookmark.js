@@ -16,7 +16,7 @@ export default function Bookmark({ route }) {
     const fetchData = () => {
         cart.map(id => {
             // console.log(id)
-            fetch(`http://192.168.0.221:5000/shops/${id}`)
+            fetch(`http://192.168.0.122:5000/shops/${id}`)
                 .then(res => res.json())
                 .then(data => {
                     // setCartItems(data)
