@@ -162,7 +162,8 @@ export default function Navigation() {
                     />
                 </Tab.Navigator>) :
                 (
-                    '<AuthStackScreen />'
+                    // <AuthStackScreen />
+                    <Text> asd</Text>
                 )   
             }
         </NavigationContainer>

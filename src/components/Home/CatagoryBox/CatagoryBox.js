@@ -44,6 +44,7 @@ export default function CatagoryBox() {
     // useEffect(() => {
     //     getCatagories();
     // }, []);
+
     return (
         <View style={{ flex: 1 }}>
             <FlatList
