@@ -12,7 +12,7 @@ export default function CatagoryPage({ route }) {
     const [searchResults, setSearchResults] = React.useState([])
     const [cart, setCart] = React.useState([])
     React.useEffect(() => {
-        fetch(`http://192.168.0.221:5000/shops`)
+        fetch(`https://razor-cut-backend.onrender.com/shops`)
             .then(res => res.json())
             .then(data => {
                 setSearchResults(data)

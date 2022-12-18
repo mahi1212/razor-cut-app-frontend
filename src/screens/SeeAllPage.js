@@ -18,7 +18,7 @@ export default function SeeAll({ route }) {
   // console.log(title)
 
   const getShops = () => {
-    fetch(`http://192.168.0.221:5000/shops`)
+    fetch(`https://razor-cut-backend.onrender.com/shops`)
       .then(res => res.json())
       .then(data => {
         setShops(data)
@@ -41,7 +41,7 @@ export default function SeeAll({ route }) {
     if (status === 'All') {
       getShops();
     } else {
-      fetch(`http://192.168.0.221:5000/catagoryShops/${status}`)
+      fetch(`https://razor-cut-backend.onrender.com/catagoryShops/${status}`)
         .then(res => res.json())
         .then(data => {
           setFilterData(data);

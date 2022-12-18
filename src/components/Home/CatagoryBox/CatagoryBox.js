@@ -5,10 +5,11 @@ import { Entypo } from '@expo/vector-icons';
 import { colors } from '../../../theme/colors';
 import Text from '../../Text/Text';
 import { useNavigation } from '@react-navigation/native';
+import { catagories } from './CatagoryList';
 
 export default function CatagoryBox() {
     const { catagory, catagoryImage, singleCatagoryText, catagoryListStyle } = styles;
-    const [catagories, setCatagories] = useState([]);
+    // const [catagories, setCatagories] = useState([]);
 
     const SingleCatagory = ({ text, icon }) => {
         const navigation = useNavigation()
@@ -28,21 +29,21 @@ export default function CatagoryBox() {
             </View>
         )
     }
-    const getCatagories = () => {
-        fetch('http://192.168.0.221:5000/services')
-            .then((response) => response.json())
-            .then((data) => {
-                // setRefreshing(false);
-                // let newdata = catagories.concat(data);
-                setCatagories(data);
-            })
-            .catch((error) => {
-                console.error(error);
-            })
-    };
-    useEffect(() => {
-        getCatagories();
-    }, []);
+    // const getCatagories = () => {
+    //     fetch('https://razor-cut-backend.onrender.com/services')
+    //         .then((response) => response.json())
+    //         .then((data) => {
+    //             // setRefreshing(false);
+    //             // let newdata = catagories.concat(data);
+    //             setCatagories(data);
+    //         })
+    //         .catch((error) => {
+    //             console.error(error);
+    //         })
+    // };
+    // useEffect(() => {
+    //     getCatagories();
+    // }, []);
     return (
         <View style={{ flex: 1 }}>
             <FlatList
@@ -62,8 +63,8 @@ export default function CatagoryBox() {
 
 const styles = StyleSheet.create({
     catagory: {
-        justifyContent: 'center',
-        alignItems: 'center',
+        justifyContent: 'flex-end',
+        alignItems: 'flex-end',
         paddingVertical: spacing[2],
     },
     catagoryListStyle: {
@@ -76,10 +77,11 @@ const styles = StyleSheet.create({
     singleCatagory: {
         width: 80,
         height: 100,
-        justifyContent: 'flex-start',
-        alignItems: 'center',
+        justifyContent: 'center',
+        alignItems: 'flex-end',
         marginLeft: 10,
         marginTop: 5,
+        backgroundColor: 'green',
     },
     catagoryImage: {
         marginVertical: spacing[2],
