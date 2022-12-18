@@ -17,9 +17,9 @@ export default function Catagories({ shop }) {
                     if(text === 'Website'){
                         Linking.openURL(`${shop.website}`)
                     }else if(text === 'Message'){
-                        Linking.openURL(`sms:${shop.phone}`)
+                        Linking.openURL(`sms:${shop.mobile}`)
                     }else if(text === 'Call'){
-                        Linking.openURL(`tel:${shop.phone}`)
+                        Linking.openURL(`tel:${shop.mobile}`)
                     }else if(text === 'Direction'){
                         Linking.openURL(`https://www.google.com/maps/search/?api=1&query=${shop.latitude},${shop.longitude}`)
                     }else{

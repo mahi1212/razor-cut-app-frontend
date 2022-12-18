@@ -11,6 +11,7 @@ import { catagoryList, details } from '../components/Home/CatagoryBox/CatagoryLi
 import Image from 'react-native-image-progress';
 import MapView, { Marker } from 'react-native-maps';
 import { useNavigation } from '@react-navigation/native';
+import * as Location from 'expo-location';
 
 const width = Dimensions.get('window').width;
 
@@ -21,11 +22,12 @@ export default function ShopDetails({ route }) {
     const [status, setStatus] = useState('About'); // for keeping status of tab
     const [data, setData] = useState([])
     const [textData, setTextData] = useState('')
-
     // console.log(data)
     const { shopId } = route.params;
+    
     const getmembers = () => {
-        fetch(`http://192.168.0.122:5000/shops/${shopId}`)
+        // 192.168.0.221
+        fetch(`https://razor-cut-backend.onrender.com/shops/${shopId}`)
             .then(res => res.json())
             .then(data => {
                 setShop(data)
@@ -35,7 +37,7 @@ export default function ShopDetails({ route }) {
     }
     const getSingleShop = () => {
         setIsLoading(true)
-        fetch(`http://192.168.0.122:5000/shops/${shopId}`)
+        fetch(`https://razor-cut-backend.onrender.com/shops/${shopId}`)
             .then(res => res.json())
             .then(data => {
                 setShop(data)
@@ -50,29 +52,30 @@ export default function ShopDetails({ route }) {
 
     const setStatusFilter = status => {
         setIsLoading(true)
+        // https://razor-cut-backend.onrender.com
         if (status === 'About') {
-            fetch(`http://192.168.0.122:5000/shops/${shopId}`)
+            fetch(`https://razor-cut-backend.onrender.com/shops/${shopId}`)
                 .then(res => res.json())
                 .then(data => {
                     setTextData(data.about)
                     setIsLoading(false)
                 })
         } else if (status == 'Package') {
-            fetch(`http://192.168.0.122:5000/shops/${shopId}`)
+            fetch(`https://razor-cut-backend.onrender.com/shops/${shopId}`)
                 .then(res => res.json())
                 .then(data => {
                     setData(data.package)
                     setIsLoading(false)
                 })
         } else if (status == 'Gellary') {
-            fetch(`http://192.168.0.122:5000/shops/${shopId}`)
+            fetch(`https://razor-cut-backend.onrender.com/shops/${shopId}`)
                 .then(res => res.json())
                 .then(data => {
                     setData(data.gellary)
                     setIsLoading(false)
                 })
         } else {
-            fetch(`http://192.168.0.122:5000/shops/${shopId}`)
+            fetch(`https://razor-cut-backend.onrender.com/shops/${shopId}`)
                 .then(res => res.json())
                 .then(data => {
                     setData(data.review)
@@ -110,8 +113,8 @@ export default function ShopDetails({ route }) {
         <ScrollView contentContainerStyle={container} showsVerticalScrollIndicator={false}>
             {/* back button */}
             <TouchableOpacity style={styles.backButton} onPress={() => navigation.goBack()}>
-                    <Entypo name='chevron-thin-left' size={22} color={colors.darkOrange} />
-                </TouchableOpacity>
+                <Entypo name='chevron-left' size={22} color={colors.darkOrange} />
+            </TouchableOpacity>
             <Image source={{ uri: shop.image }} style={imageStyle} />
             {/* heading view */}
             <View style={{ marginHorizontal: 10 }}>
@@ -128,7 +131,7 @@ export default function ShopDetails({ route }) {
                     </View>
                     <Text style={styles.text} preset='info'>{shop.street}</Text>
                 </View>
-                
+
                 {/* Catagory of shop */}
                 <View style={styles.iconAndText}>
                     <View style={styles.icon}>
@@ -138,6 +141,7 @@ export default function ShopDetails({ route }) {
                         isLoading ? 'Loading...' : shop.status
                     }</Text>
                 </View>
+                {/* website, message, call etc section */}
                 <Catagories shop={shop} />
                 <View style={line} />
             </View>
@@ -235,7 +239,7 @@ export default function ShopDetails({ route }) {
                             <Entypo name='phone' size={20} color={colors.darkOrange} />
                         </View>
                         <Text style={{ fontSize: 18, color: colors.darkOrange }} preset='info'>
-                            (+88){shop.mobile}
+                            {shop.mobile}
                         </Text>
                     </Pressable>
                 </View>
@@ -249,16 +253,20 @@ export default function ShopDetails({ route }) {
                         }
                     }><Text style={{ marginHorizontal: 10, color: colors.darkOrange }}>FIND US ON MAP</Text></Pressable>
                 </View>
+                {/* map */}
                 <MapView
-                    style={{ width: '100%', height: 200 }}
+                    style={{ width: 400, height: 200 }}
                     initialRegion={{
                         latitude: shop.latitude,
                         longitude: shop.longitude,
-                        latitudeDelta: 0.0922,
-                        longitudeDelta: 0.0421,
+                        latitudeDelta: 0.01,
+                        longitudeDelta: 0.02,
                     }}
+                    showsUserLocation={true}
                 >
+                    {/* shop location */}
                     <Marker
+                        image={require('../../assets/images/shop-marker.png')}
                         coordinate={{
                             latitude: shop.latitude,
                             longitude: shop.longitude,
@@ -268,8 +276,8 @@ export default function ShopDetails({ route }) {
                     />
                 </MapView>
                 {/* Book now button orange color */}
-                <Pressable onPress={()=> {
-                    navigation.navigate('Appoinment', {shop: shop})
+                <Pressable onPress={() => {
+                    navigation.navigate('Appoinment', { shop: shop })
                 }}>
                     <View style={{ backgroundColor: colors.darkOrange, padding: 10, marginHorizontal: 5, borderRadius: 30, marginVertical: 20 }}>
                         <Text style={{ color: 'white', fontSize: 18, textAlign: 'center' }}>Book Now</Text>
@@ -289,6 +297,7 @@ const styles = StyleSheet.create({
     },
     backButton: {
         position: 'absolute',
+        backgroundColor: 'white',
         top: 10,
         left: 10,
         zIndex: 1,

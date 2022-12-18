@@ -21,9 +21,9 @@ export default function Header({cart}) {
                 </View>
                 {/* notification & bookmark icon */}
                 <View style={styles.iconContainer}>
-                    <Pressable onPress={() => { console.log("pressed in notification") }}>
+                    {/* <Pressable onPress={() => { console.log("pressed in notification") }}>
                         <Ionicons name="notifications-outline" size={24} color="black" />
-                    </Pressable>
+                    </Pressable> */}
                     <Pressable onPress={() => {
                         // console.log("pressed in bookmarks")
                         navigation.navigate('Bookmark', {cart: cart})
