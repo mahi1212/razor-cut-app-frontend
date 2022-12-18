@@ -4,14 +4,22 @@ import { Entypo, FontAwesome, MaterialCommunityIcons, Ionicons, FontAwesome5, Fo
 import Text from '../../Text/Text';
 import { colors } from '../../../theme/colors';
 import Image from 'react-native-image-progress';
+import { useNavigation } from '@react-navigation/native';
 let deviceWidth = Dimensions.get('window').width
 
 export default function SingleShop({ shop, cart, setCart, visibleIcon }) {
     const { name, image, rating, waiting, avgTime, address, _id } = shop;
     const { avgTimeAndRatingContainer, shopContainer, innerShopContainer, img, middleDiv, info, avgTimeText, ratingText, bookmarkIcon } = styles;
     // console.log(visibleIcon)
+    const navigation = useNavigation();
     return (
-        <Pressable style={shopContainer}>
+        <Pressable style={shopContainer} onPress={
+            () => {
+                // console.log('pressed')
+                // console.log(_id)
+                navigation.navigate('shopDetails', { shopId: _id })
+            }
+        } >
 
             <View style={innerShopContainer}>
                 <Image source={{ uri: image }} style={img} />
@@ -53,6 +61,10 @@ export default function SingleShop({ shop, cart, setCart, visibleIcon }) {
                 (visibleIcon === true) &&
                 (cart.includes(_id) ?
                     <Pressable
+                        onPress={
+                            // remove single shop from cart
+                            () => setCart(cart.filter((item) => item !== _id))
+                        }
                         style={bookmarkIcon}>
                         <MaterialCommunityIcons name="bookmark-minus" size={30} color={colors.darkOrange} />
                     </Pressable>

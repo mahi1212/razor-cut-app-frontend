@@ -10,6 +10,12 @@ import Inbox from "../src/screens/Inbox";
 import Profile from "../src/screens/Profile";
 import Bookmark from "../src/screens/Bookmark";
 import SearchPage from "../src/screens/SearchPage";
+import CatagoryPage from "../src/screens/CatagoryPage";
+import Signin from "../src/screens/Signin";
+import Signup from "../src/screens/Signup";
+import { useState } from "react";
+import SeeAllPage from "../src/screens/SeeAllPage";
+import ShopDetails from "../src/screens/ShopDetails";
 
 const THEME = {
     ...DefaultTheme,
@@ -20,14 +26,26 @@ const THEME = {
 }
 
 const Tab = createBottomTabNavigator();
-const HomeStack = createNativeStackNavigator();
 
+const AuthStack = createNativeStackNavigator();
+function AuthStackScreen() {
+    return (
+        <AuthStack.Navigator screenOptions={{ headerShown: false }}>
+            <AuthStack.Screen name="signin" component={Signin} />
+            <AuthStack.Screen name="signup" component={Signup} />
+        </AuthStack.Navigator>
+    );
+}
+const HomeStack = createNativeStackNavigator();
 function HomeStackScreen() {
     return (
         <HomeStack.Navigator screenOptions={{ headerShown: false }}>
             <HomeStack.Screen name="home" component={Home} />
             <HomeStack.Screen name="Bookmark" component={Bookmark} />
             <HomeStack.Screen name="SearchPage" component={SearchPage} />
+            <HomeStack.Screen name="CatagoryPage" component={CatagoryPage} />
+            <HomeStack.Screen name="SeeAll" component={SeeAllPage} />
+            <HomeStack.Screen name="shopDetails" component={ShopDetails} />
         </HomeStack.Navigator>
     );
 }
@@ -71,74 +89,83 @@ function ProfileStackScreen() {
 function TabBarIcon({ fontFamily, name, color }) {
     if (fontFamily === 'AntDesign') {
         return <AntDesign name={name} color={color} size={24} />
-    }else if (fontFamily === 'Octicons') {
+    } else if (fontFamily === 'Octicons') {
         return <Octicons name={name} color={color} size={24} />
-    }else {
+    } else {
         return <SimpleLineIcons name={name} color={color} size={24} />
     }
 }
 
 export default function Navigation() {
-    return (
-        <NavigationContainer theme={THEME}>
-            <Tab.Navigator screenOptions={{ headerShown: false, tabBarActiveTintColor: '#FD9F1A' }}>
-                <Tab.Screen
-                    options={{
-                        title: "Home",
-                        tabBarIcon: ({ color }) => <TabBarIcon
-                            fontFamily={'Octicons'}
-                            name="home"
-                            color={color}
-                        />
-                    }}
-                    name="HomeTab" component={HomeStackScreen}
-                />
-                <Tab.Screen
-                    options={{
-                        title: "Explore",
-                        tabBarIcon: ({ color }) => <TabBarIcon
-                            fontFamily={'SimpleLineIcons'}
-                            name="location-pin"
-                            color={color}
-                        />
-                    }}
-                    name="ExploreTab" component={ExploreStackScreen}
-                />
-                <Tab.Screen
-                    options={{
-                        title: "My Booking",
-                        tabBarIcon: ({ color }) => <TabBarIcon
-                            fontFamily={'SimpleLineIcons'}
-                            name="notebook"
-                            color={color}
-                        />
-                    }}
-                    name="BookingTab" component={BookingStackScreen}
-                />
-                <Tab.Screen
-                    options={{
-                        title: "Inbox",
-                        tabBarIcon: ({ color }) => <TabBarIcon
-                            fontFamily={'AntDesign'}
-                            name="message1"
-                            color={color}
-                        />
-                    }}
-                    name="InboxTab" component={InboxStackScreen}
-                />
+    const [user, setUser] = useState('Mahi');
 
-                <Tab.Screen
-                    options={{
-                        title: "Profile",
-                        tabBarIcon : ( {color} ) => <TabBarIcon 
-                            fontFamily={'AntDesign'}
-                            name="user"
-                            color={color}
-                        />
-                    }}
-                    name="ProfileTab" component={ProfileStackScreen}
-                />
-            </Tab.Navigator>
+    return (
+
+        <NavigationContainer theme={THEME}>
+            {user ?
+                (<Tab.Navigator screenOptions={{ headerShown: false, tabBarActiveTintColor: '#FD9F1A' }}>
+                    <Tab.Screen
+                        options={{
+                            title: "Home",
+                            tabBarIcon: ({ color }) => <TabBarIcon
+                                fontFamily={'Octicons'}
+                                name="home"
+                                color={color}
+                            />
+                        }}
+                        name="HomeTab" component={HomeStackScreen}
+                    />
+                    <Tab.Screen
+                        options={{
+                            title: "Explore",
+                            tabBarIcon: ({ color }) => <TabBarIcon
+                                fontFamily={'SimpleLineIcons'}
+                                name="location-pin"
+                                color={color}
+                            />
+                        }}
+                        name="ExploreTab" component={ExploreStackScreen}
+                    />
+                    <Tab.Screen
+                        options={{
+                            title: "My Booking",
+                            tabBarIcon: ({ color }) => <TabBarIcon
+                                fontFamily={'SimpleLineIcons'}
+                                name="notebook"
+                                color={color}
+                            />
+                        }}
+                        name="BookingTab" component={BookingStackScreen}
+                    />
+                    <Tab.Screen
+                        options={{
+                            title: "Inbox",
+                            tabBarIcon: ({ color }) => <TabBarIcon
+                                fontFamily={'AntDesign'}
+                                name="message1"
+                                color={color}
+                            />
+                        }}
+                        name="InboxTab" component={InboxStackScreen}
+                    />
+
+                    <Tab.Screen
+                        options={{
+                            title: "Profile",
+                            tabBarIcon: ({ color }) => <TabBarIcon
+                                fontFamily={'AntDesign'}
+                                name="user"
+                                color={color}
+                            />
+                        }}
+                        name="ProfileTab" component={ProfileStackScreen}
+                    />
+                </Tab.Navigator>) :
+                (
+                    <AuthStackScreen />
+                    
+                )   
+            }
         </NavigationContainer>
     )
 

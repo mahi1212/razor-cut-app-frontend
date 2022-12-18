@@ -1,25 +1,33 @@
-import { View, FlatList, StyleSheet, Pressable } from 'react-native'
-import React, { useEffect, useState } from 'react'
-import { spacing } from '../../../theme/spacing';
-import { Entypo } from '@expo/vector-icons';
-import { colors } from '../../../theme/colors';
-import Text from '../../Text/Text';
-import { useNavigation } from '@react-navigation/native';
+import { View, Text, FlatList, StyleSheet, Pressable, Linking } from 'react-native'
+import React from 'react'
+import { listItems } from './List'
+import { useNavigation } from '@react-navigation/native'
+import { spacing } from '../../../theme/spacing'
+import { SimpleLineIcons } from '@expo/vector-icons';
+import { colors } from '../../../theme/colors'
 
-export default function CatagoryBox() {
-    const { catagory, catagoryImage, singleCatagoryText, catagoryListStyle } = styles;
-    const [catagories, setCatagories] = useState([]);
-
+export default function Catagories({ shop }) {
     const SingleCatagory = ({ text, icon }) => {
         const navigation = useNavigation()
+        const { catagoryImage, singleCatagoryText, catagoryListStyle } = styles;
+
         return (
             <View style={catagoryListStyle}>
                 <Pressable onPress={() => {
-                    // console.log(text)
-                    navigation.navigate('CatagoryPage', { text })
+                    if(text === 'Website'){
+                        Linking.openURL(`${shop.website}`)
+                    }else if(text === 'Message'){
+                        Linking.openURL(`sms:${shop.phone}`)
+                    }else if(text === 'Call'){
+                        Linking.openURL(`tel:${shop.phone}`)
+                    }else if(text === 'Direction'){
+                        Linking.openURL(`https://www.google.com/maps/search/?api=1&query=${shop.latitude},${shop.longitude}`)
+                    }else{
+                        Linking.openURL(`https://www.facebook.com/sharer/sharer.php?u=${shop.website}`)
+                    }
                 }} style={{ alignItems: 'center', justifyContent: 'center' }}>
                     <View style={catagoryImage} >
-                        <Entypo name={icon} size={28} color={colors.orange} />
+                        <SimpleLineIcons name={icon} size={28} color={colors.orange} />
                     </View>
                     <View style={{ justifyContent: 'flex-start' }}>
                         <Text preset='title' style={singleCatagoryText}>{text}</Text>
@@ -28,27 +36,13 @@ export default function CatagoryBox() {
             </View>
         )
     }
-    const getCatagories = () => {
-        fetch('http://192.168.0.221:5000/services')
-            .then((response) => response.json())
-            .then((data) => {
-                // setRefreshing(false);
-                // let newdata = catagories.concat(data);
-                setCatagories(data);
-            })
-            .catch((error) => {
-                console.error(error);
-            })
-    };
-    useEffect(() => {
-        getCatagories();
-    }, []);
+
     return (
         <View style={{ flex: 1 }}>
             <FlatList
-                data={catagories}
+                data={listItems}
                 horizontal={true}
-                contentContainerStyle={catagory}
+                contentContainerStyle={styles.catagory}
                 showsHorizontalScrollIndicator={false}
                 key={item => item.id}
                 renderItem={({ item }) => (
@@ -59,23 +53,24 @@ export default function CatagoryBox() {
     )
 }
 
-
 const styles = StyleSheet.create({
     catagory: {
         justifyContent: 'center',
         alignItems: 'center',
         paddingVertical: spacing[2],
+        marginVertical: spacing[2],
     },
     catagoryListStyle: {
-        width: 90,
-        height: 100,
+        width: 60,
+        marginHorizontal: 6,
+        height: 80,
         borderRadius: 10,
         alignItems: 'center',
         justifyContent: 'center',
     },
     singleCatagory: {
-        width: 80,
-        height: 100,
+        width: 60,
+        height: 80,
         justifyContent: 'flex-start',
         alignItems: 'center',
         marginLeft: 10,
@@ -84,8 +79,8 @@ const styles = StyleSheet.create({
     catagoryImage: {
         marginVertical: spacing[2],
         borderRadius: '50%',
-        width: 70,
-        height: 70,
+        width: 65,
+        height: 65,
         justifyContent: 'center',
         alignItems: 'center',
         backgroundColor: "#FDF1DF",

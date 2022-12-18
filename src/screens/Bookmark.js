@@ -10,8 +10,6 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 
 export default function Bookmark({ route }) {
     const { cart } = route.params;
-    // console.log(cart)
-    // const [cart, setCart] = useState([]);
     const [cartItems, setCartItems] = useState([]);
     // console.log(cartItems);
     // taking all cart items and fetching data by their id from database then mapping them for rendering
@@ -45,7 +43,7 @@ export default function Bookmark({ route }) {
     //     temp();
     //     return () => {}
     // }, [])
-
+    
     return (
         <View style={{ marginHorizontal: 5, flex: 1 }} onLayout={fetchData}>
             <PageHeader title="My Bookmarks" />
