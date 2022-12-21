@@ -4,7 +4,6 @@ import Checkbox from "expo-checkbox";
 import { AntDesign } from "@expo/vector-icons";
 import { FontAwesome } from "@expo/vector-icons";
 import { spacing } from "../theme/spacing";
-import SmallButton from "../components/Login/smallButton";
 import Text from "../components/Text/Text";
 import { colors } from "../theme/colors";
 
@@ -27,6 +26,13 @@ export default function Signin({ navigation }) {
 
   return (
     <View style={{ marginHorizontal: 20, flex: 1 }}>
+      {/* back buttom */}
+      <View style={{ marginTop: 20 }}>
+        <Pressable onPress={() => navigation.goBack()}>
+          <AntDesign name="arrowleft" size={24} color="gray" />
+        </Pressable>
+      </View>
+      {/* title */}
       <View>
         <Text style={styles.title1}>Login to Your</Text>
         <Text style={styles.title2}>Account</Text>
@@ -52,16 +58,6 @@ export default function Signin({ navigation }) {
           }}
           secureTextEntry={true}
         />
-        {/* remember me component */}
-        {/* <View>
-          <Checkbox
-            value={agree}
-            onValueChange={() => setAgree(!agree)}
-            color={agree ? "#FB9400" : undefined}
-            style={styles.checkbox}
-          />
-          <Text style={styles.checkboxtext}>Forgot Password</Text>
-        </View> */}
         {/* forgot password */}
         <Pressable onPress={
           () => {
