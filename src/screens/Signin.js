@@ -1,12 +1,12 @@
-import { View, Text, TextInput, Pressable, StyleSheet } from "react-native";
+import { View, TextInput, Pressable, StyleSheet, Button } from "react-native";
 import React, { useState } from "react";
 import Checkbox from "expo-checkbox";
-import Button from "../components/Login/button";
-import Input from "../components/Login/input";
-import SmallButton from "../components/smallButton";
 import { AntDesign } from "@expo/vector-icons";
 import { FontAwesome } from "@expo/vector-icons";
 import { spacing } from "../theme/spacing";
+import SmallButton from "../components/Login/smallButton";
+import Text from "../components/Text/Text";
+import { colors } from "../theme/colors";
 
 export default function Signin({ navigation }) {
   const navigateToSignIn = () => {
@@ -17,57 +17,108 @@ export default function Signin({ navigation }) {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
-//handle login function
-  
+  //handle login function
+
   const login = () => {
-    signInWithEmailAndPassword(auth, email, password)
-    .then((res) => {
+    signInWithEmailAndPassword(auth, email, password).then((res) => {
       console.log("signin successfully", res);
     });
   };
 
   return (
-    <>
+    <View style={{ marginHorizontal: 20, flex: 1 }}>
       <View>
         <Text style={styles.title1}>Login to Your</Text>
         <Text style={styles.title2}>Account</Text>
       </View>
-      <View style={{ paddingHorizontal: 18, paddingVertical: 25 }}>
-        <Input placeholder="Email" title={"phone"} />
-        <Input placeholder="Password" secureTextEntry />
-        <View>
+      <View style={{ marginTop: 60 }}>
+        <TextInput
+          placeholder="Email"
+          style={{
+            marginBottom: 15,
+            backgroundColor: "#F5F5F5",
+            padding: 20,
+            borderRadius: 10,
+            color: "#ccc",
+          }}
+        />
+        <TextInput
+          placeholder="Password"
+          style={{
+            marginBottom: 15,
+            backgroundColor: "#F5F5F5",
+            padding: 20,
+            borderRadius: 10,
+          }}
+          secureTextEntry={true}
+        />
+        {/* remember me component */}
+        {/* <View>
           <Checkbox
             value={agree}
             onValueChange={() => setAgree(!agree)}
             color={agree ? "#FB9400" : undefined}
             style={styles.checkbox}
           />
-          <Text style={styles.checkboxtext}>Remember me</Text>
-          <Button onPress={() => login()} title={"Sign in"} />
-        </View>
+          <Text style={styles.checkboxtext}>Forgot Password</Text>
+        </View> */}
+        {/* forgot password */}
+        <Pressable onPress={
+          () => {
+            console.log("Forgot Password Clicked");
+          }
+        } style={{marginLeft: 10}}>
+          <Text>Forgot Password?</Text>
+        </Pressable>
+        {/* login button */}
+        <Pressable
+          onPress={() => {
+            console.log("Login Clicked");
+          }}
+        >
+          <View
+            style={{
+              backgroundColor: colors.darkOrange,
+              padding: 10,
+              marginHorizontal: 5,
+              borderRadius: 30,
+              marginVertical: 20,
+            }}
+          >
+            <Text style={{ color: "white", fontSize: 18, textAlign: "center" }}>
+              Sing In
+            </Text>
+          </View>
+        </Pressable>
+        
         <View>
-          <Text style={styles.ortext}>
-            ________________ or continue with _______________{" "}
+          <View style={{ height: 1, backgroundColor: "#ccc", marginTop: 30 }} />
+          <Text
+            style={{
+              backgroundColor: "#fff",
+              alignSelf: "center",
+              paddingHorizontal: 10,
+              color: "#ccc",
+              fontSize: 16,
+              position: "absolute",
+              bottom: -7,
+            }}
+          >
+            or
           </Text>
         </View>
-        <View style={styles.view1}>
-          <SmallButton
-            title={[<FontAwesome name="phone" size={48} color="black" />]}
-          />
-          <View style={styles.view2}>
-            <SmallButton
-              title={[<AntDesign name="google" size={48} color="#4285F4" />]}
-            />
-          </View>
-          <View style={styles.view3}>
-            <SmallButton
-              title={[<FontAwesome name="apple" size={48} color="black" />]}
-            />
-          </View>
-        </View>
+        {/* google sign in */}
+        <Pressable onPress={() => login()} style={styles.oneTapSignIn}>
+          {/* <SmallButton
+            title={[<AntDesign name="google" size={48} color="#4285F4" />]}
+          /> */}
+          <Text preset="catagory" style={{ marginEnd: 5 }}>
+            Sign in with
+          </Text>
+          <AntDesign name="google" size={28} color="#4285F4" />
+        </Pressable>
       </View>
-
-      <View>
+      <View style={{ position: "absolute", bottom: 0, left: 50 }}>
         <Pressable
           onPress={() => {
             navigation.navigate("Signup");
@@ -75,27 +126,25 @@ export default function Signin({ navigation }) {
           style={{ marginTop: "5%", alignSelf: "center" }}
         >
           <Text>
-            Don't have an account?{""}
-            <Text style={styles.signuptext}>Sign up</Text>
+            Don't have an account?
+            <Text style={styles.signuptext}> Sign up</Text>
           </Text>
         </Pressable>
       </View>
-    </>
+    </View>
   );
 }
 const styles = StyleSheet.create({
   title1: {
-    fontSize: 58,
+    marginTop: "25%",
+    fontSize: 38,
     alignSelf: "flex-start",
     fontWeight: "700",
-    paddingHorizontal: spacing[6],
   },
   title2: {
-    fontSize: 58,
+    fontSize: 38,
     alignSelf: "flex-start",
-    marginTop: "-5%",
     fontWeight: "700",
-    paddingHorizontal: spacing[6],
   },
   checkbox: {
     alignSelf: "center",
@@ -106,31 +155,16 @@ const styles = StyleSheet.create({
   checkboxtext: {
     marginTop: "-10%",
     alignSelf: "center",
-    marginBottom: "20%",
   },
-  ortext: {
-    color: "grey",
-    marginTop: "30%",
-    alignSelf: "center",
-    fontSize: 20,
-  },
-  view1: {
+  oneTapSignIn: {
+    backgroundColor: "#F5F5F5",
+    borderRadius: 5,
+    padding: 10,
     display: "flex",
-    justifyContent: "space-between",
-    marginTop: "10%",
-    marginLeft: "10%",
-  },
-  view2: {
-    display: "flex",
-    justifyContent: "space-between",
-    marginTop: "-22%",
-    marginLeft: "33.5%",
-  },
-  view3: {
-    display: "flex",
-    justifyContent: "space-between",
-    marginTop: "-22%",
-    marginLeft: "66%",
+    flexDirection: "row",
+    justifyContent: "center",
+    alignItems: "center",
+    marginTop: 30,
   },
   signuptext: {
     color: "#FB9400",

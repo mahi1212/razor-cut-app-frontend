@@ -11,7 +11,7 @@ import Profile from "../src/screens/Profile";
 import Bookmark from "../src/screens/Bookmark";
 import SearchPage from "../src/screens/SearchPage";
 import CatagoryPage from "../src/screens/CatagoryPage";
-// import Signin from "../src/screens/Signin";
+import Signin from "../src/screens/Signin";
 // import Signup from "../src/screens/Signup";
 import { useState } from "react";
 import SeeAllPage from "../src/screens/SeeAllPage";
@@ -27,15 +27,15 @@ const THEME = {
 
 const Tab = createBottomTabNavigator();
 
-// const AuthStack = createNativeStackNavigator();
-// function AuthStackScreen() {
-//     return (
-//         <AuthStack.Navigator screenOptions={{ headerShown: false }}>
-//             <AuthStack.Screen name="signin" component={Signin} />
-//             <AuthStack.Screen name="signup" component={Signup} />
-//         </AuthStack.Navigator>
-//     );
-// }
+const AuthStack = createNativeStackNavigator();
+function AuthStackScreen() {
+    return (
+        <AuthStack.Navigator screenOptions={{ headerShown: false }}>
+            <AuthStack.Screen name="signin" component={Signin} />
+            {/* <AuthStack.Screen name="signup" component={Signup} /> */}
+        </AuthStack.Navigator>
+    );
+}
 const HomeStack = createNativeStackNavigator();
 function HomeStackScreen() {
     return (
@@ -97,7 +97,7 @@ function TabBarIcon({ fontFamily, name, color }) {
 }
 
 export default function Navigation() {
-    const [user, setUser] = useState('Mahi');
+    const [user, setUser] = useState(null);
 
     return (
 
@@ -162,8 +162,8 @@ export default function Navigation() {
                     />
                 </Tab.Navigator>) :
                 (
-                    // <AuthStackScreen />
-                    <Text> asd</Text>
+                    <AuthStackScreen />
+                    // <Text> asd</Text>
                 )   
             }
         </NavigationContainer>
