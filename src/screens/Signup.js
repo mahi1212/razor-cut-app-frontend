@@ -6,19 +6,19 @@ import React, { useState } from "react";
 import { FontAwesome } from "@expo/vector-icons";
 import Input from "../components/Login/input";
 import Checkbox from "expo-checkbox";
-import Button from "../components/Login/button";
+// import Button from "../components/Login/button";
 import { useNavigation } from "@react-navigation/native";
-import SmallButton from "../components/Login/SmallButton";
 import { colors } from "../theme/colors";
 import Text from "../components/Text/Text";
 import OrText from "../components/Login/OrText";
 import GoogleButton from "../components/Login/GoogleButton";
-// import { createUserWithEmailAndPassword } from "firebase/auth";
+import { getAuth, createUserWithEmailAndPassword } from "firebase/auth";
 // import auth from "@react-native-firebase/auth";
 
 export default function Signup() {
   const navigation = useNavigation();
   const [agree, setAgree] = useState(false);
+  const auth = getAuth();
 
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -38,23 +38,17 @@ export default function Signup() {
   //hadle signup function
 
   const handleSignup = async () => {
-    try {
-      const result = await createUserWithEmailAndPassword(
-        auth,
-        email,
-        password
-      );
-      saveUser(email, password);
-      // const docRef = await addDoc(collection(db,"users2"),{
-      //   email:email,
-      //   password:password,
-      //   uid:result.user.uid,
-      //   // remember:remember,
-      // })
-      console.log("result---->", result);
-    } catch (error) {
-      console.log(error, "error-->");
-    }
+    createUserWithEmailAndPassword(auth, email, password)
+      .then((userCredential) => {
+        // Signed in
+        const user = userCredential.user;
+        console.log("success user ---> ", user);
+      })
+      .catch((error) => {
+        const errorCode = error.code;
+        const errorMessage = error.message;
+        // ..
+      });
   };
 
   return (
@@ -68,6 +62,7 @@ export default function Signup() {
       <View style={{ marginTop: 60 }}>
         <TextInput
           placeholder="Email"
+          onChangeText={(text) => setEmail(text)}
           style={{
             marginBottom: 15,
             backgroundColor: "#F5F5F5",
@@ -78,6 +73,7 @@ export default function Signup() {
         />
         <TextInput
           placeholder="Password"
+          onChangeText={(text) => setPassword(text)}
           style={{
             marginBottom: 15,
             backgroundColor: "#F5F5F5",
@@ -89,7 +85,7 @@ export default function Signup() {
       </View>
       <Pressable
         onPress={() => {
-          console.log("Login Clicked");
+          handleSignup();
         }}
       >
         <View
@@ -138,6 +134,7 @@ const styles = StyleSheet.create({
     fontSize: 38,
     alignSelf: "flex-start",
     fontWeight: "700",
+    color: colors.darkOrange,
   },
   title2: {
     fontSize: 38,

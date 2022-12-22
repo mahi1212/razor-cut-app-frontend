@@ -2,13 +2,14 @@ import { View, TextInput, Pressable, StyleSheet, Button } from "react-native";
 import React, { useState } from "react";
 import Checkbox from "expo-checkbox";
 import { AntDesign } from "@expo/vector-icons";
-import { FontAwesome } from "@expo/vector-icons";
 import { spacing } from "../theme/spacing";
 import Text from "../components/Text/Text";
 import { colors } from "../theme/colors";
 import { useNavigation } from "@react-navigation/native";
 import OrText from "../components/Login/OrText";
 import GoogleButton from "../components/Login/GoogleButton";
+import { auth } from "../../App";
+import { getAuth, signInWithEmailAndPassword } from "firebase/auth";
 
 export default function Signin() {
   const navigation = useNavigation();
@@ -17,8 +18,12 @@ export default function Signin() {
   const [password, setPassword] = useState("");
 
   //handle login function
-
+  const auth = getAuth();
   const login = () => {
+    console.log(email, password);
+    if(password.length<6){
+      return alert("Password must be at least 6 characters")
+    }
     signInWithEmailAndPassword(auth, email, password).then((res) => {
       console.log("signin successfully", res);
     });
@@ -28,12 +33,13 @@ export default function Signin() {
     <View style={{ marginHorizontal: 20, flex: 1 }}>
       {/* title */}
       <View>
-        <Text style={styles.title1}>Login to Your</Text>
+        <Text style={styles.title1}><Text style={{color:colors.darkOrange}}>Login</Text> to Your</Text>
         <Text style={styles.title2}>Account</Text>
       </View>
       <View style={{ marginTop: 60 }}>
         <TextInput
           placeholder="Email"
+          onChangeText={(text) => setEmail(text)}
           style={{
             marginBottom: 15,
             backgroundColor: "#F5F5F5",
@@ -44,6 +50,7 @@ export default function Signin() {
         />
         <TextInput
           placeholder="Password"
+          onChangeText={(text) => setPassword(text)}
           style={{
             marginBottom: 15,
             backgroundColor: "#F5F5F5",
@@ -65,6 +72,7 @@ export default function Signin() {
         <Pressable
           onPress={() => {
             console.log("Login Clicked");
+            login();
           }}
           style={{
             backgroundColor: colors.darkOrange,
