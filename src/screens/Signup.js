@@ -13,12 +13,12 @@ import Text from "../components/Text/Text";
 import OrText from "../components/Login/OrText";
 import GoogleButton from "../components/Login/GoogleButton";
 import { getAuth, createUserWithEmailAndPassword } from "firebase/auth";
+import { auth } from "../../navigation";
 // import auth from "@react-native-firebase/auth";
 
 export default function Signup() {
   const navigation = useNavigation();
   const [agree, setAgree] = useState(false);
-  const auth = getAuth();
 
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -49,6 +49,7 @@ export default function Signup() {
         const errorMessage = error.message;
         // ..
       });
+      saveUser(email, password)
   };
 
   return (

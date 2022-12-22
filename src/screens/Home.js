@@ -1,31 +1,42 @@
-import { ActivityIndicator, FlatList, Pressable, RefreshControl, ScrollView, StyleSheet, TouchableOpacity, View } from 'react-native'
-import React, { useEffect, useState } from 'react'
-import Text from '../components/Text/Text'
-import { colors } from '../theme/colors'
-import { spacing } from '../theme/spacing'
-import { SafeAreaView } from 'react-native-safe-area-context'
-import Header from '../components/Home/Header/Header'
-import Slider from '../components/Home/Slider/Slider'
+import {
+  ActivityIndicator,
+  FlatList,
+  Pressable,
+  RefreshControl,
+  ScrollView,
+  StyleSheet,
+  TouchableOpacity,
+  View,
+} from "react-native";
+import React, { useEffect, useState } from "react";
+import Text from "../components/Text/Text";
+import { colors } from "../theme/colors";
+import { spacing } from "../theme/spacing";
+import { SafeAreaView } from "react-native-safe-area-context";
+import Header from "../components/Home/Header/Header";
+import Slider from "../components/Home/Slider/Slider";
 // icons package
-import { Entypo } from '@expo/vector-icons';
-import { catagoryList } from '../components/Home/CatagoryBox/CatagoryList';
-import { LogBox } from 'react-native';
-import CatagoryBox from '../components/Home/CatagoryBox/CatagoryBox'
+import { Entypo } from "@expo/vector-icons";
+import { catagoryList } from "../components/Home/CatagoryBox/CatagoryList";
+import { LogBox } from "react-native";
+import CatagoryBox from "../components/Home/CatagoryBox/CatagoryBox";
 
-import Image from 'react-native-image-progress';
-import AsyncStorage from '@react-native-async-storage/async-storage'
-import NavigationSearch from '../components/Home/Search/NavigationSearch'
-import SingleShop from '../components/Home/SingleShop/SingleShop'
-import CatagoryTitle from '../components/Home/CatagoryTitle/CatagoryTitle'
+import Image from "react-native-image-progress";
+import AsyncStorage from "@react-native-async-storage/async-storage";
+import NavigationSearch from "../components/Home/Search/NavigationSearch";
+import SingleShop from "../components/Home/SingleShop/SingleShop";
+import CatagoryTitle from "../components/Home/CatagoryTitle/CatagoryTitle";
+import { signOut } from "firebase/auth";
+import { auth } from "../../navigation";
 
 export default function Home({ navigation }) {
   // for watching loading and refreshing state
   const [refreshing, setRefreshing] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
-  const [status, setStatus] = useState('All'); // for keeping status of tab
+  const [status, setStatus] = useState("All"); // for keeping status of tab
 
   const [shops, setShops] = useState([]);
-  const [cart, setCart] = useState([])
+  const [cart, setCart] = useState([]);
   // console.log(cart)
 
   // const saveCart = async () => {
@@ -55,120 +66,187 @@ export default function Home({ navigation }) {
   // }, [])
 
   const getShops = () => {
-    setIsLoading(true)
+    setIsLoading(true);
     fetch(`https://razor-cut-backend.onrender.com/shops`)
-      .then(res => res.json())
-      .then(data => {
-        setShops(data)
-        setRefreshing(false)
-      }).catch(err => {
-        console.log(err)
-      }).finally(() => {
-        setIsLoading(false)
+      .then((res) => res.json())
+      .then((data) => {
+        setShops(data);
+        setRefreshing(false);
       })
-  }
+      .catch((err) => {
+        console.log(err);
+      })
+      .finally(() => {
+        setIsLoading(false);
+      });
+  };
 
   useEffect(() => {
     // ignore warning of FlatList in console
-    LogBox.ignoreLogs(['VirtualizedLists should never be nested',]);
+    LogBox.ignoreLogs(["VirtualizedLists should never be nested"]);
     getShops();
     setStatusFilter(status);
   }, []);
 
-  const setStatusFilter = status => {
-    setIsLoading(true)
-    if (status === 'All') {
+  const setStatusFilter = (status) => {
+    setIsLoading(true);
+    if (status === "All") {
       getShops();
     } else {
-      setIsLoading(true)
+      setIsLoading(true);
       fetch(`https://razor-cut-backend.onrender.com/catagoryShops/${status}`)
-        .then(res => res.json())
-        .then(data => {
+        .then((res) => res.json())
+        .then((data) => {
           setShops(data);
-        }).catch(err => {
-          console.log(err)
-        }).finally(() => {
-          setIsLoading(false)
         })
+        .catch((err) => {
+          console.log(err);
+        })
+        .finally(() => {
+          setIsLoading(false);
+        });
     }
-  }
+  };
 
   // status tab scrolling- Common component
   const ScrollStatusBar = () => {
-    const { flatListContainer, activeCatagoryButton, catagoryButton, selectedItemText, normalItemText } = styles;
+    const {
+      flatListContainer,
+      activeCatagoryButton,
+      catagoryButton,
+      selectedItemText,
+      normalItemText,
+    } = styles;
     return (
-      <ScrollView horizontal={true} contentContainerStyle={flatListContainer} showsHorizontalScrollIndicator={false}>
-        {
-          catagoryList.map((item, index) => {
-            return (
-              <TouchableOpacity key={index}
-                style={item.status === status ? activeCatagoryButton : catagoryButton}
-                onPress={() => {
-                  // console.log(`Pressed in ${item.status}`)
-                  setStatus(item.status)
-                  setStatusFilter(item.status)
-                }
+      <ScrollView
+        horizontal={true}
+        contentContainerStyle={flatListContainer}
+        showsHorizontalScrollIndicator={false}
+      >
+        {catagoryList.map((item, index) => {
+          return (
+            <TouchableOpacity
+              key={index}
+              style={
+                item.status === status ? activeCatagoryButton : catagoryButton
+              }
+              onPress={() => {
+                // console.log(`Pressed in ${item.status}`)
+                setStatus(item.status);
+                setStatusFilter(item.status);
+              }}
+            >
+              <Text
+                preset="title"
+                style={
+                  item.status === status ? selectedItemText : normalItemText
                 }
               >
-                <Text preset='title' style={item.status === status ? selectedItemText : normalItemText}>{item.status}</Text>
-              </TouchableOpacity>
-            )
-          })
-        }
+                {item.status}
+              </Text>
+            </TouchableOpacity>
+          );
+        })}
       </ScrollView>
-    )
-  }
+    );
+  };
 
-
-  // Here is main function code 
+  // Here is main function code
   return (
     <SafeAreaView style={{ flex: 1, marginHorizontal: spacing[2] }}>
-      <ScrollView style={styles.container} showsVerticalScrollIndicator={false} refreshControl={
-        <RefreshControl
-          // every refresh call getShops function
-          refreshing={refreshing}
-          onRefresh={getShops}
-        />
-      }>
+      <ScrollView
+        style={styles.container}
+        showsVerticalScrollIndicator={false}
+        refreshControl={
+          <RefreshControl
+            // every refresh call getShops function
+            refreshing={refreshing}
+            onRefresh={getShops}
+          />
+        }
+      >
         <Header cart={cart} />
         <NavigationSearch />
         <Slider />
         {/* catagory list part*/}
         <CatagoryBox />
         {/* divider */}
-        <View style={{ height: 1, width: '100%', backgroundColor: '#f5f4f2', marginTop: 10 }} />
+        <View
+          style={{
+            height: 1,
+            width: "100%",
+            backgroundColor: "#f5f4f2",
+            marginTop: 10,
+          }}
+        />
         {/* suggested salons part*/}
-        <CatagoryTitle title="Suggested For You" btn="See All"/>
+        <CatagoryTitle title="Suggested For You" btn="See All" />
         <ScrollStatusBar />
         <View style={{ flex: 1 }}>
-          {isLoading ? <ActivityIndicator /> :
-            (shops ? <FlatList
+          {isLoading ? (
+            <ActivityIndicator />
+          ) : shops ? (
+            <FlatList
               data={shops.slice(0, 3)}
-              renderItem={({ item }) => <SingleShop shop={item} cart={cart} setCart={setCart} visibleIcon={true} />}
-              keyExtractor={item => item._id}
+              renderItem={({ item }) => (
+                <SingleShop
+                  shop={item}
+                  cart={cart}
+                  setCart={setCart}
+                  visibleIcon={true}
+                />
+              )}
+              keyExtractor={(item) => item._id}
               showsVerticalScrollIndicator={false}
-            />: <Text> <Entypo name='hand' ></Entypo>Tap and select to see your nearby shops</Text>)
-          }
+            />
+          ) : (
+            <Text>
+              {" "}
+              <Entypo name="hand"></Entypo>Tap and select to see your nearby
+              shops
+            </Text>
+          )}
         </View>
         {/* most popular part*/}
         <CatagoryTitle title="Most Popular" btn="See All" />
         <View>
-          {isLoading ? <ActivityIndicator /> :
-            (shops && shops.reverse().slice(0, 5).map((shop, index) => {
-              return (
-                <View key={index}>{
-                  // summing the rating array and dividing by the length of the array
-                  shop.rating.reduce((a, b) => a + b) / shop.rating.length > 4 ?
-                    <SingleShop shop={shop} cart={cart} setCart={setCart} visibleIcon={true} /> : <Text preset='info' style={{ position: 'absolute', top: 10, left: 10 }}>NO MORE SHOP IS THAT MUCH POPULAR</Text>
-                }
-                </View>
-              )
-            }))
-          }
+          {isLoading ? (
+            <ActivityIndicator />
+          ) : (
+            shops &&
+            shops
+              .reverse()
+              .slice(0, 5)
+              .map((shop, index) => {
+                return (
+                  <View key={index}>
+                    {
+                      // summing the rating array and dividing by the length of the array
+                      shop.rating.reduce((a, b) => a + b) / shop.rating.length >
+                      4 ? (
+                        <SingleShop
+                          shop={shop}
+                          cart={cart}
+                          setCart={setCart}
+                          visibleIcon={true}
+                        />
+                      ) : (
+                        <Text
+                          preset="info"
+                          style={{ position: "absolute", top: 10, left: 10 }}
+                        >
+                          NO MORE SHOP IS THAT MUCH POPULAR
+                        </Text>
+                      )
+                    }
+                  </View>
+                );
+              })
+          )}
         </View>
       </ScrollView>
     </SafeAreaView>
-  )
+  );
 }
 
 // Styles for home screen
@@ -177,87 +255,87 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   nearbyHeading: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    alignItems: 'center',
+    flexDirection: "row",
+    justifyContent: "space-between",
+    alignItems: "center",
   },
   shopContainer: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    alignItems: 'center',
+    flexDirection: "row",
+    justifyContent: "space-between",
+    alignItems: "center",
     paddingVertical: 10,
     marginVertical: 5,
-    borderWidth: .4,
-    backgroundColor: '#fff',
-    borderColor: '#f5f4f2',
+    borderWidth: 0.4,
+    backgroundColor: "#fff",
+    borderColor: "#f5f4f2",
     borderRadius: 10,
-    shadowColor: '#f5f4f2',
+    shadowColor: "#f5f4f2",
     shadowOffset: { width: 3, height: 2 },
     shadowOpacity: 0.1,
     shadowRadius: 1,
   },
   innerShopContainer: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    marginHorizontal: 10
+    flexDirection: "row",
+    alignItems: "center",
+    marginHorizontal: 10,
   },
   img: {
     width: 65,
     height: 65,
-    borderRadius: 5
+    borderRadius: 5,
   },
   middleDiv: {
     paddingHorizontal: 10,
-    justifyContent: 'space-between',
-    alignItems: 'flex-start',
+    justifyContent: "space-between",
+    alignItems: "flex-start",
     height: 60,
   },
   info: {
-    flexDirection: 'row',
-    alignItems: 'center'
+    flexDirection: "row",
+    alignItems: "center",
   },
   avgTimeText: {
     fontSize: 12,
-    marginHorizontal: 5
+    marginHorizontal: 5,
   },
   avgTimeAndRatingContainer: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    marginHorizontal: 1
+    flexDirection: "row",
+    alignItems: "center",
+    marginHorizontal: 1,
   },
   ratingText: {
     fontSize: 12,
-    marginHorizontal: 5
+    marginHorizontal: 5,
   },
   bookmarkIcon: {
-    alignSelf: 'flex-start',
+    alignSelf: "flex-start",
     padding: 5,
   },
   removeBookmarkIcon: {
-    alignSelf: 'flex-start',
+    alignSelf: "flex-start",
     padding: 5,
   },
   flatListContainer: {
-    flexDirection: 'row',
-    justifyContent: 'center',
-    alignItems: 'center',
+    flexDirection: "row",
+    justifyContent: "center",
+    alignItems: "center",
     marginBottom: 5,
-  },  
+  },
   activeCatagoryButton: {
     width: 100,
     backgroundColor: colors.darkOrange,
-    justifyContent: 'center',
-    alignItems: 'center',
+    justifyContent: "center",
+    alignItems: "center",
     paddingVertical: 10,
-    borderRadius: '50%',
+    borderRadius: "50%",
     marginHorizontal: 3,
   },
   catagoryButton: {
     width: 100,
-    justifyContent: 'center',
-    alignItems: 'center',
+    justifyContent: "center",
+    alignItems: "center",
     paddingVertical: 10,
-    borderRadius: '50%',
+    borderRadius: "50%",
     marginHorizontal: 3,
     borderWidth: 1,
     borderColor: colors.darkOrange,
@@ -268,5 +346,4 @@ const styles = StyleSheet.create({
   normalItemText: {
     color: colors.orange,
   },
-
-})
+});

@@ -8,19 +8,17 @@ import { colors } from "../theme/colors";
 import { useNavigation } from "@react-navigation/native";
 import OrText from "../components/Login/OrText";
 import GoogleButton from "../components/Login/GoogleButton";
-import { auth } from "../../App";
-import { getAuth, signInWithEmailAndPassword } from "firebase/auth";
+import { signInWithEmailAndPassword } from "firebase/auth";
+import { auth } from "../../navigation";
 
 export default function Signin() {
   const navigation = useNavigation();
   const [agree, setAgree] = useState(false);
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-
   //handle login function
-  const auth = getAuth();
   const login = () => {
-    console.log(email, password);
+    // console.log(email, password);
     if(password.length<6){
       return alert("Password must be at least 6 characters")
     }
