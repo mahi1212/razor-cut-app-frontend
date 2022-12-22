@@ -6,6 +6,7 @@ import { typography } from "../../../theme/typography";
 import { useNavigation } from "@react-navigation/native";
 import { auth } from "../../../../navigation";
 import { signOut } from "firebase/auth";
+import { MaterialIcons } from '@expo/vector-icons';
 
 export default function Header({ cart }) {
   const { container, logo, logoContainer, greetings, wave } = styles;
@@ -35,7 +36,7 @@ export default function Header({ cart }) {
             RazorCut
           </Text>
         </View>
-        {/* notification & bookmark icon */}
+        {/* logout & bookmark icon */}
         <View style={styles.iconContainer}>
           <Pressable
             onPress={() => {
@@ -43,7 +44,7 @@ export default function Header({ cart }) {
             handleSignOut();
             }}
           >
-            <Ionicons name="notifications-outline" size={24} color="black" />
+            <MaterialIcons name="logout" size={24} color="black" />
           </Pressable>
           <Pressable
             onPress={() => {

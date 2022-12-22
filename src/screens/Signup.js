@@ -13,9 +13,8 @@ import Text from "../components/Text/Text";
 import OrText from "../components/Login/OrText";
 import GoogleButton from "../components/Login/GoogleButton";
 import { getAuth, createUserWithEmailAndPassword } from "firebase/auth";
-import { auth } from "../../navigation";
 // import auth from "@react-native-firebase/auth";
-
+const auth = getAuth();
 export default function Signup() {
   const navigation = useNavigation();
   const [agree, setAgree] = useState(false);
