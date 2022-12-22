@@ -6,12 +6,12 @@ import { FontAwesome } from "@expo/vector-icons";
 import { spacing } from "../theme/spacing";
 import Text from "../components/Text/Text";
 import { colors } from "../theme/colors";
+import { useNavigation } from "@react-navigation/native";
+import OrText from "../components/Login/OrText";
+import GoogleButton from "../components/Login/GoogleButton";
 
-export default function Signin({ navigation }) {
-  const navigateToSignIn = () => {
-    navigation.navigate("Signup");
-  };
-
+export default function Signin() {
+  const navigation = useNavigation();
   const [agree, setAgree] = useState(false);
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -26,12 +26,6 @@ export default function Signin({ navigation }) {
 
   return (
     <View style={{ marginHorizontal: 20, flex: 1 }}>
-      {/* back buttom */}
-      <View style={{ marginTop: 20 }}>
-        <Pressable onPress={() => navigation.goBack()}>
-          <AntDesign name="arrowleft" size={24} color="gray" />
-        </Pressable>
-      </View>
       {/* title */}
       <View>
         <Text style={styles.title1}>Login to Your</Text>
@@ -59,11 +53,12 @@ export default function Signin({ navigation }) {
           secureTextEntry={true}
         />
         {/* forgot password */}
-        <Pressable onPress={
-          () => {
+        <Pressable
+          onPress={() => {
             console.log("Forgot Password Clicked");
-          }
-        } style={{marginLeft: 10}}>
+          }}
+          style={{ marginLeft: 10 }}
+        >
           <Text>Forgot Password?</Text>
         </Pressable>
         {/* login button */}
@@ -71,59 +66,39 @@ export default function Signin({ navigation }) {
           onPress={() => {
             console.log("Login Clicked");
           }}
+          style={{
+            backgroundColor: colors.darkOrange,
+            padding: 15,
+            marginHorizontal: 5,
+            borderRadius: 30,
+            marginVertical: 20,
+          }}
         >
-          <View
-            style={{
-              backgroundColor: colors.darkOrange,
-              padding: 10,
-              marginHorizontal: 5,
-              borderRadius: 30,
-              marginVertical: 20,
-            }}
-          >
-            <Text style={{ color: "white", fontSize: 18, textAlign: "center" }}>
-              Sing In
-            </Text>
-          </View>
-        </Pressable>
-        
-        <View>
-          <View style={{ height: 1, backgroundColor: "#ccc", marginTop: 30 }} />
-          <Text
-            style={{
-              backgroundColor: "#fff",
-              alignSelf: "center",
-              paddingHorizontal: 10,
-              color: "#ccc",
-              fontSize: 16,
-              position: "absolute",
-              bottom: -7,
-            }}
-          >
-            or
+          <Text style={{ color: "white", fontSize: 18, textAlign: "center" }}>
+            Sing In
           </Text>
-        </View>
+        </Pressable>
+        {/* Or text */}
+        <OrText />
         {/* google sign in */}
-        <Pressable onPress={() => login()} style={styles.oneTapSignIn}>
-          {/* <SmallButton
-            title={[<AntDesign name="google" size={48} color="#4285F4" />]}
-          /> */}
-          <Text preset="catagory" style={{ marginEnd: 5 }}>
-            Sign in with
-          </Text>
-          <AntDesign name="google" size={28} color="#4285F4" />
-        </Pressable>
+        <GoogleButton title="in"/>
       </View>
       <View style={{ position: "absolute", bottom: 0, left: 50 }}>
         <Pressable
           onPress={() => {
             navigation.navigate("Signup");
           }}
-          style={{ marginTop: "5%", alignSelf: "center" }}
+          style={{ justifyContent: "center", alignItems: "center" }}
         >
           <Text>
             Don't have an account?
-            <Text style={styles.signuptext}> Sign up</Text>
+            <Pressable
+              onPress={() => {
+                navigation.navigate("Signup");
+              }}
+            >
+              <Text style={styles.signuptext}>Sign up</Text>
+            </Pressable>
           </Text>
         </Pressable>
       </View>
@@ -166,5 +141,6 @@ const styles = StyleSheet.create({
     color: "#FB9400",
     fontWeight: "bold",
     marginLeft: "6%",
+    marginBottom: -2,
   },
 });

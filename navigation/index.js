@@ -12,10 +12,10 @@ import Bookmark from "../src/screens/Bookmark";
 import SearchPage from "../src/screens/SearchPage";
 import CatagoryPage from "../src/screens/CatagoryPage";
 import Signin from "../src/screens/Signin";
-// import Signup from "../src/screens/Signup";
 import { useState } from "react";
 import SeeAllPage from "../src/screens/SeeAllPage";
 import ShopDetails from "../src/screens/ShopDetails";
+import Signup from "../src/screens/Signup";
 
 const THEME = {
     ...DefaultTheme,
@@ -31,8 +31,8 @@ const AuthStack = createNativeStackNavigator();
 function AuthStackScreen() {
     return (
         <AuthStack.Navigator screenOptions={{ headerShown: false }}>
-            <AuthStack.Screen name="signin" component={Signin} />
-            {/* <AuthStack.Screen name="signup" component={Signup} /> */}
+            <AuthStack.Screen name="Signin" component={Signin} />
+            <AuthStack.Screen name="Signup" component={Signup} />
         </AuthStack.Navigator>
     );
 }
