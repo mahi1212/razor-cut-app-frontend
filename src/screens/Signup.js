@@ -22,7 +22,7 @@ export default function Signup() {
   //call post
   const saveUser = (email, password) => {
     const user = { email, password };
-    fetch("http://localhost:5012/users", {
+    fetch("http://192.168.0.121:5000/users", {
       method: "POST",
       headers: {
         "content-type": "application/json",

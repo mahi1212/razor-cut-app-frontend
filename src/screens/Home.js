@@ -22,7 +22,6 @@ import { LogBox } from "react-native";
 import CatagoryBox from "../components/Home/CatagoryBox/CatagoryBox";
 
 import Image from "react-native-image-progress";
-import AsyncStorage from "@react-native-async-storage/async-storage";
 import NavigationSearch from "../components/Home/Search/NavigationSearch";
 import SingleShop from "../components/Home/SingleShop/SingleShop";
 import CatagoryTitle from "../components/Home/CatagoryTitle/CatagoryTitle";
@@ -65,7 +64,7 @@ export default function Home() {
 
   const getShops = () => {
     setIsLoading(true);
-    fetch(`https://razor-cut-backend.onrender.com/shops`)
+    fetch(`http://192.168.0.121:5000/shops`)
       .then((res) => res.json())
       .then((data) => {
         setShops(data);
@@ -92,7 +91,7 @@ export default function Home() {
       getShops();
     } else {
       setIsLoading(true);
-      fetch(`https://razor-cut-backend.onrender.com/catagoryShops/${status}`)
+      fetch(`http://192.168.0.121:5000/catagoryShops/${status}`)
         .then((res) => res.json())
         .then((data) => {
           setShops(data);
