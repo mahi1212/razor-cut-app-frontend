@@ -26,10 +26,8 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 import NavigationSearch from "../components/Home/Search/NavigationSearch";
 import SingleShop from "../components/Home/SingleShop/SingleShop";
 import CatagoryTitle from "../components/Home/CatagoryTitle/CatagoryTitle";
-import { signOut } from "firebase/auth";
-import { auth } from "../../navigation";
 
-export default function Home({ navigation }) {
+export default function Home() {
   // for watching loading and refreshing state
   const [refreshing, setRefreshing] = useState(false);
   const [isLoading, setIsLoading] = useState(false);

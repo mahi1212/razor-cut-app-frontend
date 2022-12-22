@@ -4,9 +4,9 @@ import { Ionicons } from "@expo/vector-icons";
 import Text from "../../Text/Text";
 import { typography } from "../../../theme/typography";
 import { useNavigation } from "@react-navigation/native";
-import { auth } from "../../../../navigation";
 import { signOut } from "firebase/auth";
 import { MaterialIcons } from '@expo/vector-icons';
+import { auth } from "../../../../navigation";
 
 export default function Header({ cart }) {
   const { container, logo, logoContainer, greetings, wave } = styles;

@@ -109,7 +109,6 @@ const firebaseConfig = {
 };
 const app = initializeApp(firebaseConfig);
 export const auth = getAuth();
-
 export default function Navigation() {
   const [user, setUser] = useState(null);
   useEffect(() => {

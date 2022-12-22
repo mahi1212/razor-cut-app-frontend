@@ -1,8 +1,5 @@
 import { View, Pressable, StyleSheet, TextInput } from "react-native";
 import React, { useState } from "react";
-// import Checkbox from "expo-checkbox";
-// import Button from "../components/button";
-// import SmallButton from "../components/smallButton";
 import { FontAwesome } from "@expo/vector-icons";
 import Input from "../components/Login/input";
 import Checkbox from "expo-checkbox";
@@ -12,9 +9,9 @@ import { colors } from "../theme/colors";
 import Text from "../components/Text/Text";
 import OrText from "../components/Login/OrText";
 import GoogleButton from "../components/Login/GoogleButton";
-import { getAuth, createUserWithEmailAndPassword } from "firebase/auth";
-// import auth from "@react-native-firebase/auth";
-const auth = getAuth();
+import { createUserWithEmailAndPassword } from "firebase/auth";
+import { auth } from "../../navigation";
+
 export default function Signup() {
   const navigation = useNavigation();
   const [agree, setAgree] = useState(false);

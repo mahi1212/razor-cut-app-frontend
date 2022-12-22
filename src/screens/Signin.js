@@ -18,7 +18,7 @@ export default function Signin() {
   const [password, setPassword] = useState("");
   //handle login function
   const login = () => {
-    // console.log(email, password);
+    console.log(email, password);
     if(password.length<6){
       return alert("Password must be at least 6 characters")
     }
