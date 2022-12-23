@@ -45,7 +45,7 @@ export default function Signup() {
         const errorMessage = error.message;
         // ..
       });
-      saveUser(email, password)
+    saveUser(email, password);
   };
 
   return (
@@ -57,25 +57,10 @@ export default function Signup() {
       </View>
       {/* input fields */}
       <View style={{ marginTop: 60 }}>
-        <TextInput
-          placeholder="Email"
-          onChangeText={(text) => setEmail(text)}
-          style={{
-            marginBottom: 15,
-            backgroundColor: "#F5F5F5",
-            padding: 20,
-            borderRadius: 10,
-          }}
-        />
-        <TextInput
+        <Input placeholder="Email" onChangeText={(text) => setEmail(text)} />
+        <Input
           placeholder="Password"
           onChangeText={(text) => setPassword(text)}
-          style={{
-            marginBottom: 15,
-            backgroundColor: "#F5F5F5",
-            padding: 20,
-            borderRadius: 10,
-          }}
           secureTextEntry={true}
         />
       </View>

@@ -1,7 +1,5 @@
-import { StyleSheet, Text, TextInput, View } from "react-native";
+import { StyleSheet, TextInput } from "react-native";
 import React, { useState } from "react";
-import { EvilIcons } from "@expo/vector-icons";
-
 
 export default function Input({
   placeholder,
@@ -14,15 +12,10 @@ export default function Input({
   title
 }) {
 
-
-// const [bgColor,setbgColor] = useState("primary")
-
 // const customOnFocus = () =>{
 //   props?onFocus:
 //   setbgColor(secondary)
 // }
-
-
 
   return (
     <TextInput
@@ -45,13 +38,9 @@ export default function Input({
 
 const styles = StyleSheet.create({
   input: {
-    height: 55,
-    width: 380,
-    borderColor: "grey",
-    marginBottom: 20,
+    marginBottom: 15,
+    backgroundColor: "#F5F5F5",
+    padding: 20,
     borderRadius: 10,
-    borderWidth: 1,
-    padding: 15,
-    alignSelf: "center",
-  },
+  }
 });

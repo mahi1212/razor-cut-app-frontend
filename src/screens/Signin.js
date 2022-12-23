@@ -10,15 +10,16 @@ import OrText from "../components/Login/OrText";
 import GoogleButton from "../components/Login/GoogleButton";
 import { signInWithEmailAndPassword } from "firebase/auth";
 import { auth } from "../../navigation";
+import Input from "../components/Login/input";
 
 export default function Signin() {
   const navigation = useNavigation();
   const [agree, setAgree] = useState(false);
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+
   //handle login function
   const login = () => {
-    console.log(email, password);
     if(password.length<6){
       return alert("Password must be at least 6 characters")
     }
@@ -35,27 +36,8 @@ export default function Signin() {
         <Text style={styles.title2}>Account</Text>
       </View>
       <View style={{ marginTop: 60 }}>
-        <TextInput
-          placeholder="Email"
-          onChangeText={(text) => setEmail(text)}
-          style={{
-            marginBottom: 15,
-            backgroundColor: "#F5F5F5",
-            padding: 20,
-            borderRadius: 10,
-          }}
-        />
-        <TextInput
-          placeholder="Password"
-          onChangeText={(text) => setPassword(text)}
-          style={{
-            marginBottom: 15,
-            backgroundColor: "#F5F5F5",
-            padding: 20,
-            borderRadius: 10,
-          }}
-          secureTextEntry={true}
-        />
+        <Input placeholder="Email" onChangeText={(text) => setEmail(text)} />
+        <Input placeholder="Password" onChangeText={(text) => setPassword(text)} secureTextEntry={true} />
         {/* forgot password */}
         <Pressable
           onPress={() => {
@@ -68,7 +50,6 @@ export default function Signin() {
         {/* login button */}
         <Pressable
           onPress={() => {
-            console.log("Login Clicked");
             login();
           }}
           style={{
