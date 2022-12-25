@@ -8,17 +8,17 @@ import Explore from "../src/screens/Explore";
 import Booking from "../src/screens/Booking";
 import Inbox from "../src/screens/Inbox";
 import Profile from "../src/screens/Profile";
-import Bookmark from "../src/screens/Home/Bookmark";
-import SearchPage from "../src/screens/Home/SearchPage";
-import CatagoryPage from "../src/screens/Home/CatagoryPage";
 import Signin from "../src/screens/Signin";
 import { useState } from "react";
-import SeeAllPage from "../src/screens/Home/SeeAllPage";
-import ShopDetails from "../src/screens/Home/ShopDetails";
 import Signup from "../src/screens/Signup";
 import { initializeApp } from "firebase/app";
 import { getAuth, onAuthStateChanged } from "firebase/auth";
 import { useEffect } from "react";
+import Bookmark from "../src/screens/Home/Bookmark";
+import SearchPage from "../src/screens/Home/SearchPage";
+import CatagoryPage from "../src/screens/Home/CatagoryPage";
+import SeeAll from "../src/screens/Home/SeeAllPage";
+import ShopDetails from "../src/screens/Home/ShopDetails";
 
 const THEME = {
   ...DefaultTheme,
@@ -47,7 +47,7 @@ function HomeStackScreen() {
       <HomeStack.Screen name="Bookmark" component={Bookmark} />
       <HomeStack.Screen name="SearchPage" component={SearchPage} />
       <HomeStack.Screen name="CatagoryPage" component={CatagoryPage} />
-      <HomeStack.Screen name="SeeAll" component={SeeAllPage} />
+      <HomeStack.Screen name="SeeAll" component={SeeAll} />
       <HomeStack.Screen name="shopDetails" component={ShopDetails} />
     </HomeStack.Navigator>
   );
