@@ -20,6 +20,7 @@ export default function App() {
     <Provider store={store}>
       <SafeAreaView style={{ flex: 1 }}>
         <Navigation />
+     
       </SafeAreaView>
       <StatusBar />
     </Provider>
