@@ -1,6 +1,7 @@
 import React, { useState, useMemo } from "react";
 import { Calendar } from "react-native-calendars";
-import { spacing } from "../theme/spacing";
+import { spacing } from "../../theme/spacing";
+
 
 export default function DatePick(props) {
   const [selected, setSelected] = useState("");

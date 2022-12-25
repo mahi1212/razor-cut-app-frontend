@@ -14,7 +14,7 @@ export default function Button2({ title, onPress, customStyles }) {
 
 const styles = StyleSheet.create({
   button: {
-    width: 350,
+    width: "100%",
     height: 55,
     backgroundColor: "FFFFFF",
     justifyContent: "center",

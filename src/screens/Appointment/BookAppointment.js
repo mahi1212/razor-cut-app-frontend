@@ -2,11 +2,10 @@ import { View, TextInput, StyleSheet, ScrollView } from "react-native";
 import { useForm, Controller } from "react-hook-form";
 import { spacing } from "../../theme/spacing";
 import { colors } from "../../theme/colors";
-import Button from "../../components/Button";
 import ProfileHeader from "../../components/ProfileCommonComponent/ProfileHeader";
-import DatePick from "../../components/DatePick";
 import Text from "../../components/Text/Text";
-import TimePick from "../../components/TimePick";
+import Button from "../../components/Appointment/Button";
+import DatePick from "../../components/Appointment/DatePick";
 
 export default function BookAppointment({ backBtn, props }) {
   const {
