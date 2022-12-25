@@ -1,10 +1,10 @@
 import { FlatList, View } from 'react-native'
 import React from 'react'
-import Text from '../components/Text/Text'
-import PageHeader from '../components/Home/PageHeader/PageHeader'
-import Search from '../components/Home/Search/Search'
-import { spacing } from '../theme/spacing'
-import SingleShop from '../components/Home/SingleShop/SingleShop'
+import Text from '../../components/Text/Text'
+import PageHeader from '../../components/Home/PageHeader/PageHeader'
+import Search from '../../components/Home/Search/Search'
+import { spacing } from '../../theme/spacing'
+import SingleShop from '../../components/Home/SingleShop/SingleShop'
 
 export default function CatagoryPage({ route }) {
     const { text } = route.params

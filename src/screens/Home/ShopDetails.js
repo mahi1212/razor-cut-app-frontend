@@ -1,13 +1,13 @@
 import { Dimensions, FlatList, Linking, Pressable, ScrollView, StyleSheet, TouchableOpacity, View } from 'react-native'
 import React, { useState } from 'react'
-import Text from '../components/Text/Text';
-import { colors } from '../theme/colors';
+import Text from '../../components/Text/Text';
+import { colors } from '../../theme/colors';
 import { useEffect } from 'react';
 import { Entypo } from '@expo/vector-icons';
-import Catagories from '../components/ShopDetails/Catagory/Catagories';
-import CatagoryTitle from '../components/Home/CatagoryTitle/CatagoryTitle';
-import Members from '../components/ShopDetails/Members/Members';
-import { catagoryList, details } from '../components/Home/CatagoryBox/CatagoryList';
+import Catagories from '../../components/ShopDetails/Catagory/Catagories';
+import CatagoryTitle from '../../components/Home/CatagoryTitle/CatagoryTitle';
+import Members from '../../components/ShopDetails/Members/Members';
+import { catagoryList, details } from '../../components/Home/CatagoryBox/CatagoryList';
 import Image from 'react-native-image-progress';
 import MapView, { Marker } from 'react-native-maps';
 import { useNavigation } from '@react-navigation/native';
@@ -266,7 +266,7 @@ export default function ShopDetails({ route }) {
                 >
                     {/* shop location */}
                     <Marker
-                        image={require('../../assets/images/shop-marker.png')}
+                        image={require('../../../assets/images/shop-marker.png')}
                         coordinate={{
                             latitude: shop.latitude,
                             longitude: shop.longitude,

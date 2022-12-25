@@ -1,12 +1,12 @@
 import { View, Text, FlatList, StyleSheet, ScrollView, TouchableOpacity } from 'react-native'
 import React, { useEffect, useState } from 'react'
 import { SafeAreaView } from 'react-native-safe-area-context';
-import PageHeader from '../components/Home/PageHeader/PageHeader';
-import Search from '../components/Home/Search/Search';
-import { spacing } from '../theme/spacing';
-import SingleShop from '../components/Home/SingleShop/SingleShop';
-import { colors } from '../theme/colors';
-import { catagoryList } from '../components/Home/CatagoryBox/CatagoryList';
+import PageHeader from '../../components/Home/PageHeader/PageHeader';
+import Search from '../../components/Home/Search/Search';
+import { spacing } from '../../theme/spacing';
+import SingleShop from '../../components/Home/SingleShop/SingleShop';
+import { colors } from '../../theme/colors';
+import { catagoryList } from '../../components/Home/CatagoryBox/CatagoryList';
 
 export default function SeeAll({ route }) {
   const [status, setStatus] = useState('All');

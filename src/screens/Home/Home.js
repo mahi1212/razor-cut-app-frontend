@@ -9,22 +9,22 @@ import {
   View,
 } from "react-native";
 import React, { useEffect, useState } from "react";
-import Text from "../components/Text/Text";
-import { colors } from "../theme/colors";
-import { spacing } from "../theme/spacing";
+import Text from "../../components/Text/Text";
+import { colors } from "../../theme/colors";
+import { spacing } from "../../theme/spacing";
 import { SafeAreaView } from "react-native-safe-area-context";
-import Header from "../components/Home/Header/Header";
-import Slider from "../components/Home/Slider/Slider";
+import Header from "../../components/Home/Header/Header";
+import Slider from "../../components/Home/Slider/Slider";
 // icons package
 import { Entypo } from "@expo/vector-icons";
-import { catagoryList } from "../components/Home/CatagoryBox/CatagoryList";
+import { catagoryList } from "../../components/Home/CatagoryBox/CatagoryList";
 import { LogBox } from "react-native";
-import CatagoryBox from "../components/Home/CatagoryBox/CatagoryBox";
+import CatagoryBox from "../../components/Home/CatagoryBox/CatagoryBox";
 
 import Image from "react-native-image-progress";
-import NavigationSearch from "../components/Home/Search/NavigationSearch";
-import SingleShop from "../components/Home/SingleShop/SingleShop";
-import CatagoryTitle from "../components/Home/CatagoryTitle/CatagoryTitle";
+import NavigationSearch from "../../components/Home/Search/NavigationSearch";
+import SingleShop from "../../components/Home/SingleShop/SingleShop";
+import CatagoryTitle from "../../components/Home/CatagoryTitle/CatagoryTitle";
 
 export default function Home() {
   // for watching loading and refreshing state

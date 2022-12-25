@@ -1,11 +1,11 @@
 import { View, Text, ScrollView, FlatList, StyleSheet, TextInput, Pressable } from 'react-native'
 import React from 'react'
-import Search from '../components/Home/Search/Search'
-import { spacing } from '../theme/spacing'
-import PageHeader from '../components/Home/PageHeader/PageHeader'
-import SingleShop from '../components/Home/SingleShop/SingleShop'
+import Search from '../../components/Home/Search/Search'
+import { spacing } from '../../theme/spacing'
+import PageHeader from '../../components/Home/PageHeader/PageHeader'
+import SingleShop from '../../components/Home/SingleShop/SingleShop'
 import { Ionicons } from '@expo/vector-icons';
-import { colors } from '../theme/colors'
+import { colors } from '../../theme/colors'
 import { useEffect } from 'react'
 
 export default function SearchPage() {
