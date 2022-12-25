@@ -64,7 +64,8 @@ export default function Home() {
 
   const getShops = () => {
     setIsLoading(true);
-    fetch(`http://192.168.0.121:5000/shops`)
+    // 192.168.0.221
+    fetch(`http://192.168.0.221:5000/shops`)
       .then((res) => res.json())
       .then((data) => {
         setShops(data);
@@ -91,7 +92,7 @@ export default function Home() {
       getShops();
     } else {
       setIsLoading(true);
-      fetch(`http://192.168.0.121:5000/catagoryShops/${status}`)
+      fetch(`http://192.168.0.221:5000/catagoryShops/${status}`)
         .then((res) => res.json())
         .then((data) => {
           setShops(data);

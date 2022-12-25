@@ -31,7 +31,6 @@ export default function Input({
       // background={bgColor}
       title={title}
      
-
     />
   );
 }

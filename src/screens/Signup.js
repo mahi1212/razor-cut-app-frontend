@@ -1,6 +1,5 @@
 import { View, Pressable, StyleSheet, TextInput } from "react-native";
 import React, { useState } from "react";
-import { FontAwesome } from "@expo/vector-icons";
 import Input from "../components/Login/input";
 import Checkbox from "expo-checkbox";
 // import Button from "../components/Login/button";
@@ -22,7 +21,7 @@ export default function Signup() {
   //call post
   const saveUser = (email, password) => {
     const user = { email, password };
-    fetch("http://192.168.0.121:5000/users", {
+    fetch("http://192.168.0.221:5000/users", {
       method: "POST",
       headers: {
         "content-type": "application/json",

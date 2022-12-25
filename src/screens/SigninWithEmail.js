@@ -11,9 +11,7 @@ import { FontAwesome } from "@expo/vector-icons";
 
 
 
-export default function SigninWithEmail({navigation}) {
-  const navigateToSignIn = () => {
-    navigation.navigate("Signup");}
+export default function SigninWithEmail() {
   const [agree, setAgree] = useState(false);
 
   
