@@ -1,23 +1,29 @@
-import { View, Text, TouchableOpacity, StyleSheet } from "react-native";
+import { View, TouchableOpacity, StyleSheet } from "react-native";
 import React from "react";
-import { colors } from "../../theme/colors";
+import Text from "./Text/Text";
+import { colors } from "../theme/colors";
 
-export default function OnboardingButton({ title, onPress, customStyles }) {
+export default function Button({ title, onPress, customStyles }) {
+
   return (
-    <View>
+   
+  
+  <View>
       <TouchableOpacity style={[styles.button, customStyles]} onPress={onPress}>
+   
         <Text style={styles.title}>{title}</Text>
+   
       </TouchableOpacity>
+  
     </View>
   );
 }
-
 const styles = StyleSheet.create({
   button: {
     borderRadius: 50,
-    width: 190,
+    width:" 100%",
     height: 50,
-    backgroundColor:colors.orange,
+    backgroundColor: colors.orange,
     alignSelf:'center',
     // marginTop:40
     

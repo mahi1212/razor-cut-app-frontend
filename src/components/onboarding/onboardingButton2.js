@@ -1,6 +1,6 @@
 import { View, Text, TouchableOpacity, StyleSheet } from "react-native";
 import React from "react";
-import { colors } from "../theme/colors";
+import { colors } from "../../theme/colors";
 
 export default function OnboardingButton2({ title, onPress, customStyles }) {
   return (

@@ -11,9 +11,10 @@ import {
   StatusBar,
   TouchableOpacity,
   Dimensions,
+  Button,
 } from "react-native";
-import Button from "../components/Login/button";
-
+// import Button from "../components/Login/button";
+import GoogleButton from "../components/Login/GoogleButton";
 
 import OnboardingButton from "../components/onboarding/onboardingButton";
 import OnboardingButton2 from "../components/onboarding/onboardingButton2";
@@ -41,10 +42,10 @@ const slides = [
   },
   {
     id: "3",
-    
+
     // navigation
     //screens
-    
+
     image: require("../../assets/images/image5.jpg"),
     title: "Come To handsome  ",
     subtitle: "And With beautiful",
@@ -130,7 +131,7 @@ const OnboardingScreen = ({ navigation }) => {
           {currentSlideIndex == slides.length - 1 ? (
             <View style={{ height: 50 }}>
               <Button
-                onPress={() => navigation.replace("welcome")}
+                onPress={() => navigation.replace("Signup")}
                 title={"GET STARTED"}
               />
             </View>
@@ -184,7 +185,7 @@ const styles = StyleSheet.create({
   title: {
     color: colors.black,
     fontSize: 45,
-    lineHeight:50,
+    lineHeight: 50,
     fontWeight: "600",
     marginTop: spacing[5],
     textAlign: "center",

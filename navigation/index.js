@@ -7,7 +7,6 @@ import Home from "../src/screens/Home/Home";
 import Explore from "../src/screens/Explore";
 import Booking from "../src/screens/Booking";
 import Inbox from "../src/screens/Inbox";
-import Profile from "../src/screens/Profile";
 import Signin from "../src/screens/Signin";
 import { useState } from "react";
 import Signup from "../src/screens/Signup";
@@ -19,6 +18,13 @@ import SearchPage from "../src/screens/Home/SearchPage";
 import CatagoryPage from "../src/screens/Home/CatagoryPage";
 import SeeAll from "../src/screens/Home/SeeAllPage";
 import ShopDetails from "../src/screens/Home/ShopDetails";
+import WelcomePage from "../src/screens/WelcomePage";
+import OnboardingScreen from "../src/screens/OnboardingScreen";
+import Profile from "../src/screens/Profile/Profile";
+import EditProfile from "../src/screens/Profile/EditProfile";
+import Privacy from "../src/screens/Profile/Privacy";
+import Language from "../src/screens/Profile/Language";
+import Appointment from "../src/screens/Appointment/Appointment";
 
 const THEME = {
   ...DefaultTheme,
@@ -34,6 +40,8 @@ const AuthStack = createNativeStackNavigator();
 function AuthStackScreen() {
   return (
     <AuthStack.Navigator screenOptions={{ headerShown: false }}>
+      <AuthStack.Screen name="welcome" component={WelcomePage} />
+      <AuthStack.Screen name="onboarding" component={OnboardingScreen} />
       <AuthStack.Screen name="Signin" component={Signin} />
       <AuthStack.Screen name="Signup" component={Signup} />
     </AuthStack.Navigator>
@@ -66,7 +74,7 @@ const BookingStack = createNativeStackNavigator();
 function BookingStackScreen() {
   return (
     <BookingStack.Navigator screenOptions={{ headerShown: false }}>
-      <BookingStack.Screen name="Booking" component={Booking} />
+      <BookingStack.Screen name="Booking" component={Appointment} />
     </BookingStack.Navigator>
   );
 }
@@ -85,6 +93,11 @@ function ProfileStackScreen() {
   return (
     <ProfileStack.Navigator screenOptions={{ headerShown: false }}>
       <ProfileStack.Screen name="Profile" component={Profile} />
+      <ProfileStack.Screen name="Edit" component={EditProfile} />
+      <ProfileStack.Screen name="Privacy" component={Privacy} />
+      <ProfileStack.Screen name="Language" component={Language} />
+      <ProfileStack.Screen name="Appointment" component={Appointment} />
+      {/* <ProfileStack.Screen name="Notification" component={Notification} /> */}
     </ProfileStack.Navigator>
   );
 }
