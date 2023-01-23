@@ -23,33 +23,39 @@ import {
   sp,
   bn,
 } from "../../components/ProfileCommonComponent/localizations";
+import Checkbox from "expo-checkbox";
+import TimeSelect from "./TimeSelect";
 
 
 export default function Appointment() {
-  const {
-    control,
-    handleSubmit,
-    // formState: { errors },
-  } = useForm();
-  //date
+  const [isSelected, setSelection] = useState(false);
   const [selectedStartDate, setSelectedStartDate] = useState("");
   const [name, setName] = useState('')
   const [phone, setPhone] = useState('')
   console.log(name, phone, selectedStartDate)
-
+  const data = {
+    name: name,
+    phone: phone,
+    date: selectedStartDate ? selectedStartDate.format("DD-MM-YYYY").toString()
+      : "No date selected"
+  }
   const startDate = selectedStartDate
     ? selectedStartDate.format("DD-MM-YYYY").toString()
     : "No date selected";
 
   //submit
-  const onSubmit = (data) => {
+  const onSubmit = () => {
     console.log(data);
+    if (!name || !phone || !selectedStartDate) {
+      alert('Please fill all the fields')
+    } else {
+      axios.post("http://192.168.0.221:5000/appointment", data).then((res) => {
+        if (res.data.insertedId) {
+          alert("Appointment Booked Successfully");
+        }
+      });
+    }
 
-    axios.post("http://192.168.0.106:5000/appointment", data).then((res) => {
-      if (res.data.insertedId) {
-        alert("Appointment Booked Successfully");
-      }
-    });
   };
 
   //language
@@ -81,22 +87,18 @@ export default function Appointment() {
       {/* Dates */}
       <View style={{ marginTop: spacing[3] }}>
         <CalendarPicker onDateChange={(date) => setSelectedStartDate(date)} />
-        <TextInput style={styles.textSection}>date={startDate}</TextInput>
+        <TextInput editable={false} style={styles.textSection}>Date selected : {startDate}</TextInput>
       </View>
 
       {/* Time */}
-      <View style={{ marginTop: spacing[3] }}>
-        <Controller
-          control={control}
-          render={({ field }) => <TimePick {...field} />}
-          name="time"
-          rules={{ required: true }}
-        />
-        
-      </View>
-
-      <Button onPress={handleSubmit(onSubmit)} title="Continue" />
-    </ScrollView>
+      {/* <View style={{ marginTop: spacing[3] }}>
+        <TimePick />
+      </View> */}
+      {/* time in checkbox */}
+      <TimeSelect />
+      
+      <Button onPress={onSubmit} title="Continue" />
+    </ScrollView >
   );
 }
 
@@ -104,14 +106,13 @@ const styles = StyleSheet.create({
   detailsView: {
     padding: spacing[3],
   },
-
   textSection: {
     marginVertical: spacing[3],
-
     paddingVertical: spacing[3],
-
     borderBottomColor: colors.gray,
-
     borderBottomWidth: 0.5,
+  },
+  checkbox: {
+    alignSelf: "center",
   },
 });
