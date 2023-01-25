@@ -65,7 +65,7 @@ export default function Home() {
   const getShops = () => {
     setIsLoading(true);
     // 192.168.0.221
-    fetch(`http://192.168.0.221:5000/shops`)
+    fetch(`https://good-pink-ant-slip.cyclic.app/shops`)
       .then((res) => res.json())
       .then((data) => {
         setShops(data);
@@ -92,7 +92,8 @@ export default function Home() {
       getShops();
     } else {
       setIsLoading(true);
-      fetch(`http://192.168.0.221:5000/catagoryShops/${status}`)
+      // https://good-pink-ant-slip.cyclic.app/
+      fetch(`https://good-pink-ant-slip.cyclic.app/catagoryShops/${status}`)
         .then((res) => res.json())
         .then((data) => {
           setShops(data);

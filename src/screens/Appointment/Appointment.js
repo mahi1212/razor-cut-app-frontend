@@ -28,7 +28,8 @@ import TimeSelect from "./TimeSelect";
 
 
 export default function Appointment() {
-  const [isSelected, setSelection] = useState(false);
+  const [isSelected, setSelection] = useState('');
+  console.log(isSelected)
   const [selectedStartDate, setSelectedStartDate] = useState("");
   const [name, setName] = useState('')
   const [phone, setPhone] = useState('')
@@ -49,7 +50,7 @@ export default function Appointment() {
     if (!name || !phone || !selectedStartDate) {
       alert('Please fill all the fields')
     } else {
-      axios.post("http://192.168.0.221:5000/appointment", data).then((res) => {
+      axios.post("https://good-pink-ant-slip.cyclic.app/appointment", data).then((res) => {
         if (res.data.insertedId) {
           alert("Appointment Booked Successfully");
         }
@@ -57,7 +58,7 @@ export default function Appointment() {
     }
 
   };
-
+  const times = ['9:00', '10:00', '11:00', '12:00', '13:00', '14:00', '15:00', '16:00', '17:00', '18:00', '19:00', '20:00', '21:00', '22:00'] 
   //language
   i18n.fallbacks = true;
   i18n.translations = { en, sp, bn };
@@ -96,7 +97,18 @@ export default function Appointment() {
       </View> */}
       {/* time in checkbox */}
       <TimeSelect />
-      
+      <View style={{ marginTop: spacing[3] }}>
+        <Text preset="h6">Select Time</Text>
+    </View>
+      {/* {
+        times.map((time, index) => {
+          return (
+            <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', marginVertical: spacing[3] }}>
+              <Text onPress={() => setSelection(time)} preset="h6">{time}</Text>
+            </View>
+          )
+        })
+      } */}
       <Button onPress={onSubmit} title="Continue" />
     </ScrollView >
   );
