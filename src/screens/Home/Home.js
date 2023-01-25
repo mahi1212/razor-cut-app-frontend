@@ -65,7 +65,7 @@ export default function Home() {
   const getShops = () => {
     setIsLoading(true);
     // 192.168.0.221
-    fetch(`https://good-pink-ant-slip.cyclic.app/shops`)
+    fetch(`http://192.168.0.221:5000/shops`)
       .then((res) => res.json())
       .then((data) => {
         setShops(data);
@@ -93,7 +93,7 @@ export default function Home() {
     } else {
       setIsLoading(true);
       // https://good-pink-ant-slip.cyclic.app/
-      fetch(`https://good-pink-ant-slip.cyclic.app/catagoryShops/${status}`)
+      fetch(`http://192.168.0.221:5000/catagoryShops/${status}`)
         .then((res) => res.json())
         .then((data) => {
           setShops(data);
@@ -152,7 +152,7 @@ export default function Home() {
 
   // Here is main function code
   return (
-    <SafeAreaView style={{ flex: 1, marginHorizontal: spacing[2] }}>
+    <SafeAreaView style={{ flex: 1, marginHorizontal: spacing[2] }} onLayout={refreshing}>
       <ScrollView
         style={styles.container}
         showsVerticalScrollIndicator={false}

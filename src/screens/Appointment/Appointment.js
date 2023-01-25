@@ -50,7 +50,7 @@ export default function Appointment() {
     if (!name || !phone || !selectedStartDate) {
       alert('Please fill all the fields')
     } else {
-      axios.post("https://good-pink-ant-slip.cyclic.app/appointment", data).then((res) => {
+      axios.post("http://192.168.0.221:5000/appointment", data).then((res) => {
         if (res.data.insertedId) {
           alert("Appointment Booked Successfully");
         }

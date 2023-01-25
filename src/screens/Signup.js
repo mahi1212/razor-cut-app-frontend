@@ -1,4 +1,4 @@
-import { View, Pressable, StyleSheet, TextInput } from "react-native";
+import { View, Pressable, StyleSheet, TextInput, KeyboardAvoidingView } from "react-native";
 import React, { useState } from "react";
 import Input from "../components/Login/input";
 import Checkbox from "expo-checkbox";
@@ -8,21 +8,23 @@ import { colors } from "../theme/colors";
 import Text from "../components/Text/Text";
 import OrText from "../components/Login/OrText";
 import GoogleButton from "../components/Login/GoogleButton";
-import { createUserWithEmailAndPassword } from "firebase/auth";
+import { createUserWithEmailAndPassword, updateProfile } from "firebase/auth";
 import { auth } from "../../navigation";
 
 export default function Signup() {
   const navigation = useNavigation();
   const [agree, setAgree] = useState(false);
 
+  const [name, setName] = useState("");
+  const [phone, setPhone] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
-  //call post
-  const saveUser = (email, password) => {
-    const user = { email, password };
-    
-    fetch("https://good-pink-ant-slip.cyclic.app/users", {
+  // post user to database
+  const saveUser = (name, phone, email, password) => {
+    const user = {name, phone, email, password };
+
+    fetch("http://192.168.0.221:5000/users", {
       method: "POST",
       headers: {
         "content-type": "application/json",
@@ -38,32 +40,38 @@ export default function Signup() {
       .then((userCredential) => {
         // Signed in
         const user = userCredential.user;
+        // update display name
+        updateProfile(auth.currentUser, {
+          displayName: name,
+          phoneNumber: phone,
+        }).catch((error) => {
+          alert(error.message);
+        });
         console.log("success user ---> ", user);
       })
       .catch((error) => {
-        const errorCode = error.code;
         const errorMessage = error.message;
-        // ..
+        alert(errorMessage);
       });
-    saveUser(email, password);
+    saveUser(name, phone, email, password);
   };
 
   return (
-    <View style={{ flex: 1, marginHorizontal: 20 }}>
+    <KeyboardAvoidingView style={{ flex: 1, marginHorizontal: 20 }}>
       {/* title */}
       <View>
         <Text style={styles.title1}>Create Your</Text>
         <Text style={styles.title2}>Account</Text>
       </View>
-      {/* input fields */}
+      {/* input fields name, phone and others*/}
       <View style={{ marginTop: 60 }}>
+        <Input placeholder="Name" onChangeText={(text) => setName(text)} />
+        <Input placeholder="Phone" onChangeText={(text) => setPhone(text)} />
         <Input placeholder="Email" onChangeText={(text) => setEmail(text)} />
-        <Input
-          placeholder="Password"
-          onChangeText={(text) => setPassword(text)}
-          secureTextEntry={true}
+        <Input placeholder="Password" onChangeText={(text) => setPassword(text)} secureTextEntry={true}
         />
       </View>
+      {/* signup button */}
       <Pressable
         onPress={() => {
           handleSignup();
@@ -106,12 +114,12 @@ export default function Signup() {
           </Text>
         </Pressable>
       </View>
-    </View>
+    </KeyboardAvoidingView>
   );
 }
 const styles = StyleSheet.create({
   title1: {
-    marginTop: "25%",
+    marginTop: 30,
     fontSize: 38,
     alignSelf: "flex-start",
     fontWeight: "700",

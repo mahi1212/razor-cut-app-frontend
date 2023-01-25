@@ -6,15 +6,33 @@ import { typography } from "../../../theme/typography";
 import { useNavigation } from "@react-navigation/native";
 import { signOut } from "firebase/auth";
 import { MaterialIcons } from '@expo/vector-icons';
+import { useState } from "react";
+import { useEffect } from "react";
+import { onAuthStateChanged } from "firebase/auth";
 import { auth } from "../../../../navigation";
-
 export default function Header({ cart }) {
   const { container, logo, logoContainer, greetings, wave } = styles;
   // getting day or night in user local time
   const hours = new Date().getHours();
   const isDayTime = hours > 6 && hours < 18;
   const navigation = useNavigation();
-  const name = "Mahinur";
+  // get user name
+  const [user, setUser] = useState(null);
+  useEffect(() => {
+    onAuthStateChanged(auth, (user) => {
+      if (user) {
+        console.log("user is signed in");
+        setUser(user);
+      } else {
+        // User is signed out
+        console.log("user is signed out");
+        setUser(null);
+      }
+    });
+  }, []);
+  console.log(user);
+  const name = user?.displayName || "User";
+  // sign out function
   const handleSignOut = () => {
     signOut(auth)
       .then(() => {
@@ -40,8 +58,8 @@ export default function Header({ cart }) {
         <View style={styles.iconContainer}>
           <Pressable
             onPress={() => {
-            //   console.log("pressed in notification");
-            handleSignOut();
+              //   console.log("pressed in notification");
+              handleSignOut();
             }}
           >
             <MaterialIcons name="logout" size={24} color="black" />
