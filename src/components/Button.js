@@ -23,7 +23,7 @@ const styles = StyleSheet.create({
     borderRadius: 50,
     width:" 100%",
     height: 50,
-    backgroundColor: colors.orange,
+    backgroundColor: colors.darkOrange,
     alignSelf:'center',
     // marginTop:40
     

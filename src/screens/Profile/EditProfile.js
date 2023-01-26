@@ -1,5 +1,7 @@
 import React from "react";
 import {
+  Linking,
+  Pressable,
   SafeAreaView,
   ScrollView,
   StyleSheet,
@@ -20,102 +22,119 @@ import { StatusBar } from "expo-status-bar";
 import { Controller, useForm } from "react-hook-form";
 import axios from "axios";
 import Button from "../../components/Button";
+import { useState } from "react";
+import Text from "../../components/Text/Text";
+import { useRef } from "react";
+import { auth } from "../../../navigation";
+import { useEffect } from "react";
+import { onAuthStateChanged } from "firebase/auth";
 
 export default function EditProfile({ title, backBtn }) {
   i18n.fallbacks = true;
   i18n.translations = { en, sp, bn };
+  const [name, setName] = useState('')
+  const [photoUrl, setPhotoUrl] = useState('')
+  const [number, setNumber] = useState('')
+  //reset state
+  const resetState = () => {
+    setName('');
+    setPhotoUrl('');
+    setNumber('');
+  }
+  const input1Ref = useRef(null);
+  const input2Ref = useRef(null);
+  const input3Ref = useRef(null);
 
-  //update
-  const { handleSubmit, control, reset } = useForm();
+  function clearTextInputs() {
+    input1Ref.current.clear();
+    input2Ref.current.clear();
+    input3Ref.current.clear();
+    resetState();
+  }
+  // get user email
+  const [email, setEmail] = useState(null);
+  console.log(email);
+  const [user, setUser] = useState(null);
+  useEffect(() => {
+    onAuthStateChanged(auth, (user) => {
+      if (user) {
+        setUser(user);
+        setEmail(user.email);
+      } else {
+        setUser(null);
+      }
+    });
+  }, []);
+  const handleSubmit = () => {
+    const data = {
+      name,
+      photoUrl,
+      number
+    }
+    console.log(data);
+    if (name == '' || photoUrl == '' || number == '') {
+      alert('Please fill all the fields')
+    }
+    // put request
+    console.log(user.email);
+    axios.put(`http://192.168.0.221:5000/users/${email}`, data)
+      .then((res) => {
+        if (res.data) {
+          alert("Profile updated successfully");
+          resetState();
+        }
+      });
+  }
 
-   const onSubmit = (data) => {
-     console.log(data);
-     axios.put("http://192.168.0.106:5000/updateUser", data)
-     .then((res) => {
-       if (res.data.insertedId) {
-         alert("Profile updated successfully");
-         reset();
-       }
-     });
-   };
-
-
-   
   return (
     <SafeAreaView>
       <ScrollView style={{ padding: spacing[2] }}>
         <ProfileHeader backBtn={true} title={i18n.t("EditProfile")} />
-
         <View>
           <View style={styles.detailsView}>
-            <Controller
-              control={control}
-              render={({ field: { onChange, onBlur, value } }) => (
-                <TextInput
-                  style={styles.textSection}
-                  onBlur={onBlur}
-                  placeholder="Enter Your Name"
-                  onChangeText={(value) => onChange(value)}
-                  value={value}
-                />
-              )}
-              name="name"
-              rules={{ required: true }}
+            <Text preset="title">Name : </Text>
+            <TextInput
+              ref={input1Ref}
+              style={styles.textSection}
+              placeholder="Update Your Name"
+              onChangeText={(text) => setName(text)}
             />
           </View>
-
+          {/* image url upload */}
           <View style={styles.detailsView}>
-            <Controller
-              control={control}
-              render={({ field: { onChange, onBlur, value } }) => (
-                <TextInput
-                  style={styles.textSection}
-                  onBlur={onBlur}
-                  placeholder="Enter Your Email"
-                  onChangeText={(value) => onChange(value)}
-                  value={value}
-                />
-              )}
-              name="email"
-              rules={{ required: true }}
+            <View style={{ flexDirection: "row" }}>
+              <Text preset="title">Image URL :</Text>
+              <Pressable onPress={() => Linking.openURL("https://imgbb.com/")} style={{ marginLeft: 10 }} >
+                <Text preset="title">GET LINK FROM HERE</Text>
+              </Pressable>
+            </View>
+            <TextInput
+              ref={input2Ref}
+              style={styles.textSection}
+              placeholder="Update Your Image"
+              onChangeText={(text) => setPhotoUrl(text)}
             />
           </View>
-
+          {/* phone number update */}
           <View style={styles.detailsView}>
-            <Controller
-              control={control}
-              render={({ field: { onChange, onBlur, value } }) => (
-                <TextInput
-                  style={styles.textSection}
-                  onBlur={onBlur}
-                  keyboardType="numeric"
-                  placeholder="Enter Your Number"
-                  onChangeText={(value) => onChange(value)}
-                  value={value}
-                />
-              )}
-              name="number"
-              rules={{ required: true }}
+            <Text preset="title">Phone : </Text>
+            <TextInput
+              ref={input3Ref}
+              style={styles.textSection}
+              placeholder="Update Your Number"
+              onChangeText={(text) => setNumber(text)}
             />
           </View>
 
-          <View style={styles.button}>
+          <View style={{marginTop: 20}}>
             <Button
-              style={styles.buttonInner}
-              color
-              title="Reset"
-              onPress={() => {
-                reset({
-                  name: "",
-                  email: "",
-                  number: "",
-                });
-              }}
+              title="Clear"
+              onPress={clearTextInputs}
             />
           </View>
 
-          <View style={{ marginTop: 40, marginBottom: 40 }}>
-            <Button onPress={handleSubmit(onSubmit)} title="Update" />
+          <View style={{ marginTop: 20 }}>
+            <Button onPress={handleSubmit} title="Update" />
           </View>
         </View>
       </ScrollView>
@@ -133,11 +152,9 @@ const styles = StyleSheet.create({
 
   textSection: {
     marginVertical: spacing[3],
-
     paddingVertical: spacing[3],
     borderBottomColor: colors.gray,
-
     borderBottomWidth: 0.5,
   },
- 
+
 });

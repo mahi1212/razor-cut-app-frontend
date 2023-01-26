@@ -33,6 +33,7 @@ export default function Appointment() {
   const [selectedStartDate, setSelectedStartDate] = useState("");
   const [name, setName] = useState('')
   const [phone, setPhone] = useState('')
+  
   console.log(name, phone, selectedStartDate)
   const data = {
     name: name,

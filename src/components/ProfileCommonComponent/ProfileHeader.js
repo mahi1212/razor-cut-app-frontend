@@ -27,7 +27,7 @@ export default function ProfileHeader({ backBtn, title }) {
    
         >
           <AntDesign name="arrowleft" size={24} color="black" />
-          <Text preset="title" style={{marginTop:-26,marginLeft:spacing[10] }}>{title}</Text>
+          <Text preset="title" style={{marginTop:-21,marginLeft:spacing[10] }}>{title}</Text>
 
         </Pressable>
       )}
