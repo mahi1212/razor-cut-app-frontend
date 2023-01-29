@@ -77,7 +77,6 @@ export default function Profile({ navigation }) {
   const [number, setNumber] = useState(null);
   const [email, setEmail] = useState(null);
   const [photoUrl, setPhotoUrl] = useState(null);
-  console.log(photoUrl);
   useEffect(() => {
     onAuthStateChanged(auth, (user) => {
       if (user) {

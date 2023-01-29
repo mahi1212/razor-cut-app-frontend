@@ -25,6 +25,8 @@ import EditProfile from "../src/screens/Profile/EditProfile";
 import Privacy from "../src/screens/Profile/Privacy";
 import Language from "../src/screens/Profile/Language";
 import Appointment from "../src/screens/Appointment/Appointment";
+import axios from "axios";
+import AdminPanel from "../src/screens/AdminPanel";
 
 const THEME = {
   ...DefaultTheme,
@@ -102,6 +104,14 @@ function ProfileStackScreen() {
   );
 }
 
+const AdminStack = createNativeStackNavigator();
+function AdminStackScreen() {
+  return (
+    <AdminStack.Navigator screenOptions={{ headerShown: false }}>
+      <AdminStack.Screen name="Admin" component={AdminPanel} />
+    </AdminStack.Navigator>
+  );
+}
 function TabBarIcon({ fontFamily, name, color }) {
   if (fontFamily === "AntDesign") {
     return <AntDesign name={name} color={color} size={24} />;
@@ -111,7 +121,7 @@ function TabBarIcon({ fontFamily, name, color }) {
     return <SimpleLineIcons name={name} color={color} size={24} />;
   }
 }
-// firebase config
+// firebase config by jenny
 const firebaseConfig = {
   apiKey: "AIzaSyBqBDYYw1zO6LYFIkbMBbv7X6NGcFdi_WQ",
   authDomain: "razor-cut.firebaseapp.com",
@@ -122,102 +132,116 @@ const firebaseConfig = {
 };
 const app = initializeApp(firebaseConfig);
 export const auth = getAuth();
+
 export default function Navigation() {
   const [user, setUser] = useState(null);
+  const [email, setEmail] = useState("");
+  const [role, setRole] = useState("");
   useEffect(() => {
     onAuthStateChanged(auth, (user) => {
       if (user) {
-        console.log("user is signed in");
         setUser(user);
+        setEmail(user.email);
       } else {
-        // User is signed out
-        console.log("user is signed out");
         setUser(null);
       }
     });
   }, []);
 
+  const getUser = () => {
+    axios.get(`http://192.168.0.221:5000/users/${email}`)
+      .then((res) => {
+        setRole(res.data.role);
+      });
+  };
+  getUser();
+
+  // console.log("role", role);
   return (
     <NavigationContainer theme={THEME}>
       {user ? (
-        <Tab.Navigator
-          screenOptions={{
-            headerShown: false,
-            tabBarActiveTintColor: "#FD9F1A",
-          }}
-        >
-          <Tab.Screen
-            options={{
-              title: "Home",
-              tabBarIcon: ({ color }) => (
-                <TabBarIcon fontFamily={"Octicons"} name="home" color={color} />
-              ),
+        role === "admin" ? (
+          <AdminStackScreen />
+        ) : (
+          <Tab.Navigator
+            screenOptions={{
+              headerShown: false,
+              tabBarActiveTintColor: "#FD9F1A",
             }}
-            name="HomeTab"
-            component={HomeStackScreen}
-          />
-          <Tab.Screen
-            options={{
-              title: "Explore",
-              tabBarIcon: ({ color }) => (
-                <TabBarIcon
-                  fontFamily={"SimpleLineIcons"}
-                  name="location-pin"
-                  color={color}
-                />
-              ),
-            }}
-            name="ExploreTab"
-            component={ExploreStackScreen}
-          />
-          <Tab.Screen
-            options={{
-              title: "My Booking",
-              tabBarIcon: ({ color }) => (
-                <TabBarIcon
-                  fontFamily={"SimpleLineIcons"}
-                  name="notebook"
-                  color={color}
-                />
-              ),
-            }}
-            name="BookingTab"
-            component={BookingStackScreen}
-          />
-          <Tab.Screen
-            options={{
-              title: "Inbox",
-              tabBarIcon: ({ color }) => (
-                <TabBarIcon
-                  fontFamily={"AntDesign"}
-                  name="message1"
-                  color={color}
-                />
-              ),
-            }}
-            name="InboxTab"
-            component={InboxStackScreen}
-          />
+          >
+            <Tab.Screen
+              options={{
+                title: "Home",
+                tabBarIcon: ({ color }) => (
+                  <TabBarIcon fontFamily={"Octicons"} name="home" color={color} />
+                ),
+              }}
+              name="HomeTab"
+              component={HomeStackScreen}
+            />
+            <Tab.Screen
+              options={{
+                title: "Explore",
+                tabBarIcon: ({ color }) => (
+                  <TabBarIcon
+                    fontFamily={"SimpleLineIcons"}
+                    name="location-pin"
+                    color={color}
+                  />
+                ),
+              }}
+              name="ExploreTab"
+              component={ExploreStackScreen}
+            />
+            <Tab.Screen
+              options={{
+                title: "My Booking",
+                tabBarIcon: ({ color }) => (
+                  <TabBarIcon
+                    fontFamily={"SimpleLineIcons"}
+                    name="notebook"
+                    color={color}
+                  />
+                ),
+              }}
+              name="BookingTab"
+              component={BookingStackScreen}
+            />
+            <Tab.Screen
+              options={{
+                title: "Inbox",
+                tabBarIcon: ({ color }) => (
+                  <TabBarIcon
+                    fontFamily={"AntDesign"}
+                    name="message1"
+                    color={color}
+                  />
+                ),
+              }}
+              name="InboxTab"
+              component={InboxStackScreen}
+            />
 
-          <Tab.Screen
-            options={{
-              title: "Profile",
-              tabBarIcon: ({ color }) => (
-                <TabBarIcon
-                  fontFamily={"AntDesign"}
-                  name="user"
-                  color={color}
-                />
-              ),
-            }}
-            name="ProfileTab"
-            component={ProfileStackScreen}
-          />
-        </Tab.Navigator>
-      ) : (
-        <AuthStackScreen />
-        // <Text> asd</Text>
-      )}
+            <Tab.Screen
+              options={{
+                title: "Profile",
+                tabBarIcon: ({ color }) => (
+                  <TabBarIcon
+                    fontFamily={"AntDesign"}
+                    name="user"
+                    color={color}
+                  />
+                ),
+              }}
+              name="ProfileTab"
+              component={ProfileStackScreen}
+            />
+          </Tab.Navigator>
+        ))
+        : (
+          <AuthStackScreen />
+          // <Text> asd</Text>
+        )}
     </NavigationContainer>
   );
 }
