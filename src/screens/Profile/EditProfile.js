@@ -34,12 +34,12 @@ export default function EditProfile({ title, backBtn }) {
   i18n.translations = { en, sp, bn };
   const [name, setName] = useState('')
   const [photoUrl, setPhotoUrl] = useState('')
-  const [number, setNumber] = useState('')
+  const [phone, setPhone] = useState('')
   //reset state
   const resetState = () => {
     setName('');
     setPhotoUrl('');
-    setNumber('');
+    setPhone('');
   }
   const input1Ref = useRef(null);
   const input2Ref = useRef(null);
@@ -69,10 +69,10 @@ export default function EditProfile({ title, backBtn }) {
     const data = {
       name,
       photoUrl,
-      number
+      phone
     }
     console.log(data);
-    if (name == '' || photoUrl == '' || number == '') {
+    if (name == '' || photoUrl == '' || phone == '') {
       alert('Please fill all the fields')
     }
     // put request
@@ -122,7 +122,7 @@ export default function EditProfile({ title, backBtn }) {
               ref={input3Ref}
               style={styles.textSection}
               placeholder="Update Your Number"
-              onChangeText={(text) => setNumber(text)}
+              onChangeText={(text) => setPhone(text)}
             />
           </View>
 

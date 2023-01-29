@@ -4,7 +4,7 @@ import { colors } from '../../../theme/colors';
 import { Ionicons } from '@expo/vector-icons';
 
 
-export default function Search(props) {
+export default function  Search(props) {
   const { container, searchContainer } = styles;
   return (
     <View style={container}>

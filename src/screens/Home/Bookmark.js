@@ -18,7 +18,7 @@ export default function Bookmark({ route }) {
         cart.map(id => {
             // 192.168.0.221
             // console.log(id)
-            fetch(`https://razor-cut-backend.onrender.com/shops/${id}`)
+            fetch(`http://192.168.0.221:5000/shops/${id}`)
                 .then(res => res.json())
                 .then(data => {
                     // setCartItems(data)

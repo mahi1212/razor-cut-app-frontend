@@ -30,7 +30,7 @@ export default function CatagoryBox() {
         )
     }
     // const getCatagories = () => {
-    //     fetch('https://razor-cut-backend.onrender.com/services')
+    //     fetch('http://192.168.0.221:5000/services')
     //         .then((response) => response.json())
     //         .then((data) => {
     //             // setRefreshing(false);

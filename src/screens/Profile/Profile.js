@@ -94,7 +94,7 @@ export default function Profile({ navigation }) {
       .then((res) => {
         // console.log(res.data);
         setPhotoUrl(res.data.photoUrl);
-        setNumber(res.data.number)
+        setNumber(res.data.phone)
         setName(res.data.name);
       });
   };
@@ -126,7 +126,7 @@ export default function Profile({ navigation }) {
         {/* header section done */}
         {user && <View style={styles.profilesection}>
           <View>
-            <Image
+            {photoUrl && <Image
               style={{
                 width: 100,
                 height: 100,
@@ -137,7 +137,7 @@ export default function Profile({ navigation }) {
               source={{
                 uri: `${photoUrl}`
               }}
-            />
+            />}
           </View>
           <View style={styles.Info}>
             <Text preset="title" style={{ marginBottom: spacing[4] }}>
@@ -147,7 +147,7 @@ export default function Profile({ navigation }) {
               Email: {email}
             </Text>
             <Text preset="h2" style={{ marginBottom: spacing[4] }}>
-              Number: {number}
+              { number && `Number: ${number}`}
             </Text>
           </View>
         </View>}

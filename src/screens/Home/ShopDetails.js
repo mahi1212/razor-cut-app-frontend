@@ -27,7 +27,7 @@ export default function ShopDetails({ route }) {
     
     const getmembers = () => {
         // 192.168.0.221
-        fetch(`https://razor-cut-backend.onrender.com/shops/${shopId}`)
+        fetch(`http://192.168.0.221:5000/shops/${shopId}`)
             .then(res => res.json())
             .then(data => {
                 setShop(data)
@@ -37,7 +37,7 @@ export default function ShopDetails({ route }) {
     }
     const getSingleShop = () => {
         setIsLoading(true)
-        fetch(`https://razor-cut-backend.onrender.com/shops/${shopId}`)
+        fetch(`http://192.168.0.221:5000/shops/${shopId}`)
             .then(res => res.json())
             .then(data => {
                 setShop(data)
@@ -52,30 +52,30 @@ export default function ShopDetails({ route }) {
 
     const setStatusFilter = status => {
         setIsLoading(true)
-        // https://razor-cut-backend.onrender.com
+        // http://192.168.0.221:5000
         if (status === 'About') {
-            fetch(`https://razor-cut-backend.onrender.com/shops/${shopId}`)
+            fetch(`http://192.168.0.221:5000/shops/${shopId}`)
                 .then(res => res.json())
                 .then(data => {
                     setTextData(data.about)
                     setIsLoading(false)
                 })
         } else if (status == 'Package') {
-            fetch(`https://razor-cut-backend.onrender.com/shops/${shopId}`)
+            fetch(`http://192.168.0.221:5000/shops/${shopId}`)
                 .then(res => res.json())
                 .then(data => {
                     setData(data.package)
                     setIsLoading(false)
                 })
         } else if (status == 'Gellary') {
-            fetch(`https://razor-cut-backend.onrender.com/shops/${shopId}`)
+            fetch(`http://192.168.0.221:5000/shops/${shopId}`)
                 .then(res => res.json())
                 .then(data => {
                     setData(data.gellary)
                     setIsLoading(false)
                 })
         } else {
-            fetch(`https://razor-cut-backend.onrender.com/shops/${shopId}`)
+            fetch(`http://192.168.0.221:5000/shops/${shopId}`)
                 .then(res => res.json())
                 .then(data => {
                     setData(data.review)

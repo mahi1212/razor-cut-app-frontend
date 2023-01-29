@@ -21,9 +21,9 @@ export default function Signup() {
   const [password, setPassword] = useState("");
 
   // post user to database
-  const saveUser = (name, phone, email, password) => {
-    const user = {name, phone, email, password };
-
+  const saveUser = (name, phone, email, password, role) => {
+    const user = { name, phone, email, password, role};
+ 
     fetch("http://192.168.0.221:5000/users", {
       method: "POST",
       headers: {
@@ -53,7 +53,7 @@ export default function Signup() {
         const errorMessage = error.message;
         alert(errorMessage);
       });
-    saveUser(name, phone, email, password);
+    saveUser(name, phone, email, password, 'user');
   };
 
   return (

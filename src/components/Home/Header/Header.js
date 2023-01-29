@@ -10,6 +10,7 @@ import { useState } from "react";
 import { useEffect } from "react";
 import { onAuthStateChanged } from "firebase/auth";
 import { auth } from "../../../../navigation";
+import axios from "axios";
 export default function Header({ cart }) {
   const { container, logo, logoContainer, greetings, wave } = styles;
   // getting day or night in user local time
@@ -18,20 +19,32 @@ export default function Header({ cart }) {
   const navigation = useNavigation();
   // get user name
   const [user, setUser] = useState(null);
+  const [email, setEmail] = useState(null);
+  const [name, setName] = useState(null);
+  const [photoUrl, setPhotoUrl] = useState(null);
   useEffect(() => {
     onAuthStateChanged(auth, (user) => {
       if (user) {
-        console.log("user is signed in");
+        // console.log("user is signed in");
         setUser(user);
+        setEmail(user.email);
       } else {
         // User is signed out
-        console.log("user is signed out");
         setUser(null);
       }
     });
   }, []);
+  const getUser = () => {
+    axios.get(`http://192.168.0.221:5000/users/${email}`)
+      .then((res) => {
+        // console.log(res.data);
+        setPhotoUrl(res.data.photoUrl);
+        setName(res.data.name);
+      });
+  };
+  getUser();
   console.log(user);
-  const name = user?.displayName || "User";
+  const userName = name || "User";
   // sign out function
   const handleSignOut = () => {
     signOut(auth)
@@ -46,10 +59,17 @@ export default function Header({ cart }) {
     <View>
       <View style={container}>
         <View style={logoContainer}>
+          {photoUrl ? <Image
+            // source={require("../../../../assets/images/logo.png")}
+            source={{
+              uri: `${photoUrl}`
+            }}
+            style={logo}
+          /> : 
           <Image
             source={require("../../../../assets/images/logo.png")}
             style={logo}
-          />
+          />}
           <Text preset="catagory" style={{ fontFamily: typography.bold }}>
             RazorCut
           </Text>
@@ -81,7 +101,7 @@ export default function Header({ cart }) {
         ) : (
           <Text preset="h1">Evening, </Text>
         )}
-        <Text preset="h1">{name}</Text>
+        <Text preset="h1">{userName}</Text>
         <Image
           source={require("../../../../assets/images/so-so.png")}
           style={wave}
@@ -110,7 +130,8 @@ const styles = StyleSheet.create({
   },
   logo: {
     width: 50,
-    height: 50,
+    height: 45,
+    borderRadius: '50%',
   },
   greetings: {
     flexDirection: "row",

@@ -13,12 +13,12 @@ export default function SeeAll({ route }) {
   const [searchText, setSearchText] = React.useState("")
   const [filterData, setFilterData] = React.useState([])
   const [shops, setShops] = useState([]);
-  const [cart, setCart] = useState([]) 
+  const [cart, setCart] = useState([])
   const { title } = route.params;
   // console.log(title)
 
   const getShops = () => {
-    fetch(`https://razor-cut-backend.onrender.com/shops`)
+    fetch(`http://192.168.0.221:5000/shops`)
       .then(res => res.json())
       .then(data => {
         setShops(data)
@@ -41,7 +41,7 @@ export default function SeeAll({ route }) {
     if (status === 'All') {
       getShops();
     } else {
-      fetch(`https://razor-cut-backend.onrender.com/catagoryShops/${status}`)
+      fetch(`http://192.168.0.221:5000/catagoryShops/${status}`)
         .then(res => res.json())
         .then(data => {
           setFilterData(data);

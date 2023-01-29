@@ -124,6 +124,7 @@ export default function Home() {
       >
         {catagoryList.map((item, index) => {
           return (
+            // under suggested for you title
             <TouchableOpacity
               key={index}
               style={
@@ -135,6 +136,7 @@ export default function Home() {
                 setStatusFilter(item.status);
               }}
             >
+
               <Text
                 preset="title"
                 style={
@@ -184,7 +186,8 @@ export default function Home() {
         <View style={{ flex: 1 }}>
           {isLoading ? (
             <ActivityIndicator />
-          ) : shops ? (
+          ) : shops && (
+            // only show 3 shops
             <FlatList
               data={shops.slice(0, 3)}
               renderItem={({ item }) => (
@@ -198,12 +201,6 @@ export default function Home() {
               keyExtractor={(item) => item._id}
               showsVerticalScrollIndicator={false}
             />
-          ) : (
-            <Text>
-              {" "}
-              <Entypo name="hand"></Entypo>Tap and select to see your nearby
-              shops
-            </Text>
           )}
         </View>
         {/* most popular part*/}
@@ -214,7 +211,7 @@ export default function Home() {
           ) : (
             shops &&
             shops
-              .reverse()
+              // .reverse()
               .slice(0, 5)
               .map((shop, index) => {
                 return (
