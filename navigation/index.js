@@ -11,7 +11,7 @@ import Signin from "../src/screens/Signin";
 import { useState } from "react";
 import Signup from "../src/screens/Signup";
 import { initializeApp } from "firebase/app";
-import { getAuth, onAuthStateChanged } from "firebase/auth";
+import { getAuth, onAuthStateChanged, signOut } from "firebase/auth";
 import { useEffect } from "react";
 import Bookmark from "../src/screens/Home/Bookmark";
 import SearchPage from "../src/screens/Home/SearchPage";
@@ -26,7 +26,12 @@ import Privacy from "../src/screens/Profile/Privacy";
 import Language from "../src/screens/Profile/Language";
 import Appointment from "../src/screens/Appointment/Appointment";
 import axios from "axios";
-import AdminPanel from "../src/screens/AdminPanel";
+import AdminPanel from "../src/screens/AdminPanel/CreateShop";
+import DeleteShop from "../src/screens/AdminPanel/DeleteShop";
+import UpdateShop from "../src/screens/AdminPanel/UpdateShop";
+import { MaterialIcons } from '@expo/vector-icons';
+import { MaterialCommunityIcons } from '@expo/vector-icons';
+import { Image, TouchableOpacity, View } from "react-native";
 
 const THEME = {
   ...DefaultTheme,
@@ -109,6 +114,8 @@ function AdminStackScreen() {
   return (
     <AdminStack.Navigator screenOptions={{ headerShown: false }}>
       <AdminStack.Screen name="Admin" component={AdminPanel} />
+      <AdminStack.Screen name="DeleteShop" component={DeleteShop} />
+      <AdminStack.Screen name="UpdateShop" component={UpdateShop} />
     </AdminStack.Navigator>
   );
 }
@@ -117,6 +124,10 @@ function TabBarIcon({ fontFamily, name, color }) {
     return <AntDesign name={name} color={color} size={24} />;
   } else if (fontFamily === "Octicons") {
     return <Octicons name={name} color={color} size={24} />;
+  } else if (fontFamily === "MaterialIcons") {
+    return <MaterialIcons name={name} color={color} size={24} />;
+  } else if (fontFamily === "MaterialCommunityIcons") {
+    return <MaterialCommunityIcons name={name} color={color} size={24} />;
   } else {
     return <SimpleLineIcons name={name} color={color} size={24} />;
   }
@@ -160,84 +171,161 @@ export default function Navigation() {
   return (
     <NavigationContainer theme={THEME}>
       {user ? (
+        // For admin Navigation
         role === "admin" ? (
-          <AdminStackScreen />
-        ) : (
           <Tab.Navigator
             screenOptions={{
-              headerShown: false,
+              headerShown: true,
+              headerTitleAlign: "left",
+              headerLeft: () => (
+                <View style={{ marginLeft: 10 }}>
+                  <Image
+                    source={require("../assets/images/logo.png")}
+                    style={{ width: 40, height: 40 }}
+                  />
+                </View>
+              ),
+              // logout function
+              headerRight: () => (
+                <View style={{ marginRight: 10 }}>
+                  <TouchableOpacity
+                    onPress={() => {
+                      signOut(auth)
+                        .then(() => {
+                          setUser(null);
+                        })
+                        .catch((error) => {
+                          console.log(error);
+                        });
+                    }}
+                  >
+                    <MaterialIcons name="logout" size={24} color="black" />
+                  </TouchableOpacity>
+                </View>
+              ),
               tabBarActiveTintColor: "#FD9F1A",
             }}
           >
             <Tab.Screen
               options={{
-                title: "Home",
+                title: "Create Shop",
                 tabBarIcon: ({ color }) => (
-                  <TabBarIcon fontFamily={"Octicons"} name="home" color={color} />
+                  <TabBarIcon
+                    fontFamily={"MaterialCommunityIcons"}
+                    name="hammer-screwdriver"
+                    color={color} />
                 ),
               }}
-              name="HomeTab"
-              component={HomeStackScreen}
+              name="CreateTab"
+              component={AdminStackScreen}
             />
             <Tab.Screen
               options={{
-                title: "Explore",
+                title: "Update",
                 tabBarIcon: ({ color }) => (
                   <TabBarIcon
-                    fontFamily={"SimpleLineIcons"}
-                    name="location-pin"
+                    fontFamily={"MaterialIcons"}
+                    name="update"
                     color={color}
                   />
                 ),
               }}
-              name="ExploreTab"
-              component={ExploreStackScreen}
+              name="UpdateTab"
+              component={UpdateShop}
             />
             <Tab.Screen
               options={{
-                title: "My Booking",
+                title: "Delete",
                 tabBarIcon: ({ color }) => (
                   <TabBarIcon
-                    fontFamily={"SimpleLineIcons"}
-                    name="notebook"
+                    fontFamily={"MaterialIcons"}
+                    name="delete-outline"
                     color={color}
                   />
                 ),
               }}
-              name="BookingTab"
-              component={BookingStackScreen}
-            />
-            <Tab.Screen
-              options={{
-                title: "Inbox",
-                tabBarIcon: ({ color }) => (
-                  <TabBarIcon
-                    fontFamily={"AntDesign"}
-                    name="message1"
-                    color={color}
-                  />
-                ),
-              }}
-              name="InboxTab"
-              component={InboxStackScreen}
-            />
-
-            <Tab.Screen
-              options={{
-                title: "Profile",
-                tabBarIcon: ({ color }) => (
-                  <TabBarIcon
-                    fontFamily={"AntDesign"}
-                    name="user"
-                    color={color}
-                  />
-                ),
-              }}
-              name="ProfileTab"
-              component={ProfileStackScreen}
+              name="DeleteTab"
+              component={DeleteShop}
             />
           </Tab.Navigator>
-        ))
+        ) :
+          // user navigation
+          (
+            <Tab.Navigator
+              screenOptions={{
+                headerShown: false,
+                tabBarActiveTintColor: "#FD9F1A",
+              }}
+            >
+              <Tab.Screen
+                options={{
+                  title: "Home",
+                  tabBarIcon: ({ color }) => (
+                    <TabBarIcon fontFamily={"Octicons"} name="home" color={color} />
+                  ),
+                }}
+                name="HomeTab"
+                component={HomeStackScreen}
+              />
+              <Tab.Screen
+                options={{
+                  title: "Explore",
+                  tabBarIcon: ({ color }) => (
+                    <TabBarIcon
+                      fontFamily={"SimpleLineIcons"}
+                      name="location-pin"
+                      color={color}
+                    />
+                  ),
+                }}
+                name="ExploreTab"
+                component={ExploreStackScreen}
+              />
+              <Tab.Screen
+                options={{
+                  title: "My Booking",
+                  tabBarIcon: ({ color }) => (
+                    <TabBarIcon
+                      fontFamily={"SimpleLineIcons"}
+                      name="notebook"
+                      color={color}
+                    />
+                  ),
+                }}
+                name="BookingTab"
+                component={BookingStackScreen}
+              />
+              <Tab.Screen
+                options={{
+                  title: "Inbox",
+                  tabBarIcon: ({ color }) => (
+                    <TabBarIcon
+                      fontFamily={"AntDesign"}
+                      name="message1"
+                      color={color}
+                    />
+                  ),
+                }}
+                name="InboxTab"
+                component={InboxStackScreen}
+              />
+
+              <Tab.Screen
+                options={{
+                  title: "Profile",
+                  tabBarIcon: ({ color }) => (
+                    <TabBarIcon
+                      fontFamily={"AntDesign"}
+                      name="user"
+                      color={color}
+                    />
+                  ),
+                }}
+                name="ProfileTab"
+                component={ProfileStackScreen}
+              />
+            </Tab.Navigator>
+          ))
         : (
           <AuthStackScreen />
           // <Text> asd</Text>
