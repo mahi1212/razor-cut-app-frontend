@@ -118,19 +118,20 @@ export default function SeeAll({ route }) {
                 <View key={index}>{
                   // Checking if the average rating is greater than 4
                   average > 4 ?
-                    <SingleShop shop={shop} cart={cart} setCart={setCart} visibleIcon={false} avg={average} />
+                    <SingleShop shop={shop} cart={cart} setCart={setCart} visibleIcon={true} avg={average} />
                     : null
                 }
                 </View>
               )
             })
           ) : (
+            // showing suggested shops in 
             filterData.map((shop, index) => {
               const sum = shop.review.reduce((total, review) => total + review.rating, 0);
               const average = sum / shop.review.length;
               return (
                 <View key={index}>{
-                    <SingleShop shop={shop} cart={cart} setCart={setCart} visibleIcon={false} avg={average} />
+                    <SingleShop shop={shop} cart={cart} setCart={setCart} visibleIcon={true} avg={average} />
                 }
                 </View>
               )

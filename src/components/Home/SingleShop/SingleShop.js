@@ -80,9 +80,8 @@ export default function SingleShop({ shop, visibleIcon, avg }) {
                                 //     item._id !== _id
                                 // }));
                                 AsyncStorage.removeItem(_id)
-
                                 AsyncStorage.setItem('cart', JSON.stringify(cart.filter(id => id !== _id)))
-                                console.log(_id, 'rem')
+                                console.log(_id, 'removed')
                             }
                             }
                             style={styles.bookmarkIcon}>
