@@ -6,10 +6,23 @@ import { colors } from '../../../theme/colors';
 import Image from 'react-native-image-progress';
 import { useNavigation } from '@react-navigation/native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import { useState } from 'react';
 
 let deviceWidth = Dimensions.get('window').width
 
-export default function SingleShop({ shop, cart, setCart, visibleIcon, avg }) {
+export default function SingleShop({ shop, visibleIcon, avg }) {
+    const [cart, setCart] = useState([]);
+    // console.log(cart);
+    const getCart = async () => {
+        try {
+            const value = await AsyncStorage.getItem('cart')
+            // console.log(value)
+            setCart(JSON.parse(value))
+        } catch (e) {
+            console.log(e)
+        }
+    }
+    getCart();
     const { name, image, waiting, avgTime, address, _id } = shop;
     const { avgTimeAndRatingContainer, shopContainer, innerShopContainer, img, middleDiv, info, avgTimeText, ratingText, bookmarkIcon } = styles;
     // console.log(visibleIcon)
@@ -59,31 +72,38 @@ export default function SingleShop({ shop, cart, setCart, visibleIcon, avg }) {
             {/* bookmark icon | this is last half of SingleShop component horizontally*/}
             {
                 (visibleIcon === true) &&
-                (cart.includes(_id) ?
-                    <Pressable
-                        onPress={
-                            // remove single shop from cart
-                            () => setCart(cart.filter((item) => item !== _id))
-                        }
-                        style={bookmarkIcon}>
-                        <MaterialCommunityIcons name="bookmark-minus" size={30} color={colors.darkOrange} />
-                    </Pressable>
-                    :
-                    <Pressable
-                        onPress={() => {
-                            AsyncStorage.setItem('cart', JSON.stringify([...cart, _id]))
-                            // setCart([...cart, _id])
-                            console.log(_id, 'added')
-                            // saving to async storage
-                            // saveCart()
-                        }}
-                        style={styles.bookmarkIcon}>
-                        <Ionicons name="bookmark-outline" size={26} color="black" />
-                    </Pressable>)
+                (
+                    cart.includes(_id) ?
+                        <Pressable
+                            onPress={() => {
+                                // setCartItems(items => items.filter(item => {
+                                //     item._id !== _id
+                                // }));
+                                AsyncStorage.removeItem(_id)
+
+                                AsyncStorage.setItem('cart', JSON.stringify(cart.filter(id => id !== _id)))
+                                console.log(_id, 'rem')
+                            }
+                            }
+                            style={styles.bookmarkIcon}>
+                            <MaterialCommunityIcons name="bookmark-minus" size={30} color={colors.darkOrange} />
+                        </Pressable>
+                        :
+                        <Pressable
+                            onPress={() => {
+                                AsyncStorage.setItem('cart', JSON.stringify([...cart, _id]))
+                                console.log(_id, 'added')
+                            }}
+                            style={styles.bookmarkIcon}>
+                            <Ionicons name="bookmark-outline" size={26} color="black" />
+                        </Pressable>
+                )
+                // if cart includes shop id then show bookmark-minus icon
+                // else show bookmark-outline icon
 
 
             }
-        </Pressable>
+        </Pressable >
     )
 }
 

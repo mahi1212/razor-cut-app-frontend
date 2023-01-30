@@ -23,13 +23,6 @@ export default function Bookmark({ route }) {
         }
     }
     getCart();
-    const removeItem = async (key) => {
-        try {
-            await AsyncStorage.removeItem(key);
-        } catch (error) {
-            console.log(error);
-        }
-    };
 
     const [cartItems, setCartItems] = useState([]);
     // console.log(cartItems);
