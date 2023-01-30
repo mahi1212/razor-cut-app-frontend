@@ -112,11 +112,13 @@ export default function SeeAll({ route }) {
         {
           title === 'Most Popular' ? (
             filterData.map((shop, index) => {
+              const sum = shop.review.reduce((total, review) => total + review.rating, 0);
+              const average = sum / shop.review.length;
               return (
                 <View key={index}>{
                   // summing the rating array and dividing by the length of the array
-                  shop.rating.reduce((a, b) => a + b) / shop.rating.length > 4 ?
-                    <SingleShop shop={shop} cart={cart} setCart={setCart} visibleIcon={false} />
+                  average > 4 ?
+                    <SingleShop shop={shop} cart={cart} setCart={setCart} visibleIcon={false} avg={average}/>
                     : null
                 }
                 </View>

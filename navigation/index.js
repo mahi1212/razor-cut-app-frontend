@@ -5,7 +5,6 @@ import { colors } from "../src/theme/colors";
 import { SimpleLineIcons, Octicons, AntDesign } from "@expo/vector-icons";
 import Home from "../src/screens/Home/Home";
 import Explore from "../src/screens/Explore";
-import Booking from "../src/screens/Booking";
 import Inbox from "../src/screens/Inbox";
 import Signin from "../src/screens/Signin";
 import { useState } from "react";

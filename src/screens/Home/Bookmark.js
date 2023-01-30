@@ -69,7 +69,7 @@ export default function Bookmark({ route }) {
                                     <View style={shopRating}><Entypo name='location' color={'red'} /><Text preset='h2' style={{ color: colors.info, marginVertical: 10, marginHorizontal: 5 }}>{item.address}</Text></View>
                                     <View style={shopRating}>
                                         <FontAwesome name="star" size={14} color={'red'} />
-                                        <Text preset='h2' style={{ color: colors.darkOrange, marginHorizontal: 5 }}>{item.rating.reduce((a, b) => a + b) / item.rating.length}</Text>
+                                        {/* <Text preset='h2' style={{ color: colors.darkOrange, marginHorizontal: 5 }}>{item.rating.reduce((a, b) => a + b) / item.rating.length}</Text> */}
                                     </View>
                                 </View>
                                 {/* avg waiting time */}

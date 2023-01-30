@@ -34,7 +34,35 @@ export default function Home() {
 
   const [shops, setShops] = useState([]);
   const [cart, setCart] = useState([]);
+
+
+  const getShops = () => {
+    setIsLoading(true);
+    // 192.168.0.221
+    fetch(`http://192.168.0.221:5000/shops`)
+      .then((res) => res.json())
+      .then((data) => {
+        setShops(data);
+        setRefreshing(false);
+      })
+      .catch((err) => {
+        console.log(err);
+      })
+      .finally(() => {
+        setIsLoading(false);
+      });
+  };
+
+  useEffect(() => {
+    // ignore warning of FlatList in console
+    LogBox.ignoreLogs(["VirtualizedLists should never be nested"]);
+    getShops();
+    setStatusFilter(status);
+  }, []);
+
   // console.log(cart)
+  console.log(shops)
+
 
   // const saveCart = async () => {
   //   try {
@@ -62,29 +90,6 @@ export default function Home() {
   //   return () => {}
   // }, [])
 
-  const getShops = () => {
-    setIsLoading(true);
-    // 192.168.0.221
-    fetch(`http://192.168.0.221:5000/shops`)
-      .then((res) => res.json())
-      .then((data) => {
-        setShops(data);
-        setRefreshing(false);
-      })
-      .catch((err) => {
-        console.log(err);
-      })
-      .finally(() => {
-        setIsLoading(false);
-      });
-  };
-
-  useEffect(() => {
-    // ignore warning of FlatList in console
-    LogBox.ignoreLogs(["VirtualizedLists should never be nested"]);
-    getShops();
-    setStatusFilter(status);
-  }, []);
 
   const setStatusFilter = (status) => {
     setIsLoading(true);
@@ -184,23 +189,40 @@ export default function Home() {
         <CatagoryTitle title="Suggested For You" btn="See All" />
         <ScrollStatusBar />
         <View style={{ flex: 1 }}>
-          {isLoading ? (
+        {isLoading ? (
             <ActivityIndicator />
-          ) : shops && (
-            // only show 3 shops
-            <FlatList
-              data={shops.slice(0, 3)}
-              renderItem={({ item }) => (
-                <SingleShop
-                  shop={item}
-                  cart={cart}
-                  setCart={setCart}
-                  visibleIcon={true}
-                />
-              )}
-              keyExtractor={(item) => item._id}
-              showsVerticalScrollIndicator={false}
-            />
+          ) : (
+            shops &&
+            shops
+              .slice(0, 3)
+              .map((shop, index) => {
+                const sum = shop.review.reduce((total, review) => total + review.rating, 0);
+                const average = sum / shop.review.length;
+                return (
+                  <View key={index}>
+                    {
+                      average > 4 ?
+                        (
+                          <SingleShop
+                            shop={shop}
+                            cart={cart}
+                            setCart={setCart}
+                            visibleIcon={true}
+                            avg={average}
+                          />
+                        )
+                        : (
+                          <Text
+                            preset="info"
+                            style={{ position: "absolute", top: 10, left: 10 }}
+                          >
+                            NO MORE SHOP IS THAT MUCH POPULAR
+                          </Text>
+                        )
+                    }
+                  </View>
+                );
+              })
           )}
         </View>
         {/* most popular part*/}
@@ -211,29 +233,32 @@ export default function Home() {
           ) : (
             shops &&
             shops
-              // .reverse()
+              .reverse()
               .slice(0, 5)
               .map((shop, index) => {
+                const sum = shop.review.reduce((total, review) => total + review.rating, 0);
+                const average = sum / shop.review.length;
                 return (
                   <View key={index}>
                     {
-                      // summing the rating array and dividing by the length of the array
-                      shop.rating.reduce((a, b) => a + b) / shop.rating.length >
-                      4 ? (
-                        <SingleShop
-                          shop={shop}
-                          cart={cart}
-                          setCart={setCart}
-                          visibleIcon={true}
-                        />
-                      ) : (
-                        <Text
-                          preset="info"
-                          style={{ position: "absolute", top: 10, left: 10 }}
-                        >
-                          NO MORE SHOP IS THAT MUCH POPULAR
-                        </Text>
-                      )
+                      average > 4 ?
+                        (
+                          <SingleShop
+                            shop={shop}
+                            cart={cart}
+                            setCart={setCart}
+                            visibleIcon={true}
+                            avg={average}
+                          />
+                        )
+                        : (
+                          <Text
+                            preset="info"
+                            style={{ position: "absolute", top: 10, left: 10 }}
+                          >
+                            NO MORE SHOP IS THAT MUCH POPULAR
+                          </Text>
+                        )
                     }
                   </View>
                 );
