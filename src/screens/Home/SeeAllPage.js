@@ -116,25 +116,26 @@ export default function SeeAll({ route }) {
               const average = sum / shop.review.length;
               return (
                 <View key={index}>{
-                  // summing the rating array and dividing by the length of the array
+                  // Checking if the average rating is greater than 4
                   average > 4 ?
-                    <SingleShop shop={shop} cart={cart} setCart={setCart} visibleIcon={false} avg={average}/>
+                    <SingleShop shop={shop} cart={cart} setCart={setCart} visibleIcon={false} avg={average} />
                     : null
                 }
                 </View>
               )
             })
           ) : (
-            (shops.length > 0) ?
-              <FlatList
-                data={filterData}
-                renderItem={({ item }) => <SingleShop shop={item} cart={cart} setCart={setCart} visibleIcon={false} />}
-                keyExtractor={(item, index) => index.toString()}
-              />
-              :
-              <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
-                <Text preset='title' style={{ color: colors.darkOrange }}>No Shops Found</Text>
-              </View>)
+            filterData.map((shop, index) => {
+              const sum = shop.review.reduce((total, review) => total + review.rating, 0);
+              const average = sum / shop.review.length;
+              return (
+                <View key={index}>{
+                    <SingleShop shop={shop} cart={cart} setCart={setCart} visibleIcon={false} avg={average} />
+                }
+                </View>
+              )
+            })
+          )
         }
       </ScrollView>
     </SafeAreaView>
