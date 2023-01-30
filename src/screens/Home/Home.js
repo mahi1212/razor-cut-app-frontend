@@ -189,7 +189,7 @@ export default function Home() {
         <CatagoryTitle title="Suggested For You" btn="See All" />
         <ScrollStatusBar />
         <View style={{ flex: 1 }}>
-        {isLoading ? (
+          {isLoading ? (
             <ActivityIndicator />
           ) : (
             shops &&
@@ -201,24 +201,13 @@ export default function Home() {
                 return (
                   <View key={index}>
                     {
-                      average > 4 ?
-                        (
-                          <SingleShop
-                            shop={shop}
-                            cart={cart}
-                            setCart={setCart}
-                            visibleIcon={true}
-                            avg={average}
-                          />
-                        )
-                        : (
-                          <Text
-                            preset="info"
-                            style={{ position: "absolute", top: 10, left: 10 }}
-                          >
-                            NO MORE SHOP IS THAT MUCH POPULAR
-                          </Text>
-                        )
+                      <SingleShop
+                        shop={shop}
+                        cart={cart}
+                        setCart={setCart}
+                        visibleIcon={true}
+                        avg={average}
+                      />
                     }
                   </View>
                 );

@@ -37,8 +37,10 @@ export default function CatagoryPage({ route }) {
                 ).map((item, index) => {
                     // filter by search text
                     if (item.name.toLowerCase().includes(searchText.toLowerCase())) {
+                        const sum = item.review.reduce((total, review) => total + review.rating, 0);
+                        const average = sum / item.review.length;
                         return (
-                            <SingleShop key={index.toString()} shop={item} cart={cart} setCart={setCart} />
+                            <SingleShop key={index.toString()} shop={item} avg={average} cart={cart} setCart={setCart} />
                         )
                     }
                 })
