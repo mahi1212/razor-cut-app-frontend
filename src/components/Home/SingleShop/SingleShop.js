@@ -5,6 +5,8 @@ import Text from '../../Text/Text';
 import { colors } from '../../../theme/colors';
 import Image from 'react-native-image-progress';
 import { useNavigation } from '@react-navigation/native';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+
 let deviceWidth = Dimensions.get('window').width
 
 export default function SingleShop({ shop, cart, setCart, visibleIcon, avg }) {
@@ -69,7 +71,8 @@ export default function SingleShop({ shop, cart, setCart, visibleIcon, avg }) {
                     :
                     <Pressable
                         onPress={() => {
-                            setCart([...cart, _id])
+                            AsyncStorage.setItem('cart', JSON.stringify([...cart, _id]))
+                            // setCart([...cart, _id])
                             console.log(_id, 'added')
                             // saving to async storage
                             // saveCart()
