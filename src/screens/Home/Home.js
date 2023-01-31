@@ -196,8 +196,9 @@ export default function Home() {
             shops
               .slice(0, 3)
               .map((shop, index) => {
-                const sum = shop.review.reduce((total, review) => total + review.rating, 0);
-                const average = sum / shop.review.length;
+                var sum = shop.review.reduce((total, review) => total + review.rating, 0);
+                if (sum === 0) { shop.review.length = 1 }
+                var average = sum / shop.review.length;
                 return (
                   <View key={index}>
                     {
@@ -225,8 +226,9 @@ export default function Home() {
               .reverse()
               .slice(0, 5)
               .map((shop, index) => {
-                const sum = shop.review.reduce((total, review) => total + review.rating, 0);
-                const average = sum / shop.review.length;
+                var sum = shop.review.reduce((total, review) => total + review.rating, 0);
+                if (sum === 0) { shop.review.length = 1 }
+                var average = sum / shop.review.length;
                 return (
                   <View key={index}>
                     {

@@ -7,10 +7,12 @@ import Image from 'react-native-image-progress';
 import { useNavigation } from '@react-navigation/native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { useState } from 'react';
+import axios from 'axios';
+import { MaterialIcons } from '@expo/vector-icons';
 
 let deviceWidth = Dimensions.get('window').width
 
-export default function SingleShop({ shop, visibleIcon, avg }) {
+export default function SingleShop({ shop, visibleIcon, avg, deleteIcon }) {
     const [cart, setCart] = useState([]);
     // console.log(cart);
     const getCart = async () => {
@@ -23,10 +25,27 @@ export default function SingleShop({ shop, visibleIcon, avg }) {
         }
     }
     getCart();
-    const { name, image, waiting, avgTime, address, _id } = shop;
+    const deleteShop = (id) => {
+        // console.log(id)
+        axios.delete(`http://192.168.0.221:5000/shops/${id}`)
+            .then(res => {
+                console.log(res)
+                alert('Shop deleted successfully')
+            }, (error) => {
+                alert(error)
+            }
+        )
+        
+    }
+    var { name, image, waiting, avgTime, address, _id } = shop;
     const { avgTimeAndRatingContainer, shopContainer, innerShopContainer, img, middleDiv, info, avgTimeText, ratingText, bookmarkIcon } = styles;
     // console.log(visibleIcon)
     const navigation = useNavigation();
+    // console.log(waiting)
+    if(waiting === undefined) {
+        waiting = 0;
+    }
+    
     return (
         <Pressable style={shopContainer} onPress={
             () => {
@@ -43,7 +62,7 @@ export default function SingleShop({ shop, visibleIcon, avg }) {
                         <Entypo name="location-pin" size={16} color={colors.orange} />
                         <Text preset='info'>{address}</Text>
                     </View>
-                    {/*  */}
+                    {/* last row of middle div */}
                     <View style={info} >
                         <View style={avgTimeAndRatingContainer}>
                             {/* showing estimated time for waiting*/}
@@ -97,9 +116,19 @@ export default function SingleShop({ shop, visibleIcon, avg }) {
                             <Ionicons name="bookmark-outline" size={26} color="black" />
                         </Pressable>
                 )
-                // if cart includes shop id then show bookmark-minus icon
-                // else show bookmark-outline icon
-
+            }
+            {
+                (deleteIcon === true) &&
+                (
+                    <Pressable
+                        onPress={() => {
+                            deleteShop(_id)
+                            console.log(_id, 'deleted')
+                        }}
+                        style={[styles.bookmarkIcon, styles.deleteIcon ]}>
+                        <MaterialIcons name="delete-sweep" size={24} color="black" />
+                    </Pressable>
+                )
 
             }
         </Pressable >
@@ -161,5 +190,12 @@ const styles = StyleSheet.create({
         alignSelf: 'flex-start',
         marginRight: 20
     },
+    deleteIcon: {
+        alignSelf: 'center',
+        marginRight: 20,
+        padding: 5,
+        borderColor: '#f5f4f2',
+        borderWidth: 1,
+    }
 
 })

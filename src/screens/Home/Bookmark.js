@@ -40,27 +40,7 @@ export default function Bookmark({ route }) {
                 )
         })
     }
-
-    // const getCart = async () => {
-    //     try {
-    //         const value = await AsyncStorage.getItem('cart')
-    //         // console.log(value)
-    //         setCart(JSON.parse(value))
-    //     } catch (e) {
-    //         console.log(e)
-    //     }
-    // }
-    // // get cart items from async storage
-    // useEffect(() => {
-    //     async function temp() {
-    //         await getCart();
-    //     }
-    //     temp();
-    //     return () => {}
-    // }, [])
     const navigation = useNavigation();
-
-
 
     return (
         <View style={{ marginHorizontal: 5, flex: 1 }} onLayout={fetchData}>
@@ -73,6 +53,9 @@ export default function Bookmark({ route }) {
                     renderItem={({ item }) => {
                         const { shopImage, shopContainer, shopRating, shopInfo } = styles;
                         const { _id } = item;
+                        var sum = item.review.reduce((total, review) => total + review.rating, 0);
+                        if (sum === 0) { item.review.length = 1 }
+                        var average = sum / item.review.length;
                         return (
                             <Pressable onPress={
                                 () => {
@@ -85,12 +68,12 @@ export default function Bookmark({ route }) {
                                     <View style={shopRating}><Entypo name='location' color={'red'} /><Text preset='h2' style={{ color: colors.info, marginVertical: 10, marginHorizontal: 5 }}>{item.address}</Text></View>
                                     <View style={shopRating}>
                                         <FontAwesome name="star" size={14} color={'red'} />
-                                        <Text preset='h2' style={{ color: colors.darkOrange, marginHorizontal: 5 }}>{item.review.reduce((total, review) => total + review.rating, 0) / item.review.length}</Text>
+                                        <Text preset='h2' style={{ color: colors.darkOrange, marginHorizontal: 5 }}>{average}</Text>
                                     </View>
                                 </View>
                                 {/* avg waiting time */}
                                 <View>
-                                    <Text preset='h2' style={{ position: 'absolute', left: 10, bottom: 20, alignItems: 'center' }}>Estimated Time : {item.waiting * item.avgTime} Min</Text>
+                                    <Text preset='h2' style={{ position: 'absolute', left: 0, bottom: 20, alignItems: 'center' }}>Estimated Time : {item.waiting * item.avgTime} Min</Text>
                                 </View>
                                 {/* delete button */}
                                 <View style={{ width: '100%', flexDirection: 'row' }}>
@@ -107,12 +90,12 @@ export default function Bookmark({ route }) {
                                                 },
                                                 {
                                                     text: "OK", onPress: () => {
-                                                        setCartItems(items => items.filter(item => {
-                                                            item._id !== _id
+                                                        setCartItems(
+                                                            // items =>
+                                                            //  items.filter(item => {item._id !== _id})
                                                             AsyncStorage.removeItem(item._id)
-                                                        }));
+                                                        );
                                                         AsyncStorage.setItem('cart', JSON.stringify(cart.filter(id => id !== _id)))
-
                                                     }
                                                 }
                                             ]
@@ -174,7 +157,9 @@ const styles = StyleSheet.create({
         marginVertical: 10,
         borderRadius: 10,
         elevation: 5,
-        backgroundColor: '#F7F9FC'
+        backgroundColor: '#F7F9FC',
+        width: '90%',
+        alignSelf: 'center',
     },
     buttons: {
         width: `100%`,

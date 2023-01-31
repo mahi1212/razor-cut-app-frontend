@@ -115,6 +115,7 @@ function AdminStackScreen() {
       <AdminStack.Screen name="Admin" component={AdminPanel} />
       <AdminStack.Screen name="DeleteShop" component={DeleteShop} />
       <AdminStack.Screen name="UpdateShop" component={UpdateShop} />
+      <AdminStack.Screen name="shopDetails" component={ShopDetails} />
     </AdminStack.Navigator>
   );
 }
