@@ -64,33 +64,6 @@ export default function Home() {
   console.log(shops)
 
 
-  // const saveCart = async () => {
-  //   try {
-  //     await AsyncStorage.setItem('cart', JSON.stringify(cart))
-  //     alert('Added to cart')
-  //   } catch (error) {
-  //     console.log(error)
-  //   }
-  // }
-  // // get cart items from async storage
-  // const getCart = async () => {
-  //   try {
-  //     const value = await AsyncStorage.getItem('cart')
-  //     // console.log(value)
-  //     setCart(JSON.parse(value))
-  //   } catch (e) {
-  //     console.log(e)
-  //   }
-  // }
-  // useEffect(() => {
-  //   async function temp() {
-  //     await getCart();
-  //   }
-  //   temp();
-  //   return () => {}
-  // }, [])
-
-
   const setStatusFilter = (status) => {
     setIsLoading(true);
     if (status === "All") {

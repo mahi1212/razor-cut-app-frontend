@@ -10,6 +10,7 @@ import axios from 'axios';
 
 export default function AdminPanel() {
   const [shopName, setShopName] = useState('')
+  const [shopEmail, setShopEmail] = useState('')
   const [shopimage, setShopimage] = useState('')
   const [shopAddress, setShopAddress] = useState('')
   const [mobile, setMobile] = useState('')
@@ -42,14 +43,15 @@ export default function AdminPanel() {
     { key: '5', value: 'Home Visit' },
   ]
   const members = [
-    { berberName, position, image },
-    { berberName2, position2, image2 }
+    { name: berberName, image: image, position: position },
+    { name: berberName2, image: image2, position: position2 }
   ]
   const packages = [
     { name: packageName, price: packagePrice, time: packageTime, image: packageImage }
   ]
   const myData = {
     name: shopName,
+    email: shopEmail,
     image: shopimage,
     mobile: mobile,
     address: shopAddress,
@@ -82,6 +84,7 @@ export default function AdminPanel() {
         <KeyboardAvoidingView >
           <Text preset='catagory' style={styles.text}>Shop Details</Text>
           <TextInput placeholder='Shop Name' style={styles.input} onChangeText={(text) => { setShopName(text) }} />
+          <TextInput placeholder='Shop Email' style={styles.input} onChangeText={(text) => { setShopEmail(text) }} />
           <TextInput placeholder='IMAGE URL' style={styles.input} onChangeText={(text) => { setShopimage(text) }} />
           <TextInput placeholder='Mobile Number' style={styles.input} onChangeText={(text) => { setMobile(text) }} />
           <TextInput placeholder='Shop Address (ex: Bondor)' style={styles.input} onChangeText={(text) => { setShopAddress(text) }} />
