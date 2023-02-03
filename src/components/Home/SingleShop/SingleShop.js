@@ -14,7 +14,6 @@ let deviceWidth = Dimensions.get('window').width
 
 export default function SingleShop({ shop, visibleIcon, avg, deleteIcon }) {
     const [cart, setCart] = useState([]);
-    // console.log(cart);
     const getCart = async () => {
         try {
             const value = await AsyncStorage.getItem('cart')
@@ -37,9 +36,10 @@ export default function SingleShop({ shop, visibleIcon, avg, deleteIcon }) {
         )
         
     }
-    var { name, image, waiting, avgTime, address, _id } = shop;
+    var { name, image, waiting, avgTime, address, _id, email } = shop;
+    
+    // console.log(_id);
     const { avgTimeAndRatingContainer, shopContainer, innerShopContainer, img, middleDiv, info, avgTimeText, ratingText, bookmarkIcon } = styles;
-    // console.log(visibleIcon)
     const navigation = useNavigation();
     // console.log(waiting)
     if(waiting === undefined) {
@@ -49,7 +49,7 @@ export default function SingleShop({ shop, visibleIcon, avg, deleteIcon }) {
     return (
         <Pressable style={shopContainer} onPress={
             () => {
-                navigation.navigate('shopDetails', { shopId: _id })
+                navigation.navigate('shopDetails', { email: email })
             }
         } >
 

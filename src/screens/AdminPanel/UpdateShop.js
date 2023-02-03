@@ -91,15 +91,22 @@ export default function UpdateShop() {
   const [found, setFound] = useState(false);
   console.log(shop);
   const getShops = () => {
-    fetch(`http://192.168.0.221:5000/shops/${shopEmail}`)
-      .then((res) => res.json())
-      .then((data) => {
-        setShop(data);
-        setFound(true);
-      })
-      .catch((err) => {
-        alert(err);
-      })
+    if (shopEmail === '') {
+      Alert.alert('Please Enter Shop Email')
+    } else {
+      fetch(`http://192.168.0.221:5000/shops/${shopEmail}`)
+        .then((res) => res.json())
+        .then((data) => {
+          setShop(data);
+          console.log(data);
+          setFound(true);
+        })
+        .catch((err) => {
+          if (err) {
+            Alert.alert('Shop not found by given email!')
+          }
+        })
+    }
   };
 
 
@@ -111,7 +118,7 @@ export default function UpdateShop() {
             <Text preset='catagory' style={{ textAlign: 'center', textTransform: 'uppercase', marginVertical: 20, color: 'white' }}>Enter Shop Email You Want to update</Text>
             <TextInput placeholder='Shop Email' style={{ width: '100%', borderWidth: 1, borderColor: '#999', padding: 15, borderRadius: 5, backgroundColor: '#fff' }} onChangeText={(text) => { setShopEmail(text) }} />
             <TouchableOpacity style={{ backgroundColor: '#fff', padding: 10, borderRadius: 5, marginTop: 15 }} onPress={() => getShops()}>
-              <Text preset='title' style={{ textAlign: 'center', textTransform: 'uppercase', color: '#000' }}>Search</Text>
+              <Text preset='title' style={{ textAlign: 'center', textTransform: 'uppercase', color: '#000' }}>Find Shop</Text>
             </TouchableOpacity>
           </View>
           {found ? <View style={{ padding: 10, marginTop: -10, backgroundColor: '#fff', borderTopLeftRadius: 15, borderTopRightRadius: 15 }}>
@@ -144,9 +151,9 @@ export default function UpdateShop() {
               <TextInput placeholder='Image' style={styles.input} onChangeText={(text) => { setImage(text) }} />
               <TextInput placeholder='Position' style={styles.input} onChangeText={(text) => { setPosition(text) }} />
               <View style={{ padding: 10 }} />
-            <TextInput placeholder='Name' style={styles.input} onChangeText={(text) => { setBerberName2(text) }} />
-            <TextInput placeholder='Image' style={styles.input} onChangeText={(text) => { setImage2(text) }} />
-            <TextInput placeholder='Position' style={styles.input} onChangeText={(text) => { setPosition2(text) }} />
+              <TextInput placeholder='Name' style={styles.input} onChangeText={(text) => { setBerberName2(text) }} />
+              <TextInput placeholder='Image' style={styles.input} onChangeText={(text) => { setImage2(text) }} />
+              <TextInput placeholder='Position' style={styles.input} onChangeText={(text) => { setPosition2(text) }} />
             </View>
             {/* package detils */}
             <Text preset='catagory' style={styles.text}>Input Package Details</Text>
@@ -161,9 +168,9 @@ export default function UpdateShop() {
             <TextInput placeholder='Longitude' style={styles.input} onChangeText={(text) => { setLongitude(text) }} />
 
             <TouchableOpacity style={styles.btn} onPress={handleSubmit}>
-              <Text style={styles.title}>Submit</Text>
+              <Text style={styles.title}>Update</Text>
             </TouchableOpacity>
-          </View> : <View style={{alignItems: 'center',padding: 10}}>
+          </View> : <View style={{ alignItems: 'center', padding: 10 }}>
             <Text >
               No shop available by given email!
             </Text>

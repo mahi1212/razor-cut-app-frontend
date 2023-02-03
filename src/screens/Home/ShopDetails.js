@@ -23,11 +23,10 @@ export default function ShopDetails({ route }) {
     const [data, setData] = useState([])
     const [textData, setTextData] = useState('')
     // console.log(data)
-    const { shopId } = route.params;
-    
+    const { email } = route.params;
     const getmembers = () => {
         // 192.168.0.221
-        fetch(`http://192.168.0.221:5000/shops/${shopId}`)
+        fetch(`http://192.168.0.221:5000/shops/${email}`)
             .then(res => res.json())
             .then(data => {
                 setShop(data)
@@ -37,7 +36,7 @@ export default function ShopDetails({ route }) {
     }
     const getSingleShop = () => {
         setIsLoading(true)
-        fetch(`http://192.168.0.221:5000/shops/${shopId}`)
+        fetch(`http://192.168.0.221:5000/shops/${email}`)
             .then(res => res.json())
             .then(data => {
                 setShop(data)
@@ -54,28 +53,28 @@ export default function ShopDetails({ route }) {
         setIsLoading(true)
         // http://192.168.0.221:5000
         if (status === 'About') {
-            fetch(`http://192.168.0.221:5000/shops/${shopId}`)
+            fetch(`http://192.168.0.221:5000/shops/${email}`)
                 .then(res => res.json())
                 .then(data => {
                     setTextData(data.about)
                     setIsLoading(false)
                 })
         } else if (status == 'Package') {
-            fetch(`http://192.168.0.221:5000/shops/${shopId}`)
+            fetch(`http://192.168.0.221:5000/shops/${email}`)
                 .then(res => res.json())
                 .then(data => {
                     setData(data.package)
                     setIsLoading(false)
                 })
         } else if (status == 'Gellary') {
-            fetch(`http://192.168.0.221:5000/shops/${shopId}`)
+            fetch(`http://192.168.0.221:5000/shops/${email}`)
                 .then(res => res.json())
                 .then(data => {
                     setData(data.gellary)
                     setIsLoading(false)
                 })
         } else {
-            fetch(`http://192.168.0.221:5000/shops/${shopId}`)
+            fetch(`http://192.168.0.221:5000/shops/${email}`)
                 .then(res => res.json())
                 .then(data => {
                     setData(data.review)
