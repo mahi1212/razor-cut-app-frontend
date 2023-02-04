@@ -5,6 +5,7 @@ import {
   ScrollView,
   TextInputBase,
   KeyboardAvoidingView,
+  Pressable,
 } from "react-native";
 import { useForm, Controller } from "react-hook-form";
 import { spacing } from "../../theme/spacing";
@@ -25,17 +26,22 @@ import {
 } from "../../components/ProfileCommonComponent/localizations";
 import Checkbox from "expo-checkbox";
 import TimeSelect from "./TimeSelect";
+import { TouchableOpacity } from "react-native-gesture-handler";
 
 
-export default function Appointment() {
-  const [isSelected, setSelection] = useState('');
+export default function Appointment({ route }) {
+  const [isSelected, setSelected] = useState('');
   console.log(isSelected)
   const [selectedStartDate, setSelectedStartDate] = useState("");
   const [name, setName] = useState('')
   const [phone, setPhone] = useState('')
-  
-  console.log(name, phone, selectedStartDate)
+  const [email, setEmail] = useState('')
+
+  // var email2 = route?.params?.shop?.email;
+  // console.log('email 2', email2);
+
   const data = {
+    shopEmail: email,
     name: name,
     phone: phone,
     date: selectedStartDate ? selectedStartDate.format("DD-MM-YYYY").toString()
@@ -47,19 +53,22 @@ export default function Appointment() {
 
   //submit
   const onSubmit = () => {
-    console.log(data);
+    console.log(email);
     if (!name || !phone || !selectedStartDate) {
       alert('Please fill all the fields')
-    } else {
-      axios.post("http://192.168.0.221:5000/appointment", data).then((res) => {
-        if (res.data.insertedId) {
-          alert("Appointment Booked Successfully");
-        }
-      });
+      return;
     }
-
-  };
-  const times = ['9:00', '10:00', '11:00', '12:00', '13:00', '14:00', '15:00', '16:00', '17:00', '18:00', '19:00', '20:00', '21:00', '22:00'] 
+    if (data.shopEmail === '') {
+      data.shopEmail = route?.params?.shop?.email
+    }
+    axios.post("http://192.168.0.221:5000/appointment", data).then((res) => {
+      if (res.data.insertedId) {
+        alert("Appointment Booked Successfully 1");
+      }
+    });
+    console.log(data);
+  }
+  const times = ['9:00', '10:00', '11:00', '12:00', '13:00', '14:00', '15:00', '16:00', '17:00', '18:00', '19:00', '20:00', '21:00', '22:00']
   //language
   i18n.fallbacks = true;
   i18n.translations = { en, sp, bn };
@@ -68,8 +77,32 @@ export default function Appointment() {
     <ScrollView style={styles.detailsView}>
       <ProfileHeader backBtn={true} title={i18n.t("Appointment")} />
       {/* name */}
+      {route?.params?.shop?.email ? <View>
+        <Text preset="h6" style={{ marginBottom: 20 }} >SELECTED SHOP EMAIL : </Text>
+        <TextInput
+          style={styles.textSection}
+          placeholder="Enter Shop Email"
+          onChangeText={(text) => {
+            setEmail(route?.params?.shop?.email)
+            // console.log(email)
+          }}
+          value={route?.params?.shop?.email}
+        />
+      </View> :
+        <View>
+          <Text preset="h6" >ENTER SHOP EMAIL : </Text>
+          <TextInput
+            style={styles.textSection}
+            placeholder="Enter Shop Email"
+            onChangeText={(text) => {
+              setEmail(text)
+              console.log(email)
+            }}
+          />
+        </View>
+      }
       <View>
-        <Text preset="h6">Name</Text>
+        <Text preset="h6">NAME</Text>
         <TextInput
           style={styles.textSection}
           placeholder="Enter Your Name"
@@ -78,7 +111,7 @@ export default function Appointment() {
       </View>
       {/* phone number */}
       <View style={{ marginTop: spacing[3] }}>
-        <Text preset="h6">Phone Number</Text>
+        <Text preset="h6">PHONE NUMBER</Text>
         <TextInput
           style={styles.textSection}
           placeholder="Enter Phone Number"
@@ -92,24 +125,34 @@ export default function Appointment() {
         <TextInput editable={false} style={styles.textSection}>Date selected : {startDate}</TextInput>
       </View>
 
-      {/* Time */}
-      {/* <View style={{ marginTop: spacing[3] }}>
-        <TimePick />
-      </View> */}
-      {/* time in checkbox */}
-      <TimeSelect />
       <View style={{ marginTop: spacing[3] }}>
         <Text preset="h6">Select Time</Text>
-    </View>
-      {/* {
-        times.map((time, index) => {
+      </View>
+      <ScrollView
+        horizontal={true}
+        showsHorizontalScrollIndicator={false}
+        contentContainerStyle={{ paddingVertical: 10 }}
+      >
+        {times.map((item, index) => {
           return (
-            <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', marginVertical: spacing[3] }}>
-              <Text onPress={() => setSelection(time)} preset="h6">{time}</Text>
-            </View>
-          )
-        })
-      } */}
+            <TouchableOpacity
+              key={index}
+              style={isSelected === item ? styles.activeCatagoryButton : styles.catagoryButton}
+              onPress={() => {
+                setSelected(item)
+              }}
+            >
+              <Text
+                preset="title"
+                style={isSelected === item ? styles.selectedItemText : styles.normalItemText}
+              >
+                {item}
+              </Text>
+            </TouchableOpacity>
+          );
+        })}
+      </ScrollView>
+
       <Button onPress={onSubmit} title="Continue" />
     </ScrollView >
   );
@@ -127,5 +170,34 @@ const styles = StyleSheet.create({
   },
   checkbox: {
     alignSelf: "center",
+  },
+  selectedShop: {
+    marginVertical: spacing[3],
+    paddingVertical: spacing[3],
+  },
+  activeCatagoryButton: {
+    width: 100,
+    backgroundColor: colors.darkOrange,
+    justifyContent: "center",
+    alignItems: "center",
+    paddingVertical: 10,
+    borderRadius: "50%",
+    marginHorizontal: 3,
+  },
+  catagoryButton: {
+    width: 100,
+    justifyContent: "center",
+    alignItems: "center",
+    paddingVertical: 10,
+    borderRadius: "50%",
+    marginHorizontal: 3,
+    borderWidth: 1,
+    borderColor: colors.darkOrange,
+  },
+  selectedItemText: {
+    color: colors.white,
+  },
+  normalItemText: {
+    color: colors.orange,
   },
 });

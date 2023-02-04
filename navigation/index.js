@@ -63,6 +63,7 @@ function HomeStackScreen() {
       <HomeStack.Screen name="CatagoryPage" component={CatagoryPage} />
       <HomeStack.Screen name="SeeAll" component={SeeAll} />
       <HomeStack.Screen name="shopDetails" component={ShopDetails} />
+      <HomeStack.Screen name="Booking" component={Appointment} />
     </HomeStack.Navigator>
   );
 }

@@ -276,7 +276,7 @@ export default function ShopDetails({ route }) {
                 </MapView>
                 {/* Book now button orange color */}
                 <Pressable onPress={() => {
-                    navigation.navigate('Appoinment', { shop: shop })
+                    navigation.navigate('Booking', { shop: shop })
                 }}>
                     <View style={{ backgroundColor: colors.darkOrange, padding: 10, marginHorizontal: 5, borderRadius: 30, marginVertical: 20 }}>
                         <Text style={{ color: 'white', fontSize: 18, textAlign: 'center' }}>Book Now</Text>
