@@ -45,7 +45,8 @@ export default function Appointment({ route }) {
     name: name,
     phone: phone,
     date: selectedStartDate ? selectedStartDate.format("DD-MM-YYYY").toString()
-      : "No date selected"
+      : "No date selected",
+    time: isSelected,
   }
   const startDate = selectedStartDate
     ? selectedStartDate.format("DD-MM-YYYY").toString()
@@ -63,7 +64,7 @@ export default function Appointment({ route }) {
     }
     axios.post("http://192.168.0.221:5000/appointment", data).then((res) => {
       if (res.data.insertedId) {
-        alert("Appointment Booked Successfully 1");
+        alert("Appointment Booked Successfully");
       }
     });
     console.log(data);
@@ -126,7 +127,7 @@ export default function Appointment({ route }) {
       </View>
 
       <View style={{ marginTop: spacing[3] }}>
-        <Text preset="h6">Select Time</Text>
+        <Text preset="h6">SELECT TIME</Text>
       </View>
       <ScrollView
         horizontal={true}
