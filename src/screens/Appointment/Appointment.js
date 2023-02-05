@@ -41,12 +41,13 @@ export default function Appointment({ route }) {
   // console.log('email 2', email2);
 
   const data = {
-    shopEmail: email,
+    email: email,
     name: name,
     phone: phone,
     date: selectedStartDate ? selectedStartDate.format("DD-MM-YYYY").toString()
       : "No date selected",
     time: isSelected,
+    status: 'pending'
   }
   const startDate = selectedStartDate
     ? selectedStartDate.format("DD-MM-YYYY").toString()

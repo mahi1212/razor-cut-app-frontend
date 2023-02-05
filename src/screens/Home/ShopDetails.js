@@ -12,6 +12,7 @@ import Image from 'react-native-image-progress';
 import MapView, { Marker } from 'react-native-maps';
 import { useNavigation } from '@react-navigation/native';
 import * as Location from 'expo-location';
+import { AntDesign } from '@expo/vector-icons';
 
 const width = Dimensions.get('window').width;
 
@@ -19,7 +20,7 @@ export default function ShopDetails({ route }) {
     const [shop, setShop] = React.useState([])
     const [members, setMembers] = React.useState([])
     const [isLoading, setIsLoading] = React.useState(false)
-    const [status, setStatus] = useState('About'); // for keeping status of tab
+    const [status, setStatus] = useState('Booking'); // for keeping status of tab
     const [data, setData] = useState([])
     const [textData, setTextData] = useState('')
     // console.log(data)
@@ -73,11 +74,18 @@ export default function ShopDetails({ route }) {
                     setData(data.gellary)
                     setIsLoading(false)
                 })
-        } else {
+        } else if (status == 'Review') {
             fetch(`http://192.168.0.221:5000/shops/${email}`)
                 .then(res => res.json())
                 .then(data => {
                     setData(data.review)
+                    setIsLoading(false)
+                })
+        } else {
+            fetch(`http://192.168.0.221:5000/appointment/${email}`)
+                .then(res => res.json())
+                .then(data => {
+                    setData(data)
                     setIsLoading(false)
                 })
         }
@@ -85,6 +93,7 @@ export default function ShopDetails({ route }) {
 
     const { container, imageStyle, heading, line, flatListContainer, activeCatagoryButton, catagoryButton, selectedItemText, normalItemText } = styles;
     const navigation = useNavigation();
+    // status bar under our details
     const ScrollStatusBar = () => {
         return (
             <ScrollView horizontal={true} contentContainerStyle={flatListContainer} showsHorizontalScrollIndicator={false}>
@@ -108,6 +117,7 @@ export default function ShopDetails({ route }) {
             </ScrollView>
         )
     }
+    // main code
     return (
         <ScrollView contentContainerStyle={container} showsVerticalScrollIndicator={false}>
             {/* back button */}
@@ -171,7 +181,11 @@ export default function ShopDetails({ route }) {
                                                     <Text preset='info' style={{ color: colors.darkOrange }}>Price: {item.price} ৳</Text>
                                                 </View>
                                                 {/* book button */}
-                                                <Pressable style={{ position: 'absolute', backgroundColor: colors.darkOrange, right: 30, bottom: 20, paddingHorizontal: 10, paddingVertical: 5, borderRadius: 10 }}>
+                                                <Pressable onPress={
+                                                    () => {
+                                                        navigation.navigate('Booking', { shop: shop })
+                                                    }
+                                                } style={{ position: 'absolute', backgroundColor: colors.darkOrange, right: 30, bottom: 20, paddingHorizontal: 10, paddingVertical: 5, borderRadius: 10 }}>
                                                     <Text style={{ fontSize: 18, color: 'white', }}>Book</Text>
                                                 </Pressable>
                                             </View>
@@ -205,14 +219,69 @@ export default function ShopDetails({ route }) {
                                                     <View style={{ marginVertical: 10, alignItems: 'center', padding: 7, borderWidth: 1, borderColor: '#EEEEEE', borderRadius: 5, marginRight: 5, width: '100%', alignItems: 'flex-start' }}>
                                                         <View style={{ marginLeft: 10, alignItems: 'center', justifyContent: 'flex-start', width: '100%', flexDirection: 'row' }}>
                                                             <Image source={{ uri: item.image }} style={{ width: 60, height: 60, borderRadius: 50, overflow: 'hidden' }} />
-                                                            <Text preset='title' style={{ marginLeft: 10 }}>{item.name}</Text>
+                                                            <View style={{width: '100%'}}>
+                                                                <Text preset='title' style={{ marginLeft: 15 }}>{item.name}</Text>
+                                                                <Text preset='info' style={{ marginTop: 5, marginLeft: 15 }}> {item.description}</Text>
+                                                                <View style={{position: 'absolute', right: 70}}>
+                                                                    {
+                                                                        item?.rating === 5 ?
+                                                                            <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'flex-start', marginTop: -5, marginLeft: 15 }}>
+                                                                                <AntDesign name='star' size={20} color={colors.darkOrange} />
+                                                                                <AntDesign name='star' size={20} color={colors.darkOrange} />
+                                                                                <AntDesign name='star' size={20} color={colors.darkOrange} />
+                                                                                <AntDesign name='star' size={20} color={colors.darkOrange} />
+                                                                                <AntDesign name='star' size={20} color={colors.darkOrange} />
+                                                                            </View>
+                                                                            : item.rating === 4 ?
+                                                                                <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'center', marginTop: -5, marginLeft: 15 }}>
+                                                                                    <AntDesign name='star' size={20} color={colors.darkOrange} />
+                                                                                    <AntDesign name='star' size={20} color={colors.darkOrange} />
+                                                                                    <AntDesign name='star' size={20} color={colors.darkOrange} />
+                                                                                    <AntDesign name='star' size={20} color={colors.darkOrange} />
+                                                                                </View>
+                                                                                : item.rating === 3 ?
+                                                                                    <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'center', marginTop: -5, marginLeft: 15 }}>
+                                                                                        <AntDesign name='star' size={20} color={colors.darkOrange} />
+                                                                                        <AntDesign name='star' size={20} color={colors.darkOrange} />
+                                                                                        <AntDesign name='star' size={20} color={colors.darkOrange} />
+                                                                                    </View>
+                                                                                    : item.rating === 2 ?
+                                                                                        <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'center', marginTop: -5, marginLeft: 15 }}>
+                                                                                            <AntDesign name='star' size={20} color={colors.darkOrange} />
+                                                                                            <AntDesign name='star' size={20} color={colors.darkOrange} />
+                                                                                        </View>
+                                                                                        : item.rating === 1 ?
+                                                                                            <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'center', marginTop: 5, marginLeft: 15 }}>
+                                                                                                <AntDesign name='star' size={20} color={colors.darkOrange} />
+                                                                                            </View>
+                                                                                            : null
+                                                                    }
+
+                                                                </View>
+                                                            </View>
                                                         </View>
-                                                        <Text preset='info' style={{ marginTop: 15, marginLeft: 15 }}>Review: {item.description}</Text>
                                                     </View>
                                                 )
                                             }}
-                                        />
-                                        : null
+                                        /> : status === 'Booking' ?
+                                            <FlatList
+                                                data={data}
+                                                // horizontal={true}
+                                                // showsHorizontalScrollIndicator={false}
+                                                keyExtractor={(item, index) => index.toString()}
+                                                renderItem={({ item }) => {
+                                                    return (
+                                                        <View style={{ marginVertical: 10, alignItems: 'center', padding: 7, borderWidth: 1, borderColor: '#EEEEEE', borderRadius: 5, marginRight: 5, width: '100%', alignItems: 'flex-start' }}>
+                                                            <View style={{ marginLeft: 10, alignItems: 'flex-start', justifyContent: 'flex-start', width: '100%' }}>
+                                                                <Text preset='title' style={{ marginVertical: 3 }}>Person: {item?.name}</Text>
+                                                                <Text preset='info' style={{ marginVertical: 3 }}>Date: {item?.date}</Text>
+                                                                <Text preset='info' style={{ marginVertical: 3 }}>Time: {item?.time}</Text>
+                                                            </View>
+                                                            <Text preset='info' style={{ marginTop: 15, marginLeft: 15, backgroundColor: colors.darkOrange, padding: 5, color: '#fff', borderRadius: 5, position: 'absolute', top: -5, right: 0 }}> STATUS: {item?.status}</Text>
+                                                        </View>
+                                                    )
+                                                }}
+                                            /> : null
 
                     }
 
@@ -252,7 +321,7 @@ export default function ShopDetails({ route }) {
                         }
                     }><Text style={{ marginHorizontal: 10, color: colors.darkOrange }}>FIND US ON MAP</Text></Pressable>
                 </View>
-                {/* map */}
+                {/* map
                 <MapView
                     style={{ width: 400, height: 200 }}
                     initialRegion={{
@@ -263,7 +332,6 @@ export default function ShopDetails({ route }) {
                     }}
                     showsUserLocation={true}
                 >
-                    {/* shop location */}
                     <Marker
                         image={require('../../../assets/images/shop-marker.png')}
                         coordinate={{
@@ -273,7 +341,7 @@ export default function ShopDetails({ route }) {
                         title={shop.name}
                         description={shop.address}
                     />
-                </MapView>
+                </MapView> */}
                 {/* Book now button orange color */}
                 <Pressable onPress={() => {
                     navigation.navigate('Booking', { shop: shop })

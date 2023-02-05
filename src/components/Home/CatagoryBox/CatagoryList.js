@@ -48,19 +48,23 @@ export const catagories =
 export const details = [
     {
         id: '1',
-        status: 'About',
-    },
-    {
-        id: '2',
-        status: 'Package',
+        status: 'Booking',
     },
     {
         id: '3',
-        status: 'Review',
+        status: 'Package',
     },
     {
         id: '4',
+        status: 'Review',
+    },
+    {
+        id: '5',
         status: 'Gellary',
+    },
+    {
+        id: '2',
+        status: 'About',
     },
 ]
 
