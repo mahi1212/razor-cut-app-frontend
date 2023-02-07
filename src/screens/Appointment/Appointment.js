@@ -27,6 +27,9 @@ import {
 import Checkbox from "expo-checkbox";
 import TimeSelect from "./TimeSelect";
 import { TouchableOpacity } from "react-native-gesture-handler";
+import { auth } from "../../../navigation";
+import { onAuthStateChanged } from "firebase/auth";
+import { useEffect } from "react";
 
 
 export default function Appointment({ route }) {
@@ -35,14 +38,23 @@ export default function Appointment({ route }) {
   const [selectedStartDate, setSelectedStartDate] = useState("");
   const [name, setName] = useState('')
   const [phone, setPhone] = useState('')
-  const [email, setEmail] = useState('')
-
-  // var email2 = route?.params?.shop?.email;
-  // console.log('email 2', email2);
+  const [userEmail, setUserEmail] = useState("");
+  
+  useEffect(() => {
+    onAuthStateChanged(auth, (user) => {
+      if (user) {
+        setUserEmail(user.email);
+      } else {
+        setUserEmail(null);
+      }
+    });
+  }, []);
 
   const data = {
-    email: email,
-    name: name,
+    shop_name: route?.params?.shop?.name,
+    email: route?.params?.shop?.email,
+    user_email: userEmail,
+    user_name: name,
     phone: phone,
     date: selectedStartDate ? selectedStartDate.format("DD-MM-YYYY").toString()
       : "No date selected",
@@ -55,14 +67,13 @@ export default function Appointment({ route }) {
 
   //submit
   const onSubmit = () => {
-    console.log(email);
     if (!name || !phone || !selectedStartDate) {
       alert('Please fill all the fields')
       return;
     }
-    if (data.shopEmail === '') {
-      data.shopEmail = route?.params?.shop?.email
-    }
+    // if (data.shopEmail === '') {
+    //   data.shopEmail = route?.params?.shop?.email
+    // }
     axios.post("http://192.168.0.221:5000/appointment", data).then((res) => {
       if (res.data.insertedId) {
         alert("Appointment Booked Successfully");
@@ -79,30 +90,8 @@ export default function Appointment({ route }) {
     <ScrollView style={styles.detailsView}>
       <ProfileHeader backBtn={true} title={i18n.t("Appointment")} />
       {/* name */}
-      {route?.params?.shop?.email ? <View>
-        <Text preset="h6" style={{ marginBottom: 20 }} >SELECTED SHOP EMAIL : </Text>
-        <TextInput
-          style={styles.textSection}
-          placeholder="Enter Shop Email"
-          onChangeText={(text) => {
-            setEmail(route?.params?.shop?.email)
-            // console.log(email)
-          }}
-          value={route?.params?.shop?.email}
-        />
-      </View> :
-        <View>
-          <Text preset="h6" >ENTER SHOP EMAIL : </Text>
-          <TextInput
-            style={styles.textSection}
-            placeholder="Enter Shop Email"
-            onChangeText={(text) => {
-              setEmail(text)
-              console.log(email)
-            }}
-          />
-        </View>
-      }
+      <Text preset="h6" style={{ marginBottom: 20 }} >SELECTED SHOP EMAIL : {route?.params?.shop?.email}</Text>
+
       <View>
         <Text preset="h6">NAME</Text>
         <TextInput

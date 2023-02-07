@@ -31,6 +31,7 @@ import UpdateShop from "../src/screens/AdminPanel/UpdateShop";
 import { MaterialIcons } from '@expo/vector-icons';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 import { Image, TouchableOpacity, View } from "react-native";
+import MyBookings from "../src/screens/MyBookings/MyBookings";
 
 const THEME = {
   ...DefaultTheme,
@@ -81,7 +82,7 @@ const BookingStack = createNativeStackNavigator();
 function BookingStackScreen() {
   return (
     <BookingStack.Navigator screenOptions={{ headerShown: false }}>
-      <BookingStack.Screen name="Booking" component={Appointment} />
+      <BookingStack.Screen name="MyBookings" component={MyBookings} />
     </BookingStack.Navigator>
   );
 }
