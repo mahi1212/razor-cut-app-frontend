@@ -273,7 +273,7 @@ export default function ShopDetails({ route }) {
                                                     return (
                                                         <View style={{ marginVertical: 10, alignItems: 'center', padding: 7, borderWidth: 1, borderColor: '#EEEEEE', borderRadius: 5, marginRight: 5, width: '100%', alignItems: 'flex-start' }}>
                                                             <View style={{ marginLeft: 10, alignItems: 'flex-start', justifyContent: 'flex-start', width: '100%' }}>
-                                                                <Text preset='title' style={{ marginVertical: 3 }}>Person: {item?.name}</Text>
+                                                                <Text preset='title' style={{ marginVertical: 3 }}>Person: {item?.user_name}</Text>
                                                                 <Text preset='info' style={{ marginVertical: 3 }}>Date: {item?.date}</Text>
                                                                 <Text preset='info' style={{ marginVertical: 3 }}>Time: {item?.time}</Text>
                                                             </View>

@@ -24,8 +24,6 @@ import {
   sp,
   bn,
 } from "../../components/ProfileCommonComponent/localizations";
-import Checkbox from "expo-checkbox";
-import TimeSelect from "./TimeSelect";
 import { TouchableOpacity } from "react-native-gesture-handler";
 import { auth } from "../../../navigation";
 import { onAuthStateChanged } from "firebase/auth";
