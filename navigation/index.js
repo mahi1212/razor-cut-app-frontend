@@ -32,6 +32,7 @@ import { MaterialIcons } from '@expo/vector-icons';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 import { Image, TouchableOpacity, View } from "react-native";
 import MyBookings from "../src/screens/MyBookings/MyBookings";
+import Review from "../src/screens/MyBookings/Review";
 
 const THEME = {
   ...DefaultTheme,
@@ -83,6 +84,7 @@ function BookingStackScreen() {
   return (
     <BookingStack.Navigator screenOptions={{ headerShown: false }}>
       <BookingStack.Screen name="MyBookings" component={MyBookings} />
+      <BookingStack.Screen name="Review" component={Review} />
     </BookingStack.Navigator>
   );
 }

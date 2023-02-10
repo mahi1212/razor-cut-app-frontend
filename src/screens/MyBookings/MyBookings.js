@@ -1,4 +1,4 @@
-import { Pressable, RefreshControl, ScrollView, StyleSheet, View } from 'react-native'
+import { Button, Pressable, RefreshControl, ScrollView, StyleSheet, View } from 'react-native'
 import React from 'react'
 import Text from '../../components/Text/Text'
 import { colors } from '../../theme/colors'
@@ -8,11 +8,12 @@ import { auth } from "../../../navigation";
 import { onAuthStateChanged } from 'firebase/auth'
 import { useState } from 'react'
 import { useNavigation } from "@react-navigation/native";
-
+import { MaterialIcons } from '@expo/vector-icons';
 
 export default function MyBookings() {
     const [data, setData] = useState([]);
     const [email, setEmail] = useState('');
+    const navigation = useNavigation();
     useEffect(() => {
         onAuthStateChanged(auth, (user) => {
             if (user) {
@@ -29,13 +30,10 @@ export default function MyBookings() {
             .then((data) => {
                 setData(data);
             })
-            .catch((err) => {
-                console.log(err);
-            })
     }
     useEffect(() => {
         getDetails();
-    }, []);
+    }, [email]);
 
     return (
         <ScrollView style={{ flex: 1 }} onLayout={getDetails()}>
@@ -43,9 +41,10 @@ export default function MyBookings() {
             {/* card with shadow for shop previously booked */}
             {
                 data.length === 0 ? <Text preset="catagory" style={styles.headerText} >
-                    <View style={{flex: 1, justifyContent:'center', alignItems: 'center'}}>
+                    <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
                         <Text>NO BOOKING HISTORY</Text>
                     </View> </Text> :
+
                     data.map((item, index) => {
                         return (
                             <View style={styles.wraper} key={index}>
@@ -59,11 +58,15 @@ export default function MyBookings() {
                                             <Text preset="catagory" style={styles.wariningText} > VISITED </Text>
                                     }
                                 </View>
+                                <Pressable style={styles.icon} onPress={() => {
+                                    navigation.navigate('Review', { email: item.email })
+                                }} >
+                                    <MaterialIcons name="rate-review" size={24} color={colors.darkOrange} />
+                                </Pressable>
                             </View>
                         )
                     })
             }
-
         </ScrollView >
     )
 }
@@ -97,4 +100,10 @@ const styles = StyleSheet.create({
         color: colors.white,
         padding: 5,
     },
+    icon: {
+        position: 'absolute',
+        right: 15,
+        top: 20,
+        padding: 5,
+    }
 })
