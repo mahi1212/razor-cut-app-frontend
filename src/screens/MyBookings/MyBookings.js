@@ -85,7 +85,14 @@ const styles = StyleSheet.create({
         padding: spacing[4],
         marginVertical: spacing[4],
         borderWidth: 1,
-        borderColor: "#ccc"
+        borderColor: "#ccc",
+        shadowColor: "#000",
+        shadowOffset: {
+            width: 0,
+            height: 5,
+        },
+        shadowOpacity: 0.1,
+        shadowRadius: 3,
     },
     text: {
         fontSize: 18,
