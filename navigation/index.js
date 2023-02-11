@@ -73,7 +73,7 @@ function HomeStackScreen() {
 const ExploreStack = createNativeStackNavigator();
 function ExploreStackScreen() {
   return (
-    <ExploreStack.Navigator screenOptions={{ headerShown: false }}>
+    <ExploreStack.Navigator>
       <ExploreStack.Screen name="Explore" component={Explore} />
     </ExploreStack.Navigator>
   );

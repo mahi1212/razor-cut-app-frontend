@@ -31,6 +31,7 @@ export default function Review({ route }) {
         });
     }, []);
 
+    // Get user data
     const getUser = () => {
         axios.get(`http://192.168.0.221:5000/users/${userEmail}`)
             .then((res) => {
@@ -40,15 +41,31 @@ export default function Review({ route }) {
             });
     };
     getUser();
+    // submit review
     const submitReview = () => {
+        if(rating == 0){
+            Alert.alert("Please rate the shop");
+            return;
+        }
+        if(description == ''){
+            Alert.alert("Please write your review");
+            return;
+        }
         axios.post(`http://192.168.0.221:5000/shops/review/${email}`, data).then((res) => {
             if (res.data) {
                 Alert.alert("Review Added Successfully");
             }
         });
-        
+
     }
     console.log(data);
+    // reset form
+    const reset = () => {
+        setRating(0);
+        setDescription('');
+        // clear text input
+    }
+
     return (
         <SafeAreaView >
             <PageHeader title="Review" />
@@ -79,12 +96,18 @@ export default function Review({ route }) {
                     {/* review text */}
                     <TextInput style={styles.reviewInput}
                         placeholder="Write your review here"
-                        onChangeText={(text) => {
-                            setDescription(text);
-                        }}
+                        // onChangeText={(text) => {
+                        //     setDescription(text);
+                        // }}
+                        value={description}
+                        onChangeText={setDescription}
                     />
                     <View style={{ flexDirection: 'row', justifyContent: 'space-between', width: '100%' }}>
-                        <Pressable style={styles.btn}>
+                        <Pressable style={styles.btn} onPress={
+                            () => {
+                                reset();
+                            }
+                        }>
                             <Text style={{ fontSize: 20, fontWeight: 'bold', color: '#00000080' }}>Cancel</Text>
                         </Pressable>
                         <Pressable style={styles.btnSubmit} onPress={
