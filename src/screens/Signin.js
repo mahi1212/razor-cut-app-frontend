@@ -20,11 +20,19 @@ export default function Signin() {
 
   //handle login function
   const login = () => {
-    if(password.length<6){
+    if (!email) {
+      return alert("Email is required")
+    }
+    if (!password || password.length < 6) {
       return alert("Password must be at least 6 characters")
     }
     signInWithEmailAndPassword(auth, email, password).then((res) => {
       console.log("signin successfully", res);
+      // send user an email verification
+
+      // navigation.navigate("Home");
+    }).catch((error) => {
+      alert(error.message);
     });
   };
 
@@ -32,7 +40,7 @@ export default function Signin() {
     <View style={{ marginHorizontal: 20, flex: 1 }}>
       {/* title */}
       <View>
-        <Text style={styles.title1}><Text style={{color:colors.darkOrange}}>Login</Text> to Your</Text>
+        <Text style={styles.title1}><Text style={{ color: colors.darkOrange }}>Login</Text> to Your</Text>
         <Text style={styles.title2}>Account</Text>
       </View>
       <View style={{ marginTop: 60 }}>
@@ -67,7 +75,7 @@ export default function Signin() {
         {/* Or text */}
         <OrText />
         {/* google sign in */}
-        <GoogleButton title="in"/>
+        <GoogleButton title="in" />
       </View>
       <View style={{ position: "absolute", bottom: 0, left: 50 }}>
         <Pressable

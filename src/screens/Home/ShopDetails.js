@@ -1,4 +1,4 @@
-import { Dimensions, FlatList, Linking, Pressable, ScrollView, StyleSheet, TouchableOpacity, View } from 'react-native'
+import { Alert, Dimensions, FlatList, Linking, Pressable, ScrollView, StyleSheet, TouchableOpacity, View } from 'react-native'
 import React, { useState } from 'react'
 import Text from '../../components/Text/Text';
 import { colors } from '../../theme/colors';
@@ -13,6 +13,8 @@ import MapView, { Marker } from 'react-native-maps';
 import { useNavigation } from '@react-navigation/native';
 import * as Location from 'expo-location';
 import { AntDesign } from '@expo/vector-icons';
+import { auth } from '../../../navigation';
+import { onAuthStateChanged } from 'firebase/auth';
 
 const width = Dimensions.get('window').width;
 
@@ -25,6 +27,17 @@ export default function ShopDetails({ route }) {
     const [textData, setTextData] = useState('')
     // console.log(data)
     const { email } = route.params;
+    // get when user varify his email
+    const [emailVerified, setEmailVerified] = useState(null);
+    useEffect(() => {
+        onAuthStateChanged(auth, (user) => {
+            if (user) {
+                setEmailVerified(user.emailVerified);
+            } else {
+                console.log('no user');
+            }
+        });
+    }, []);
     const getmembers = () => {
         // 192.168.0.221
         fetch(`http://192.168.0.221:5000/shops/${email}`)
@@ -219,10 +232,10 @@ export default function ShopDetails({ route }) {
                                                     <View style={{ marginVertical: 10, alignItems: 'center', padding: 7, borderWidth: 1, borderColor: '#EEEEEE', borderRadius: 5, marginRight: 5, width: '100%', alignItems: 'flex-start' }}>
                                                         <View style={{ marginLeft: 10, alignItems: 'center', justifyContent: 'flex-start', width: '100%', flexDirection: 'row' }}>
                                                             <Image source={{ uri: item.image }} style={{ width: 60, height: 60, borderRadius: 50, overflow: 'hidden' }} />
-                                                            <View style={{width: '100%'}}>
+                                                            <View style={{ width: '100%' }}>
                                                                 <Text preset='title' style={{ marginLeft: 15 }}>{item.name}</Text>
                                                                 <Text preset='info' style={{ marginTop: 5, marginLeft: 15 }}> {item.description}</Text>
-                                                                <View style={{position: 'absolute', right: 70}}>
+                                                                <View style={{ position: 'absolute', right: 70 }}>
                                                                     {
                                                                         item?.rating === 5 ?
                                                                             <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'flex-start', marginTop: -5, marginLeft: 15 }}>
@@ -344,7 +357,12 @@ export default function ShopDetails({ route }) {
                 </MapView> */}
                 {/* Book now button orange color */}
                 <Pressable onPress={() => {
-                    navigation.navigate('Booking', { shop: shop })
+                    {
+                        emailVerified === false ?
+                            Alert.alert("You can't book any service without verifying your email")
+                            : navigation.navigate('Booking', { shop: shop })
+                    }
+                    
                 }}>
                     <View style={{ backgroundColor: colors.darkOrange, padding: 10, marginHorizontal: 5, borderRadius: 30, marginVertical: 20 }}>
                         <Text style={{ color: 'white', fontSize: 18, textAlign: 'center' }}>Book Now</Text>

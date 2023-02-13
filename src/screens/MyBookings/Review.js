@@ -6,6 +6,7 @@ import axios from 'axios';
 import { useEffect } from 'react';
 import { onAuthStateChanged } from 'firebase/auth';
 import { auth } from '../../../navigation';
+import { useNavigation } from '@react-navigation/native';
 
 export default function Review({ route }) {
     const { email } = route.params;
@@ -42,6 +43,8 @@ export default function Review({ route }) {
     };
     getUser();
     // submit review
+    const navigation = useNavigation();
+
     const submitReview = () => {
         if(rating == 0){
             Alert.alert("Please rate the shop");
@@ -53,12 +56,15 @@ export default function Review({ route }) {
         }
         axios.post(`http://192.168.0.221:5000/shops/review/${email}`, data).then((res) => {
             if (res.data) {
-                Alert.alert("Review Added Successfully");
+                Alert.alert("Thanks for your review :)");
             }
         });
-
+        // 2 sec later go to home
+        setTimeout(() => {
+            navigation.navigate('MyBookings');
+        }, 2000)
     }
-    console.log(data);
+    // console.log(data);
     // reset form
     const reset = () => {
         setRating(0);

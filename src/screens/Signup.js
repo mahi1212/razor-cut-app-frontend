@@ -1,4 +1,4 @@
-import { View, Pressable, StyleSheet, TextInput, KeyboardAvoidingView } from "react-native";
+import { View, Pressable, StyleSheet, TextInput, KeyboardAvoidingView, Alert } from "react-native";
 import React, { useState } from "react";
 import Input from "../components/Login/input";
 import Checkbox from "expo-checkbox";
@@ -8,7 +8,7 @@ import { colors } from "../theme/colors";
 import Text from "../components/Text/Text";
 import OrText from "../components/Login/OrText";
 import GoogleButton from "../components/Login/GoogleButton";
-import { createUserWithEmailAndPassword, updateProfile } from "firebase/auth";
+import { createUserWithEmailAndPassword, updateProfile, sendEmailVerification } from "firebase/auth";
 import { auth } from "../../navigation";
 
 export default function Signup() {
@@ -22,8 +22,8 @@ export default function Signup() {
 
   // post user to database
   const saveUser = (name, phone, email, password, role) => {
-    const user = { name, phone, email, password, role};
- 
+    const user = { name, phone, email, password, role };
+
     fetch("http://192.168.0.221:5000/users", {
       method: "POST",
       headers: {
@@ -34,12 +34,16 @@ export default function Signup() {
   };
 
   //hadle signup function
-
   const handleSignup = async () => {
     createUserWithEmailAndPassword(auth, email, password)
-      .then((userCredential) => {
+      .then(() => {
         // Signed in
-        const user = userCredential.user;
+        // generate OTP and send to the user's phone number
+        sendEmailVerification(auth.currentUser).then(() => {
+          // Email verification sent!
+          alert("Email verification sent! Confirm your email to login");
+
+        });
         // update display name
         updateProfile(auth.currentUser, {
           displayName: name,
@@ -47,7 +51,8 @@ export default function Signup() {
         }).catch((error) => {
           alert(error.message);
         });
-        console.log("success user ---> ", user);
+        // send OTP to the user's email
+
       })
       .catch((error) => {
         const errorMessage = error.message;

@@ -28,7 +28,7 @@ export default function SingleShop({ shop, visibleIcon, avg, deleteIcon }) {
         // console.log(id)
         axios.delete(`http://192.168.0.221:5000/shops/${id}`)
             .then(res => {
-                console.log(res)
+                // console.log(res)
                 alert('Shop deleted successfully')
             }, (error) => {
                 alert(error)
@@ -83,7 +83,7 @@ export default function SingleShop({ shop, visibleIcon, avg, deleteIcon }) {
                         <View style={avgTimeAndRatingContainer}>
                             {/* Rating showing based on realtime user rating */}
                             <FontAwesome name="star" size={14} color={colors.orange} />
-                            <Text preset='info' style={ratingText}>{avg}</Text>
+                            <Text preset='info' style={ratingText}>{avg.toFixed(2)}</Text>
                         </View>
                     </View>
                 </View>

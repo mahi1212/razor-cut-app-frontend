@@ -43,7 +43,7 @@ export default function Header({ cart }) {
       });
   };
   getUser();
-  console.log(user);
+  // console.log(user);
   const userName = name || "User";
   // sign out function
   const handleSignOut = () => {

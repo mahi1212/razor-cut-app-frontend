@@ -85,6 +85,7 @@ function BookingStackScreen() {
     <BookingStack.Navigator screenOptions={{ headerShown: false }}>
       <BookingStack.Screen name="MyBookings" component={MyBookings} />
       <BookingStack.Screen name="Review" component={Review} />
+      <BookingStack.Screen name="home" component={Home} />
     </BookingStack.Navigator>
   );
 }
@@ -162,6 +163,7 @@ export default function Navigation() {
       }
     });
   }, []);
+  console.log("user", user?.emailVerified);
 
   const getUser = () => {
     axios.get(`http://192.168.0.221:5000/users/${email}`)
@@ -332,8 +334,8 @@ export default function Navigation() {
           ))
         : (
           <AuthStackScreen />
-          // <Text> asd</Text>
-        )}
+        )
+      }
     </NavigationContainer>
   );
 }
