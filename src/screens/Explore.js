@@ -60,7 +60,7 @@ export default function Explore() {
   }
   const getShops = () => {
     setIsLoading(true)
-    fetch(`http://192.168.0.221:5000/shops`)
+    fetch(`http://192.168.0.121:5000/shops`)
       .then(res => res.json())
       .then(data => {
         setShops(data)
