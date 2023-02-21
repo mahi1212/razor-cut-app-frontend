@@ -15,6 +15,8 @@ import { useState } from 'react';
 import Dropdown from "./Dropdown";
 import Text from "../../components/Text/Text";
 import { colors } from "../../theme/colors";
+import { useNavigation } from "@react-navigation/native";
+import axios from "axios";
 
 export default function OwnerHome() {
     const [user, setUser] = useState(null);
@@ -31,9 +33,26 @@ export default function OwnerHome() {
     }, []);
     const [selectedOption, setSelectedOption] = useState(null);
     const options = ['0', '1', '2', '3', '4', '5', '6', '7', '8', '9', '10'];
-
+    const navigation = useNavigation();
     const handleSelect = (option) => {
         setSelectedOption(option);
+    };
+    const updateWaitingList = () => {
+        if (selectedOption === null) {
+            alert('Please select a number');
+            return;
+        }
+        console.log(selectedOption);
+        const data = {
+            waiting: selectedOption
+        }
+        axios.put(`http://192.168.0.121:5000/shopss/${email}`, data)
+            .then(res => {
+                console.log(res);
+                alert('WAITING LIST UPDATED SUCCESSFULLY')
+            }).catch(err => {
+                alert(err)
+            })
     };
     return (
         <ScrollView contentContainerStyle={styles.container}>
@@ -45,7 +64,7 @@ export default function OwnerHome() {
             {/* Update website and phone */}
             <View style={{ flexDirection: 'row', justifyContent: 'space-around', alignItems: 'center', width: '100%', marginTop: 10 }}>
                 <Pressable onPress={() => {
-                    console.log('update website')
+                    navigation.navigate('UpdatePage', { type: 'website', email: email })
                 }} style={styles.updateButton}>
                     <Text style={{
                         textAlign: 'center',
@@ -54,7 +73,7 @@ export default function OwnerHome() {
                     }}>UPDATE WEBSITE ADDRESS</Text>
                 </Pressable>
                 <Pressable onPress={() => {
-                    console.log('update Phone Number')
+                    navigation.navigate('UpdatePage', { type: 'phone', email: email })
                 }} style={styles.updateButton}>
                     <Text style={{
                         textAlign: 'center',
@@ -66,28 +85,29 @@ export default function OwnerHome() {
             {/* Update website and phone */}
             <View style={{ flexDirection: 'row', justifyContent: 'space-around', alignItems: 'center', width: '100%', marginTop: 10 }}>
                 <Pressable onPress={() => {
-                    console.log('update website')
+                    navigation.navigate('UpdatePage', { type: 'offer', email: email })
                 }} style={styles.updateButton}>
                     <Text style={{
                         textAlign: 'center',
                         paddingTop: 10,
                         color: colors.darkOrange,
-                    }}>UPDATE WEBSITE ADDRESS</Text>
+                    }}>ADD SPECIAL OFFER</Text>
                 </Pressable>
                 <Pressable onPress={() => {
-                    console.log('update Phone Number')
+                    navigation.navigate('UpdatePage', { type: 'location', email: email })
                 }} style={styles.updateButton}>
                     <Text style={{
                         textAlign: 'center',
                         paddingTop: 10,
                         color: colors.darkOrange,
-                    }}>UPDATE PHONE NUMBER</Text>
+                    }}>UPDATE LOCATION</Text>
                 </Pressable>
             </View>
             {/* update button for waiting list */}
-            <TouchableOpacity onPress={()=>{
+            <TouchableOpacity onPress={() => {
                 console.log('update waiting list')
-            }} style={{backgroundColor: colors.darkOrange, marginTop: 20, width: 330}}>
+                updateWaitingList(selectedOption);
+            }} style={{ backgroundColor: colors.darkOrange, marginTop: 20, width: '95%' }}>
                 <Text style={{
                     textAlign: 'center',
                     padding: 10,

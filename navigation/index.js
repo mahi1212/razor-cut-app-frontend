@@ -34,6 +34,7 @@ import { Image, Text, TouchableOpacity, View } from "react-native";
 import MyBookings from "../src/screens/MyBookings/MyBookings";
 import Review from "../src/screens/MyBookings/Review";
 import OwnerHome from "../src/screens/OwnerScreen/OwnerHome";
+import UpdatePage from "../src/screens/OwnerScreen/UpdatePage";
 
 const THEME = {
   ...DefaultTheme,
@@ -130,8 +131,8 @@ const OwnerStack = createNativeStackNavigator();
 function OwnerStackScreen() {
   return (
     <OwnerStack.Navigator >
-      <OwnerStack.Screen name="SHOP OWNER HOME" component={OwnerHome} />
-      {/* <OwnerStack.Screen name="UpdateShop" component={UpdateShop} /> */}
+      <OwnerStack.Screen name="Home" component={OwnerHome} />
+      <OwnerStack.Screen name="UpdatePage" component={UpdatePage} />
     </OwnerStack.Navigator>
   );
 }
