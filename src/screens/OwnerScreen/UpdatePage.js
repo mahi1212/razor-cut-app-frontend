@@ -27,7 +27,7 @@ export default function UpdatePage({ route }) {
         const data = {
             website: website
         }
-        axios.put(`http://192.168.0.121:5000/shopss/${email}`, data)
+        axios.put(`http://192.168.0.221:5000/shopss/${email}`, data)
             .then(res => {
                 console.log(res);
                 alert('WEBSITE UPDATED SUCCESSFULLY')
@@ -46,7 +46,7 @@ export default function UpdatePage({ route }) {
         const data = {
             mobile: phone
         }
-        axios.put(`http://192.168.0.121:5000/shopss/${email}`, data)
+        axios.put(`http://192.168.0.221:5000/shopss/${email}`, data)
             .then(res => {
                 console.log(res);
                 alert('PHONE UPDATED SUCCESSFULLY')
@@ -62,7 +62,7 @@ export default function UpdatePage({ route }) {
             latitude: latitude,
             longitude: longitude
         }
-        axios.put(`http://192.168.0.121:5000/shopss/${email}`, data)
+        axios.put(`http://192.168.0.221:5000/shopss/${email}`, data)
             .then(res => {
                 console.log(res);
                 alert('OFFER UPDATED SUCCESSFULLY')
@@ -77,7 +77,7 @@ export default function UpdatePage({ route }) {
         const data = {
             offer: offer
         }
-        axios.put(`http://192.168.0.121:5000/shopss/${email}`, data)
+        axios.put(`http://192.168.0.221:5000/shopss/${email}`, data)
             .then(res => {
                 console.log(res);
                 alert('OFFER UPDATED SUCCESSFULLY')

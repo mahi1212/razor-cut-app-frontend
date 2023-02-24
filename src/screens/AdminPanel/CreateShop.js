@@ -69,7 +69,7 @@ export default function AdminPanel() {
     review: [],
   }
   const handleSubmit = () => {
-    axios.post("http://192.168.0.121:5000/shops", myData).then((res) => {
+    axios.post("http://192.168.0.221:5000/shops", myData).then((res) => {
       if (res.data.insertedId) {
         alert("Shop Added Successfully");
       }

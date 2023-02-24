@@ -35,7 +35,7 @@ export default function Header({ cart }) {
     });
   }, []);
   const getUser = () => {
-    axios.get(`http://192.168.0.121:5000/users/${email}`)
+    axios.get(`http://192.168.0.221:5000/users/${email}`)
       .then((res) => {
         // console.log(res.data);
         setPhotoUrl(res.data.photoUrl);

@@ -10,7 +10,7 @@ export default function DeleteShop() {
   const [shops, setShops] = useState([]);
   const getShops = () => {
     // 192.168.0.121
-    fetch(`http://192.168.0.121:5000/shops`)
+    fetch(`http://192.168.0.221:5000/shops`)
       .then((res) => res.json())
       .then((data) => {
         setShops(data);

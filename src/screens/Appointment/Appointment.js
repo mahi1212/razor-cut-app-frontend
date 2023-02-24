@@ -72,7 +72,7 @@ export default function Appointment({ route }) {
     // if (data.shopEmail === '') {
     //   data.shopEmail = route?.params?.shop?.email
     // }
-    axios.post("http://192.168.0.121:5000/appointment", data).then((res) => {
+    axios.post("http://192.168.0.221:5000/appointment", data).then((res) => {
       if (res.data.insertedId) {
         alert("Appointment Booked Successfully");
       }

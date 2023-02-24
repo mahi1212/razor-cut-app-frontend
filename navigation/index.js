@@ -177,7 +177,7 @@ export default function Navigation() {
     });
   }, []);
   // const getShopEmails = () => {
-  //   axios.get(`http://192.168.0.121:5000/shops/${email}`)
+  //   axios.get(`http://192.168.0.221:5000/shops/${email}`)
   //     .then((res) => {
   //       // setShopEmail(res.data);
   //       console.log("data", res);
@@ -185,7 +185,7 @@ export default function Navigation() {
   // };
   // getShopEmails();
   const getUser = () => {
-    axios.get(`http://192.168.0.121:5000/users/${email}`)
+    axios.get(`http://192.168.0.221:5000/users/${email}`)
       .then((res) => {
         setRole(res.data.role);
       });
