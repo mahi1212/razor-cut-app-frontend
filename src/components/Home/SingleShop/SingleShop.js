@@ -33,19 +33,19 @@ export default function SingleShop({ shop, visibleIcon, avg, deleteIcon }) {
             }, (error) => {
                 alert(error)
             }
-        )
-        
+            )
+
     }
     var { name, image, waiting, avgTime, address, _id, email } = shop;
-    
+
     // console.log(_id);
     const { avgTimeAndRatingContainer, shopContainer, innerShopContainer, img, middleDiv, info, avgTimeText, ratingText, bookmarkIcon } = styles;
     const navigation = useNavigation();
     // console.log(waiting)
-    if(waiting === undefined) {
+    if (waiting === undefined) {
         waiting = 0;
     }
-    
+
     return (
         <Pressable style={shopContainer} onPress={
             () => {
@@ -68,10 +68,10 @@ export default function SingleShop({ shop, visibleIcon, avg, deleteIcon }) {
                             {/* showing estimated time for waiting*/}
                             <FontAwesome5 name="business-time" size={14} color={colors.orange} />
 
-                            {
+                            {avgTime &&
                                 ((waiting * avgTime) / 60).toFixed(2) > 1 ?
-                                    <Text preset='info' style={avgTimeText}>{((waiting * avgTime) / 60).toFixed(2)} hr</Text> :
-                                    <Text preset='info' style={avgTimeText}>{(waiting * avgTime)} min</Text>
+                                <Text preset='info' style={avgTimeText}>{((waiting * avgTime) / 60).toFixed(2)} hr</Text> :
+                                <Text preset='info' style={avgTimeText}>{(waiting * avgTime)} min</Text>
                             }
 
                         </View>
@@ -83,7 +83,7 @@ export default function SingleShop({ shop, visibleIcon, avg, deleteIcon }) {
                         <View style={avgTimeAndRatingContainer}>
                             {/* Rating showing based on realtime user rating */}
                             <FontAwesome name="star" size={14} color={colors.orange} />
-                            <Text preset='info' style={ratingText}>{avg.toFixed(2)}</Text>
+                            {avg && <Text preset='info' style={ratingText}>{avg.toFixed(2)}</Text>}
                         </View>
                     </View>
                 </View>
@@ -125,7 +125,7 @@ export default function SingleShop({ shop, visibleIcon, avg, deleteIcon }) {
                             deleteShop(_id)
                             console.log(_id, 'deleted')
                         }}
-                        style={[styles.bookmarkIcon, styles.deleteIcon ]}>
+                        style={[styles.bookmarkIcon, styles.deleteIcon]}>
                         <MaterialIcons name="delete-sweep" size={24} color="black" />
                     </Pressable>
                 )
