@@ -28,10 +28,10 @@ export default function Bookmark({ route }) {
     // console.log(cartItems);
     // taking all cart items and fetching data by their id from database then mapping them for rendering
     const fetchData = () => {
-        cart.map(id => {
+        cart.map(email => {
             // 192.168.0.121
             // console.log(id)
-            fetch(`http://192.168.0.221:5000/shops/${id}`)
+            fetch(`http://192.168.0.221:5000/shops/${email}`)
                 .then(res => res.json())
                 .then(data => {
                     // setCartItems(data)
@@ -46,84 +46,91 @@ export default function Bookmark({ route }) {
         <View style={{ marginHorizontal: 5, flex: 1 }} onLayout={fetchData}>
             <PageHeader title="My Bookmarks" />
             {   // if cartItems is not empty then render the FlatList
-                cartItems && <FlatList
-                    data={cartItems}
-                    keyExtractor={item => item._id}
-                    showsVerticalScrollIndicator={false}
-                    renderItem={({ item }) => {
-                        const { shopImage, shopContainer, shopRating, shopInfo } = styles;
-                        const { _id } = item;
-                        var sum = item.review.reduce((total, review) => total + review.rating, 0);
-                        if (sum === 0) { item.review.length = 1 }
-                        var average = sum / item.review.length;
-                        return (
-                            <Pressable onPress={
-                                () => {
-                                    navigation.navigate('shopDetails', { shopId: _id })
-                                }
-                            } style={shopContainer}>
-                                <Image source={{ uri: item.image }} style={shopImage} />
-                                <View style={shopInfo}>
-                                    <Text preset='title' style={{ color: colors.black }}>{item.name}</Text>
-                                    <View style={shopRating}><Entypo name='location' color={'red'} /><Text preset='h2' style={{ color: colors.info, marginVertical: 10, marginHorizontal: 5 }}>{item.address}</Text></View>
-                                    <View style={shopRating}>
-                                        <FontAwesome name="star" size={14} color={'red'} />
-                                        <Text preset='h2' style={{ color: colors.darkOrange, marginHorizontal: 5 }}>{average}</Text>
+                cartItems.length !== 0 ?
+                    <FlatList
+                        data={cartItems}
+                        keyExtractor={item => item._id}
+                        showsVerticalScrollIndicator={false}
+                        renderItem={({ item }) => {
+                            const { shopImage, shopContainer, shopRating, shopInfo } = styles;
+                            const { _id, email } = item;
+                            var sum = item.review.reduce((total, review) => total + review.rating, 0);
+                            if (sum === 0) { item.review.length = 1 }
+                            var average = sum / item.review.length;
+                            if(item.waiting === undefined) {
+                                item.waiting = 0;
+                            }
+                            const estimatedTime = item.waiting * item.avgTime
+                            return (
+                                <Pressable onPress={
+                                    () => {
+                                        navigation.navigate('shopDetails', { shopId: _id })
+                                    }
+                                } style={shopContainer}>
+                                    <Image source={{ uri: item.image }} style={shopImage} />
+                                    <View style={shopInfo}>
+                                        <Text preset='title' style={{ color: colors.black }}>{item.name}</Text>
+                                        <View style={shopRating}><Entypo name='location' color={'red'} /><Text preset='h2' style={{ color: colors.info, marginVertical: 10, marginHorizontal: 5 }}>{item.address}</Text></View>
+                                        { average && <View style={shopRating}>
+                                            <FontAwesome name="star" size={14} color={'red'} />
+                                            <Text preset='h2' style={{ color: colors.darkOrange, marginHorizontal: 5 }}>{average.toFixed(2)} </Text>
+                                        </View>}
                                     </View>
-                                </View>
-                                {/* avg waiting time */}
-                                <View>
-                                    <Text preset='h2' style={{ position: 'absolute', left: 0, bottom: 20, alignItems: 'center' }}>Estimated Time : {item.waiting * item.avgTime} Min</Text>
-                                </View>
-                                {/* delete button */}
-                                <View style={{ width: '100%', flexDirection: 'row' }}>
-                                    <Pressable onPress={() => {
-                                        // console.log(cartItems, 'removed')
-                                        Alert.alert(
-                                            "Remove shop",
-                                            "Are you sure to remove?",
-                                            [
-                                                {
-                                                    text: "Cancel",
-                                                    onPress: () => console.log("Cancel Pressed"),
-                                                    style: "cancel"
-                                                },
-                                                {
-                                                    text: "OK", onPress: () => {
-                                                        setCartItems(
-                                                            // items =>
-                                                            //  items.filter(item => {item._id !== _id})
-                                                            AsyncStorage.removeItem(item._id)
-                                                        );
-                                                        AsyncStorage.setItem('cart', JSON.stringify(cart.filter(id => id !== _id)))
+                                    {/* avg waiting time */}
+                                    <View>
+                                        <Text preset='h2' style={{ position: 'absolute', left: 0, bottom: 20, alignItems: 'center' }}>Estimated Time : { estimatedTime } Min</Text>
+                                    </View>
+                                    {/* delete button */}
+                                    <View style={{ width: '100%', flexDirection: 'row' }}>
+                                        <Pressable onPress={() => {
+                                            Alert.alert(
+                                                "Remove shop",
+                                                "Are you sure to remove?",
+                                                [
+                                                    {
+                                                        text: "Cancel",
+                                                        onPress: () => console.log("Cancel Pressed", email),
+                                                        style: "cancel"
+                                                    },
+                                                    {
+                                                        text: "OK", onPress: () => {
+                                                            setCartItems(
+                                                                // delete cartItem from cart
+                                                                cartItems.filter(item => item.email !== email)
+                                                            );
+                                                            AsyncStorage.setItem('cart', JSON.stringify(cart.filter(e => e !== email)))
+                                                        }
                                                     }
-                                                }
-                                            ]
-                                        );
-                                    }}
-                                        style={{ backgroundColor: 'orange', padding: 10, width: '50%', alignItems: 'center' }}
-                                    >
-                                        <Ionicons name="trash-outline" size={24} color="white" />
-                                    </Pressable>
-                                    <Pressable onPress={() => {
-                                        Linking.openURL(`tel:${item.mobile}`)
-                                    }}
-                                        style={{ backgroundColor: 'green', padding: 10, width: '50%', alignItems: 'center' }}
-                                    >
-                                        <Ionicons name="ios-call" size={24} color="white" />
-                                    </Pressable>
+                                                ]
+                                            );
+                                        }}
+                                            style={{ backgroundColor: 'orange', padding: 10, width: '50%', alignItems: 'center' }}
+                                        >
+                                            <Ionicons name="trash-outline" size={24} color="white" />
+                                        </Pressable>
+                                        <Pressable onPress={() => {
+                                            Linking.openURL(`tel:${item.mobile}`)
+                                        }}
+                                            style={{ backgroundColor: 'green', padding: 10, width: '50%', alignItems: 'center' }}
+                                        >
+                                            <Ionicons name="ios-call" size={24} color="white" />
+                                        </Pressable>
 
-                                </View>
-                                <View style={{ position: 'absolute', right: 60, bottom: 90, alignItems: 'center' }}>
-                                    <MaterialCommunityIcons name="timer-outline" size={40} color="black" />
-                                    <Text preset='h2' style={{ color: 'red', position: 'absolute', bottom: 15, fontSize: 18, backgroundColor: 'white', paddingHorizontal: 2, borderRadius: '50%', }}>{item.waiting}</Text>
-                                    <Text preset='h2' style={{ paddingHorizontal: 5 }}>in waiting</Text>
-                                </View>
-                            </Pressable>
-                        )
-                    }
-                    }
-                />
+                                    </View>
+                                    <View style={{ position: 'absolute', right: 60, bottom: 90, alignItems: 'center' }}>
+                                        <MaterialCommunityIcons name="timer-outline" size={40} color="black" />
+                                        <Text preset='h2' style={{ color: 'red', position: 'absolute', bottom: 15, fontSize: 18, backgroundColor: 'white', paddingHorizontal: 2, borderRadius: '50%', }}>{item.waiting}</Text>
+                                        <Text preset='h2' style={{ paddingHorizontal: 5 }}>in waiting</Text>
+                                    </View>
+                                </Pressable>
+                            )
+                        }
+                        }
+                    />
+                    :
+                    <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
+                        <Text preset='h2' style={{ color: colors.darkOrange }}>NO BOOKMARKS</Text>
+                    </View>
             }
         </View>
     )

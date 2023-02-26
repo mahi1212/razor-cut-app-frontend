@@ -92,15 +92,15 @@ export default function SingleShop({ shop, visibleIcon, avg, deleteIcon }) {
             {
                 (visibleIcon === true) &&
                 (
-                    cart.includes(_id) ?
+                    cart.includes(email) ?
                         <Pressable
                             onPress={() => {
                                 // setCartItems(items => items.filter(item => {
                                 //     item._id !== _id
                                 // }));
-                                AsyncStorage.removeItem(_id)
-                                AsyncStorage.setItem('cart', JSON.stringify(cart.filter(id => id !== _id)))
-                                console.log(_id, 'removed')
+                                AsyncStorage.removeItem(email)
+                                AsyncStorage.setItem('cart', JSON.stringify(cart.filter(email => email !== email)))
+                                console.log(email, 'removed')
                             }
                             }
                             style={styles.bookmarkIcon}>
@@ -109,8 +109,8 @@ export default function SingleShop({ shop, visibleIcon, avg, deleteIcon }) {
                         :
                         <Pressable
                             onPress={() => {
-                                AsyncStorage.setItem('cart', JSON.stringify([...cart, _id]))
-                                console.log(_id, 'added')
+                                AsyncStorage.setItem('cart', JSON.stringify([...cart, email]))
+                                console.log(email, 'added')
                             }}
                             style={styles.bookmarkIcon}>
                             <Ionicons name="bookmark-outline" size={26} color="black" />
