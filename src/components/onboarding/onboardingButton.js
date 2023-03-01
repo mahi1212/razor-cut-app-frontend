@@ -19,7 +19,6 @@ const styles = StyleSheet.create({
     height: 50,
     backgroundColor:colors.orange,
     alignSelf:'center',
-    // marginTop:40
     marginLeft: -20
   },
   title: {

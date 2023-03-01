@@ -35,6 +35,8 @@ import MyBookings from "../src/screens/MyBookings/MyBookings";
 import Review from "../src/screens/MyBookings/Review";
 import OwnerHome from "../src/screens/OwnerScreen/OwnerHome";
 import UpdatePage from "../src/screens/OwnerScreen/UpdatePage";
+import PaymentOption from "../src/screens/Appointment/PaymentOption";
+import Confirm from "../src/screens/Appointment/Confirm";
 
 const THEME = {
   ...DefaultTheme,
@@ -88,6 +90,8 @@ function BookingStackScreen() {
       <BookingStack.Screen name="MyBookings" component={MyBookings} />
       <BookingStack.Screen name="Review" component={Review} />
       <BookingStack.Screen name="home" component={Home} />
+      <BookingStack.Screen name="paymentOption" component={PaymentOption} />
+      <BookingStack.Screen name="confirm" component={Confirm} />
     </BookingStack.Navigator>
   );
 }

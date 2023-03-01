@@ -125,7 +125,7 @@ const OnboardingScreen = ({ navigation }) => {
         {/* Render buttons */}
         <View style={{ marginBottom: spacing[10] }}>
           {currentSlideIndex == slides.length - 1 ? (
-            <View style={{ height: 50 }}>
+            <View style={{ height: 50,backgroundColor:colors.darkOrange }}>
               <Button
                 onPress={() => navigation.replace("Signup")}
                 title={"GET STARTED"}
