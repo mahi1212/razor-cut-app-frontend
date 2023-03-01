@@ -15,12 +15,12 @@ export default function OnboardingButton({ title, onPress, customStyles }) {
 const styles = StyleSheet.create({
   button: {
     borderRadius: 50,
-    width: 190,
+    width: 160,
     height: 50,
     backgroundColor:colors.orange,
     alignSelf:'center',
     // marginTop:40
-    
+    marginLeft: -20
   },
   title: {
     fontSize: 16,
@@ -28,6 +28,7 @@ const styles = StyleSheet.create({
     fontSize:20,
     alignSelf:'center',
     marginTop:10,
-    justifyContent:'center'
+    justifyContent:'center',
+    // marginLeft: -15
   },
 });

@@ -42,10 +42,6 @@ const slides = [
   },
   {
     id: "3",
-
-    // navigation
-    //screens
-
     image: require("../../assets/images/image5.jpg"),
     title: "Come To handsome  ",
     subtitle: "And With beautiful",
@@ -55,10 +51,10 @@ const slides = [
 
 const Slide = ({ item }) => {
   return (
-    <View style={{ alignItems: "center" }}>
+    <View style={{ alignItems: "center", }}>
       <Image
         source={item?.image}
-        style={{ height: "42%", width, resizeMode: "contain" }}
+        style={{ height: "42%", width: '80%', resizeMode: "contain" }}
       />
       <View>
         <Text style={styles.title}>{item?.title}</Text>
@@ -142,7 +138,7 @@ const OnboardingScreen = ({ navigation }) => {
                 activeOpacity={0.8}
                 title={"SKIP"}
               />
-              <View style={{ width: 15 }} />
+              <View style={{ width: 14 }} />
               <OnboardingButton
                 activeOpacity={0.8}
                 onPress={goToNextSlide}
@@ -184,7 +180,7 @@ const styles = StyleSheet.create({
   },
   title: {
     color: colors.black,
-    fontSize: 45,
+    fontSize: 42,
     lineHeight: 50,
     fontWeight: "600",
     marginTop: spacing[5],
@@ -192,8 +188,7 @@ const styles = StyleSheet.create({
   },
   image: {
     height: "100%",
-    width: "100%",
-    resizeMode: "contain",
+    resizeMode: "cover",
   },
   indicator: {
     height: 2.5,

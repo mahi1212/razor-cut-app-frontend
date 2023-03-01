@@ -31,11 +31,11 @@ export default function WelcomePage() {
           source={require("../../assets/images/welcomepage.jpg")}
         >
           <Text style={styles.text1}>Welcome to</Text>
-          <Image
+          {/* <Image
             style={styles.image}
             source={require("../../assets/images/wave.png")}
-          />
-          <Text style={styles.text2}>Casca</Text>
+          /> */}
+          <Text style={styles.text2}>Razor Cut</Text>
 
           <Text style={styles.text3}>The best barber & salon app in this</Text>
 
@@ -68,7 +68,7 @@ const styles = StyleSheet.create({
   },
   text2: {
     color: "#FB9400",
-    fontSize: 100,
+    fontSize: 60,
     fontWeight: "800",
     marginTop: "-5%",
     paddingHorizontal: "6%",
