@@ -194,13 +194,13 @@ export default function ShopDetails({ route }) {
                                                     <Text preset='info' style={{ color: colors.darkOrange }}>Price: {item.price} ৳</Text>
                                                 </View>
                                                 {/* book button */}
-                                                <Pressable onPress={
+                                                {/* <Pressable onPress={
                                                     () => {
                                                         navigation.navigate('Booking', { shop: shop })
                                                     }
                                                 } style={{ position: 'absolute', backgroundColor: colors.darkOrange, right: 30, bottom: 20, paddingHorizontal: 10, paddingVertical: 5, borderRadius: 10 }}>
                                                     <Text style={{ fontSize: 18, color: 'white', }}>Book</Text>
-                                                </Pressable>
+                                                </Pressable> */}
                                             </View>
                                         )
                                     }}
