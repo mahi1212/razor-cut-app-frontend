@@ -67,11 +67,11 @@ export default function Appointment({ route }) {
 
   //submit
   const onSubmit = () => {
+    if(phone.length < 11){
+      alert('Please enter a valid phone number')
+      return;
+    }
     if (!name || !phone || !selectedStartDate) {
-      if(phone.length < 11){
-        alert('Please enter a valid phone number')
-        return;
-      }
       alert('Please fill all the fields')
       return;
     }
