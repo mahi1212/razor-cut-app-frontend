@@ -2,24 +2,28 @@ import React, { useContext, useState } from 'react';
 import axios from 'axios';
 import { StyleSheet, Text, TextInput, View } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
-import { spacing } from '../../theme/spacing';
 import ProfileHeader from '../../components/ProfileCommonComponent/ProfileHeader';
-import { colors } from '../../theme/colors';
 import Button from '../../components/Button';
 // import themeContext from '../../config/themeContext';
 import { useNavigation } from '@react-navigation/native';
+import { spacing } from '../../theme/spacing';
+import { colors } from '../../theme/colors';
+import { useEffect } from 'react';
 
 
-const Confirm = () => {
+const Confirm = ({ route }) => {
+    const data = route.params.data;
+    console.log(data);
     const navigation = useNavigation();
     const [phoneNumber, setPhoneNumber] = useState('');
     const [otp, setOtp] = useState('');
+    console.log('otp is ', otp);
     const [verificationCode, setVerificationCode] = useState('');
-
+    var newOtp;
     const handleSubmit = async () => {
         try {
             // Generate OTP
-            const newOtp = Math.floor(1000 + Math.random() * 9000);
+            newOtp = Math.floor(1000 + Math.random() * 9000);
             setOtp(newOtp);
             // Send OTP to phone number using Clickatell API
             // const response = await axios.post('http://192.168.0.103:5000/payment', {
@@ -31,32 +35,25 @@ const Confirm = () => {
             //   }
             // });
             // Store OTP and phone number in MongoDB
-            await axios.post('http://192.168.0.103:5000/payment', {
-                phoneNumber,
-                otp: newOtp
-            });
-            alert("Your OTP is: " + newOtp);
+            alert("Your OTP: " + newOtp);
         } catch (error) {
             console.error(error);
         }
     };
+
     const handleVerifyOTP = async () => {
         try {
-            // Fetch OTP from MongoDB
-            const response = await axios.get(`http://192.168.0.103:5000/payment?phoneNumber=${phoneNumber}`);
-            const newOtp = response.data[0]?.otp;
 
-            if (!newOtp) {
-                console.log('OTP not found for this phone number');
-                return;
-            }
-
-            if (newOtp === verificationCode) {
-                alert("Your OTP is Verified ");
-
-                // console.log('OTP verified successfully');
+            if (otp == verificationCode) {
+                axios.post("http://192.168.0.221:5000/appointment", data).then((res) => {
+                    if (res.data.insertedId) {
+                        // alert("Appointment Booked Successfully");
+                        alert("Awesome, Appointment successfully done");
+                        navigation.navigate("home");
+                    }
+                });
             } else {
-                console.log('Invalid OTP');
+                alert('Invalid OTP');
             }
         } catch (error) {
             console.error(error);
@@ -68,27 +65,29 @@ const Confirm = () => {
     // const theme = useContext(themeContext)
 
     return (
-        <SafeAreaView style={[styles.container, { backgroundColor: theme.background }]}>
+        <SafeAreaView style={styles.container}>
             <ProfileHeader backBtn={true} title="Payment" />
             <View style={{ marginBottom: spacing[9] }}>
-                <Text style={{ fontSize: 20, padding: spacing[5], color: theme.color }}>
+                {/* <Text style={{ fontSize: 20, padding: spacing[5], color: colors.darkOrange }}>
                     Phone Number
                 </Text>
                 <TextInput style={styles.liststyle}
                     value={phoneNumber}
                     onChangeText={text => setPhoneNumber(text)}
                     placeholder="Enter phone number"
-                    placeholderTextColor={theme.placeHolderTextColor}
-                    color={theme.color}
-                />
+                    // placeholderTextColor={theme.placeHolderTextColor}
+                    // color={theme.color}
+                    color={colors.darkOrange}
+                /> */}
                 <Button onPress={handleSubmit} title="Send OTP" />
 
                 <TextInput style={styles.liststyle}
                     value={verificationCode}
                     onChangeText={text => setVerificationCode(text)}
                     placeholder="Enter verification code"
-                    placeholderTextColor={theme.placeHolderTextColor}
-                    color={theme.color}
+                    // placeholderTextColor={theme.placeHolderTextColor}
+                    // color={theme.color}
+                    color={colors.darkOrange}
                 />
                 <Button onPress={handleVerifyOTP} title="Verify OTP" />
             </View>

@@ -28,11 +28,13 @@ import { TouchableOpacity } from "react-native-gesture-handler";
 import { auth } from "../../../navigation";
 import { onAuthStateChanged } from "firebase/auth";
 import { useEffect } from "react";
+import { useNavigation } from "@react-navigation/native";
 
 
 export default function Appointment({ route }) {
   const [isSelected, setSelected] = useState('');
-  console.log(isSelected)
+  // console.log(isSelected)
+  const navigation = useNavigation();
   const [selectedStartDate, setSelectedStartDate] = useState("");
   const [name, setName] = useState('')
   const [phone, setPhone] = useState('')
@@ -66,19 +68,16 @@ export default function Appointment({ route }) {
   //submit
   const onSubmit = () => {
     if (!name || !phone || !selectedStartDate) {
+      if(phone.length < 11){
+        alert('Please enter a valid phone number')
+        return;
+      }
       alert('Please fill all the fields')
       return;
     }
-    // if (data.shopEmail === '') {
-    //   data.shopEmail = route?.params?.shop?.email
-    // }
-    axios.post("http://192.168.0.221:5000/appointment", data).then((res) => {
-      if (res.data.insertedId) {
-        alert("Appointment Booked Successfully");
-      }
-    });
-    console.log(data);
+    navigation.navigate("paymentOption", { data: data });
   }
+  // times for time picker
   const times = ['9:00 AM', '10:00 AM', '11:00 AM', '12:00 AM', '1:00 PM', '2:00 PM', '3:00 PM', '4:00 PM', '5:00 PM', '6:00 PM', '7:00 PM', '8:00 PM', '9:00 PM', '10:00 PM']
   //language
   i18n.fallbacks = true;

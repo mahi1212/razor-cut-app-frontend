@@ -70,6 +70,8 @@ function HomeStackScreen() {
       <HomeStack.Screen name="SeeAll" component={SeeAll} />
       <HomeStack.Screen name="shopDetails" component={ShopDetails} />
       <HomeStack.Screen name="Booking" component={Appointment} />
+      <HomeStack.Screen name="paymentOption" component={PaymentOption} />
+      <HomeStack.Screen name="confirm" component={Confirm} />
     </HomeStack.Navigator>
   );
 }
@@ -96,14 +98,14 @@ function BookingStackScreen() {
   );
 }
 
-const InboxStack = createNativeStackNavigator();
-function InboxStackScreen() {
-  return (
-    <InboxStack.Navigator screenOptions={{ headerShown: false }}>
-      <InboxStack.Screen name="Inbox" component={Inbox} />
-    </InboxStack.Navigator>
-  );
-}
+// const InboxStack = createNativeStackNavigator();
+// function InboxStackScreen() {
+//   return (
+//     <InboxStack.Navigator screenOptions={{ headerShown: false }}>
+//       <InboxStack.Screen name="Inbox" component={Inbox} />
+//     </InboxStack.Navigator>
+//   );
+// }
 
 const ProfileStack = createNativeStackNavigator();
 function ProfileStackScreen() {
@@ -358,7 +360,7 @@ export default function Navigation() {
                     name="BookingTab"
                     component={BookingStackScreen}
                   />
-                  <Tab.Screen
+                  {/* <Tab.Screen
                     options={{
                       title: "Inbox",
                       tabBarIcon: ({ color }) => (
@@ -371,7 +373,7 @@ export default function Navigation() {
                     }}
                     name="InboxTab"
                     component={InboxStackScreen}
-                  />
+                  /> */}
 
                   <Tab.Screen
                     options={{
