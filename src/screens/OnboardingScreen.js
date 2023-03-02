@@ -68,12 +68,14 @@ const Slide = ({ item }) => {
 const OnboardingScreen = ({ navigation }) => {
   const [currentSlideIndex, setCurrentSlideIndex] = React.useState(0);
   const ref = React.useRef();
+  // update slider index
   const updateCurrentSlideIndex = (e) => {
     const contentOffsetX = e.nativeEvent.contentOffset.x;
     const currentIndex = Math.round(contentOffsetX / width);
     setCurrentSlideIndex(currentIndex);
   };
 
+  // go to next slide
   const goToNextSlide = () => {
     const nextSlideIndex = currentSlideIndex + 1;
     if (nextSlideIndex != slides.length) {
@@ -89,7 +91,7 @@ const OnboardingScreen = ({ navigation }) => {
     ref?.current.scrollToOffset({ offset });
     setCurrentSlideIndex(lastSlideIndex);
   };
-
+  // for indicator
   const Footer = () => {
     return (
       <View
@@ -125,7 +127,7 @@ const OnboardingScreen = ({ navigation }) => {
         {/* Render buttons */}
         <View style={{ marginBottom: spacing[10] }}>
           {currentSlideIndex == slides.length - 1 ? (
-            <View style={{ height: 50,backgroundColor:colors.darkOrange }}>
+            <View style={{ height: 50, backgroundColor: colors.darkOrange }}>
               <Button
                 onPress={() => navigation.replace("Signup")}
                 title={"GET STARTED"}
@@ -150,16 +152,17 @@ const OnboardingScreen = ({ navigation }) => {
       </View>
     );
   };
-
+  // main code
   return (
     <SafeAreaView style={{ flex: 1 }}>
       <StatusBar backgroundColor={colors.primary} />
       <FlatList
         ref={ref}
         onMomentumScrollEnd={updateCurrentSlideIndex}
+        // we cant use style, we need to use contentContainerStyle
         contentContainerStyle={{ height: height * 0.75 }}
         showsHorizontalScrollIndicator={false}
-        horizontal
+        horizontal={true}
         data={slides}
         pagingEnabled
         renderItem={({ item }) => <Slide item={item} />}

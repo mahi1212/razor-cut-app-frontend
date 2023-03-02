@@ -46,11 +46,11 @@ export default function Review({ route }) {
     const navigation = useNavigation();
 
     const submitReview = () => {
-        if(rating == 0){
+        if (rating == 0) {
             Alert.alert("Please rate the shop");
             return;
         }
-        if(description == ''){
+        if (description == '') {
             Alert.alert("Please write your review");
             return;
         }
@@ -71,7 +71,7 @@ export default function Review({ route }) {
         setDescription('');
         // clear text input
     }
-
+    // main function
     return (
         <SafeAreaView >
             <PageHeader title="Review" />

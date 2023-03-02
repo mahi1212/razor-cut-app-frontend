@@ -54,6 +54,7 @@ export default function OwnerHome() {
                 alert(err)
             })
     };
+    // main function
     return (
         <ScrollView contentContainerStyle={styles.container}>
             {/* wating dropdown */}
@@ -72,6 +73,7 @@ export default function OwnerHome() {
                         color: colors.darkOrange,
                     }}>UPDATE WEBSITE ADDRESS</Text>
                 </Pressable>
+                
                 <Pressable onPress={() => {
                     navigation.navigate('UpdatePage', { type: 'phone', email: email })
                 }} style={styles.updateButton}>

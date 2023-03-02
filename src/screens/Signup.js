@@ -13,7 +13,6 @@ import { auth } from "../../navigation";
 
 export default function Signup() {
   const navigation = useNavigation();
-  const [agree, setAgree] = useState(false);
 
   const [name, setName] = useState("");
   const [phone, setPhone] = useState("");
@@ -34,13 +33,17 @@ export default function Signup() {
   };
 
   //hadle signup function
-  const handleSignup = async () => {
+  const handleSignup = () => {
+    // validation
+    if (phone.length !== 11 || phone.includes('017' || '016' || '013' || '019' || '018') == false) {
+      alert('INVALID PHONE NUMBER')
+      return;
+    }
     createUserWithEmailAndPassword(auth, email, password)
       .then(() => {
         // Signed in
-        // generate OTP and send to the user's phone number
+        // Email verification sent!
         sendEmailVerification(auth.currentUser).then(() => {
-          // Email verification sent!
           alert("Email verification sent! Confirm your email to login");
 
         });
@@ -56,11 +59,18 @@ export default function Signup() {
       })
       .catch((error) => {
         const errorMessage = error.message;
-        alert(errorMessage);
+        // handling errors
+        if (errorMessage === "Firebase: Error (auth/email-already-in-use).") {
+          alert("Email already exists!");
+        } else if (errorMessage === "Firebase: Password should be at least 6 characters (auth/weak-password).") {
+          alert("Password must be 6 characters long or more");
+        } else {
+          alert(errorMessage);
+        }
       });
     saveUser(name, phone, email, password, 'user');
   };
-
+  // main function
   return (
     <KeyboardAvoidingView style={{ flex: 1, marginHorizontal: 20 }}>
       {/* title */}
@@ -91,6 +101,7 @@ export default function Signup() {
             marginVertical: 20,
           }}
         >
+          {/* text of button */}
           <Text style={{ color: "white", fontSize: 18, textAlign: "center" }}>
             Sing Up
           </Text>
@@ -102,22 +113,16 @@ export default function Signup() {
       <GoogleButton title="up" />
       {/* linking text */}
       <View style={{ position: "absolute", bottom: 0, left: 50 }}>
-        <Pressable
-          onPress={() => {
-            navigation.navigate("Signup");
-          }}
-        >
-          <Text>
-            Already have an account?
-            <Pressable
-              onPress={() => {
-                navigation.navigate("Signin");
-              }}
-            >
-              <Text style={styles.signuptext}>Sign In</Text>
-            </Pressable>
-          </Text>
-        </Pressable>
+        <Text>
+          Already have an account?
+          <Pressable
+            onPress={() => {
+              navigation.navigate("Signin");
+            }}
+          >
+            <Text style={styles.signuptext}>Sign In</Text>
+          </Pressable>
+        </Text>
       </View>
     </KeyboardAvoidingView>
   );

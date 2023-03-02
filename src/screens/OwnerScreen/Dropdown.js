@@ -10,19 +10,20 @@ const Dropdown = ({ options, onSelect }) => {
         onSelect(option);
     };
 
+    // main function
     return (
         <SafeAreaView>
             <TouchableOpacity onPress={() => setIsOpen(true)}>
-                <Text preset='title' style={{marginTop: -80, padding: 5, borderWidth: 1}}>SELECT HOW MANY PEOPLE WAITING?</Text>
+                <Text preset='title' style={{ marginTop: -80, padding: 5, borderWidth: 1 }}>SELECT HOW MANY PEOPLE WAITING?</Text>
             </TouchableOpacity>
-
+            {/* ANIMATION SETTING AS SLIDE */}
             <Modal visible={isOpen} animationType="slide">
                 <FlatList
                     contentContainerStyle={style.list}
                     data={options}
                     renderItem={({ item }) => (
                         <TouchableOpacity style={style.btn} onPress={() => handleSelect(item)}>
-                            <Text style={{ textAlign:'center' }}>{item}</Text>
+                            <Text style={{ textAlign: 'center' }}>{item}</Text>
                         </TouchableOpacity>
                     )}
                     keyExtractor={(item) => item}

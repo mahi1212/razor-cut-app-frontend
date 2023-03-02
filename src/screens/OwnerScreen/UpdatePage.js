@@ -6,7 +6,7 @@ import { useNavigation } from '@react-navigation/native';
 
 export default function UpdatePage({ route }) {
     const { type, email } = route.params;
-    console.log(type, email)
+    // console.log(type, email)
     const navigation = useNavigation();
     const [website, setWebsite] = React.useState(null);
     const [phone, setPhone] = React.useState(null);
@@ -20,16 +20,16 @@ export default function UpdatePage({ route }) {
             return;
         }
         if (website.includes('.') === false) {
-            alert('Enter valid address');
+            alert('Enter valid website address');
             return;
         }
-        console.log(website)
+        // console.log(website)
         const data = {
             website: website
         }
         axios.put(`http://192.168.0.221:5000/shopss/${email}`, data)
             .then(res => {
-                console.log(res);
+                // console.log(res);
                 alert('WEBSITE UPDATED SUCCESSFULLY')
             }).catch(err => {
                 alert(err)
