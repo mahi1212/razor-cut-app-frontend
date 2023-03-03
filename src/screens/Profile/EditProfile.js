@@ -19,7 +19,6 @@ import {
 } from "../../components/ProfileCommonComponent/localizations";
 
 import { StatusBar } from "expo-status-bar";
-import { Controller, useForm } from "react-hook-form";
 import axios from "axios";
 import Button from "../../components/Button";
 import { useState } from "react";
@@ -29,7 +28,7 @@ import { auth } from "../../../navigation";
 import { useEffect } from "react";
 import { onAuthStateChanged } from "firebase/auth";
 
-export default function EditProfile({ title, backBtn }) {
+export default function EditProfile() {
   i18n.fallbacks = true;
   i18n.translations = { en, sp, bn };
   const [name, setName] = useState('')
@@ -46,14 +45,16 @@ export default function EditProfile({ title, backBtn }) {
   const input3Ref = useRef(null);
 
   function clearTextInputs() {
+    // cleat text input
     input1Ref.current.clear();
     input2Ref.current.clear();
     input3Ref.current.clear();
+    // reset state
     resetState();
   }
   // get user email
   const [email, setEmail] = useState(null);
-  console.log(email);
+  // console.log(email);
   const [user, setUser] = useState(null);
   useEffect(() => {
     onAuthStateChanged(auth, (user) => {
@@ -73,7 +74,7 @@ export default function EditProfile({ title, backBtn }) {
     }
     console.log(data);
     if (name == '' || photoUrl == '' || phone == '') {
-      alert('Please fill all the fields')
+      return alert('Please fill all the fields')
     }
     // put request
     console.log(user.email);
@@ -85,7 +86,7 @@ export default function EditProfile({ title, backBtn }) {
         }
       });
   }
-
+  // main function
   return (
     <SafeAreaView>
       <ScrollView style={{ padding: spacing[2] }}>
@@ -126,7 +127,7 @@ export default function EditProfile({ title, backBtn }) {
             />
           </View>
 
-          <View style={{marginTop: 20}}>
+          <View style={{ marginTop: 20 }}>
             <Button
               title="Clear"
               onPress={clearTextInputs}

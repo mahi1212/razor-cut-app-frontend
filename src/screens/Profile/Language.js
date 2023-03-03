@@ -16,6 +16,7 @@ import { SafeAreaView } from "react-native-safe-area-context";
 import ProfileHeader from "../../components/ProfileCommonComponent/ProfileHeader";
 
 export default function Language() {
+  // from docs: https://docs.expo.io/versions/latest/sdk/localization/
   let [locale, setLocale] = useState(Localization.locale);
   i18n.fallbacks = true;
   i18n.translations = { en, sp, bn };
@@ -27,13 +28,13 @@ export default function Language() {
       <View style={{ padding: spacing[3] }}>
         <Text style={styles.texts}>{i18n.t("language")}</Text>
         <View style={styles.btn}>
-          <Button title="     Bangla       " onPress={() => setLocale("bn")} />
+          <Button title="Bangla" onPress={() => setLocale("bn")} />
         </View>
         <View style={styles.btn}>
-          <Button title="     English     " onPress={() => setLocale("en")} />
+          <Button title="English" onPress={() => setLocale("en")} />
         </View>
         <View style={styles.btn}>
-          <Button title="     Spanish      " onPress={() => setLocale("sp")} />
+          <Button title="Spanish" onPress={() => setLocale("sp")} />
         </View>
 
         <StatusBar style="auto" />
@@ -50,6 +51,7 @@ const styles = StyleSheet.create({
     marginBottom: spacing[8],
   },
   btn: {
+    textAlign: "center",
     marginBottom: spacing[5],
   },
 });

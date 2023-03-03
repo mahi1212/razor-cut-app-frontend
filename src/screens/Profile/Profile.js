@@ -52,14 +52,7 @@ export default function Profile({ navigation }) {
     } else if (fontFamily === "MaterialCommunityIcons") {
       return <MaterialCommunityIcons name={name} size={24} color={colors} />;
     } else if (fontFamily === "Ionicons") {
-      return (
-        <Ionicons
-          name={name}
-          size={24}
-          color={colors}
-          style={{ display: "flex" }}
-        />
-      );
+      return <Ionicons name={name} size={24} color={colors} style={{ display: "flex" }} />
     } else if (fontFamily === "MaterialIcons") {
       return <MaterialIcons name={name} size={24} color={colors} />;
     } else if (fontFamily === "FontAwsome") {
@@ -107,20 +100,12 @@ export default function Profile({ navigation }) {
     // }, 2000);
 
   }, []);
+  // main function
   return (
     <SafeAreaView>
       <ScrollView style={{ padding: spacing[3] }} refreshControl={
         <RefreshControl refreshing={refreshing} onRefresh={getUser} />
       }>
-        <View
-          style={{
-            display: "flex",
-            flexDirection: "row",
-            justifyContent: "space-between",
-          }}
-        >
-          {/* <Text style={{ fontSize: 24 }}>{I18n.t("Profile")} </Text> */}
-        </View>
 
         {/* header section done */}
         {user && <View style={styles.profilesection}>
@@ -138,6 +123,7 @@ export default function Profile({ navigation }) {
               }}
             />}
           </View>
+          {/* text section */}
           <View style={styles.Info}>
             <Text preset="title" style={{ marginBottom: spacing[4] }}>
               Name: {name}
@@ -161,16 +147,6 @@ export default function Profile({ navigation }) {
             color={colors}
           />
           <Lists title={i18n.t("EditProfile")} onPress={() => onPressEdit()} />
-        </View>
-
-        {/* Appointemnt section */}
-        <View style={styles.field}>
-          <Icon
-            fontFamily={"MaterialCommunityIcons"}
-            name="account"
-            color={colors}
-          />
-          <Lists title={i18n.t("Appointment")} onPress={() => onPressAppointment()} />
         </View>
         {/* language */}
         <View style={styles.field}>
@@ -198,15 +174,10 @@ export default function Profile({ navigation }) {
 
 const styles = StyleSheet.create({
   profilesection: {
-
     alignItems: "center",
-
     justifyContent: "center",
-
     borderBottomColor: colors.gray,
-
     borderBottomWidth: 0.5,
-
     marginBottom: spacing[6],
   },
   field: {
