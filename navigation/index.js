@@ -40,6 +40,8 @@ import Confirm from "../src/screens/Appointment/Confirm";
 import { EventRegister } from "react-native-event-listeners";
 import themeContext from "../src/config/themeContext";
 import theme from "../src/config/theme";
+import EditStatus from "../src/screens/OwnerScreen/EditStatus";
+import ChangeStatus from "../src/screens/OwnerScreen/ChangeStatus";
 const THEME = {
   ...DefaultTheme,
   colors: {
@@ -142,6 +144,8 @@ function OwnerStackScreen() {
     <OwnerStack.Navigator >
       <OwnerStack.Screen name="Home" component={OwnerHome} />
       <OwnerStack.Screen name="UpdatePage" component={UpdatePage} />
+      <OwnerStack.Screen name="EditStatus" component={EditStatus} />
+      <OwnerStack.Screen name="ChangeStatus" component={ChangeStatus} />
     </OwnerStack.Navigator>
   );
 }
@@ -201,7 +205,7 @@ export default function Navigation() {
   };
   getUser();
 
-   const [mode, setMode] = useState(false);
+  const [mode, setMode] = useState(false);
   useEffect(() => {
     let eventListener = EventRegister.addEventListener("changeTheme", (data) => {
       setMode(data);
@@ -213,168 +217,198 @@ export default function Navigation() {
   })
   // console.log("role", role);
   return (
-    <themeContext.Provider value={ mode === true ? theme.dark : theme.light }>
-    <NavigationContainer theme={THEME}>
-      {user ?
-        (
-          // For admin Navigation
-          role === "admin"
-            ? (
-              // Admin navigation
-              <Tab.Navigator
-                screenOptions={{
-                  headerShown: true,
-                  headerTitleAlign: "left",
-                  headerLeft: () => (
-                    <View style={{ marginLeft: 10 }}>
-                      <Image
-                        source={require("../assets/images/logo.png")}
-                        style={{ width: 40, height: 40 }}
-                      />
-                    </View>
-                  ),
-                  // logout function
-                  headerRight: () => (
-                    <View style={{ marginRight: 10 }}>
-                      <TouchableOpacity
-                        onPress={() => {
-                          signOut(auth)
-                            .then(() => {
-                              setUser(null);
-                            })
-                            .catch((error) => {
-                              console.log(error);
-                            });
-                        }}
-                      >
-                        <MaterialIcons name="logout" size={24} color="black" />
-                      </TouchableOpacity>
-                    </View>
-                  ),
-                  tabBarActiveTintColor: "#FD9F1A",
-                }}
-              >
-                <Tab.Screen
-                  options={{
-                    title: "Create Shop",
-                    tabBarIcon: ({ color }) => (
-                      <TabBarIcon
-                        fontFamily={"MaterialCommunityIcons"}
-                        name="hammer-screwdriver"
-                        color={color} />
-                    ),
-                  }}
-                  name="CreateTab"
-                  component={AdminStackScreen}
-                />
-                <Tab.Screen
-                  options={{
-                    title: "Update",
-                    tabBarIcon: ({ color }) => (
-                      <TabBarIcon
-                        fontFamily={"MaterialIcons"}
-                        name="update"
-                        color={color}
-                      />
-                    ),
-                  }}
-                  name="UpdateTab"
-                  component={UpdateShop}
-                />
-                <Tab.Screen
-                  options={{
-                    title: "Delete",
-                    tabBarIcon: ({ color }) => (
-                      <TabBarIcon
-                        fontFamily={"MaterialIcons"}
-                        name="delete-outline"
-                        color={color}
-                      />
-                    ),
-                  }}
-                  name="DeleteTab"
-                  component={DeleteShop}
-                />
-              </Tab.Navigator>
-            )
-            : role === "owner"
+    <themeContext.Provider value={mode === true ? theme.dark : theme.light}>
+      <NavigationContainer theme={THEME}>
+        {user ?
+          (
+            // For admin Navigation
+            role === "admin"
               ? (
-                // <Text>{user.email}</Text>
-                // <OwnerStackScreen />
+                // Admin navigation
                 <Tab.Navigator
                   screenOptions={{
-                    headerShown: false,
+                    headerShown: true,
+                    headerTitleAlign: "left",
+                    headerLeft: () => (
+                      <View style={{ marginLeft: 10 }}>
+                        <Image
+                          source={require("../assets/images/logo.png")}
+                          style={{ width: 40, height: 40 }}
+                        />
+                      </View>
+                    ),
+                    // logout function
+                    headerRight: () => (
+                      <View style={{ marginRight: 10 }}>
+                        <TouchableOpacity
+                          onPress={() => {
+                            signOut(auth)
+                              .then(() => {
+                                setUser(null);
+                              })
+                              .catch((error) => {
+                                console.log(error);
+                              });
+                          }}
+                        >
+                          <MaterialIcons name="logout" size={24} color="black" />
+                        </TouchableOpacity>
+                      </View>
+                    ),
                     tabBarActiveTintColor: "#FD9F1A",
                   }}
                 >
                   <Tab.Screen
                     options={{
-                      title: "Home",
+                      title: "Create Shop",
                       tabBarIcon: ({ color }) => (
-                        <TabBarIcon fontFamily={"Octicons"} name="home" color={color} />
+                        <TabBarIcon
+                          fontFamily={"MaterialCommunityIcons"}
+                          name="hammer-screwdriver"
+                          color={color} />
                       ),
                     }}
-                    name="HomeTab"
+                    name="CreateTab"
+                    component={AdminStackScreen}
+                  />
+                  <Tab.Screen
+                    options={{
+                      title: "Update",
+                      tabBarIcon: ({ color }) => (
+                        <TabBarIcon
+                          fontFamily={"MaterialIcons"}
+                          name="update"
+                          color={color}
+                        />
+                      ),
+                    }}
+                    name="UpdateTab"
+                    component={UpdateShop}
+                  />
+                  <Tab.Screen
+                    options={{
+                      title: "Delete",
+                      tabBarIcon: ({ color }) => (
+                        <TabBarIcon
+                          fontFamily={"MaterialIcons"}
+                          name="delete-outline"
+                          color={color}
+                        />
+                      ),
+                    }}
+                    name="DeleteTab"
+                    component={DeleteShop}
+                  />
+                </Tab.Navigator>
+              )
+              // owner navigation
+              : role === "owner" ? (
+                <Tab.Navigator
+                  screenOptions={{
+                    headerShown: true,
+                    headerTitleAlign: "left",
+                    headerLeft: () => (
+                      <View style={{ marginLeft: 10 }}>
+                        <Image
+                          source={require("../assets/images/logo.png")}
+                          style={{ width: 40, height: 40 }}
+                        />
+                      </View>
+                    ),
+                    // logout function
+                    headerRight: () => (
+                      <View style={{ marginRight: 10 }}>
+                        <TouchableOpacity
+                          onPress={() => {
+                            signOut(auth)
+                              .then(() => {
+                                setUser(null);
+                              })
+                              .catch((error) => {
+                                console.log(error);
+                              });
+                          }}
+                        >
+                          <MaterialIcons name="logout" size={24} color="black" />
+                        </TouchableOpacity>
+                      </View>
+                    ),
+                    tabBarActiveTintColor: "#FD9F1A",
+                  }}
+                >
+                  <Tab.Screen
+                    options={{
+                      headerShown: false,
+                      title: "Owner Home",
+                      tabBarIcon: ({ color }) => (
+                        <TabBarIcon
+                          fontFamily={"MaterialIcons"}
+                          name="update"
+                          color={color}
+                        />
+                      ),
+                    }}
+                    name="OwnerHome"
                     component={OwnerStackScreen}
                   />
                   <Tab.Screen
                     options={{
-                      title: "Chat",
+                      title: "Update",
                       tabBarIcon: ({ color }) => (
-                        <TabBarIcon fontFamily={"Octicons"} name="home" color={color} />
+                        <TabBarIcon fontFamily={"MaterialIcons"} name="system-update" color={color} />
                       ),
                     }}
-                    name="ChatTab"
-                    component={HomeStackScreen}
+                    name="UpdateTab"
+                    component={EditStatus}
                   />
                 </Tab.Navigator>
               )
-              : (
-                <Tab.Navigator
-                  screenOptions={{
-                    headerShown: false,
-                    tabBarActiveTintColor: "#FD9F1A",
-                  }}
-                >
-                  <Tab.Screen
-                    options={{
-                      title: "Home",
-                      tabBarIcon: ({ color }) => (
-                        <TabBarIcon fontFamily={"Octicons"} name="home" color={color} />
-                      ),
+                : (
+                  <Tab.Navigator
+                    screenOptions={{
+                      headerShown: false,
+                      tabBarActiveTintColor: "#FD9F1A",
                     }}
-                    name="HomeTab"
-                    component={HomeStackScreen}
-                  />
-                  <Tab.Screen
-                    options={{
-                      title: "Explore",
-                      tabBarIcon: ({ color }) => (
-                        <TabBarIcon
-                          fontFamily={"SimpleLineIcons"}
-                          name="location-pin"
-                          color={color}
-                        />
-                      ),
-                    }}
-                    name="ExploreTab"
-                    component={ExploreStackScreen}
-                  />
-                  <Tab.Screen
-                    options={{
-                      title: "My Booking",
-                      tabBarIcon: ({ color }) => (
-                        <TabBarIcon
-                          fontFamily={"SimpleLineIcons"}
-                          name="notebook"
-                          color={color}
-                        />
-                      ),
-                    }}
-                    name="BookingTab"
-                    component={BookingStackScreen}
-                  />
-                  {/* <Tab.Screen
+                  >
+                    <Tab.Screen
+                      options={{
+                        title: "Home",
+                        tabBarIcon: ({ color }) => (
+                          <TabBarIcon fontFamily={"Octicons"} name="home" color={color} />
+                        ),
+                      }}
+                      name="HomeTab"
+                      component={HomeStackScreen}
+                    />
+                    <Tab.Screen
+                      options={{
+                        title: "Explore",
+                        tabBarIcon: ({ color }) => (
+                          <TabBarIcon
+                            fontFamily={"SimpleLineIcons"}
+                            name="location-pin"
+                            color={color}
+                          />
+                        ),
+                      }}
+                      name="ExploreTab"
+                      component={ExploreStackScreen}
+                    />
+                    <Tab.Screen
+                      options={{
+                        title: "My Booking",
+                        tabBarIcon: ({ color }) => (
+                          <TabBarIcon
+                            fontFamily={"SimpleLineIcons"}
+                            name="notebook"
+                            color={color}
+                          />
+                        ),
+                      }}
+                      name="BookingTab"
+                      component={BookingStackScreen}
+                    />
+                    {/* <Tab.Screen
                     options={{
                       title: "Inbox",
                       tabBarIcon: ({ color }) => (
@@ -389,28 +423,28 @@ export default function Navigation() {
                     component={InboxStackScreen}
                   /> */}
 
-                  <Tab.Screen
-                    options={{
-                      title: "Profile",
-                      tabBarIcon: ({ color }) => (
-                        <TabBarIcon
-                          fontFamily={"AntDesign"}
-                          name="user"
-                          color={color}
-                        />
-                      ),
-                    }}
-                    name="ProfileTab"
-                    component={ProfileStackScreen}
-                  />
-                </Tab.Navigator>
-              )
-        )
-        : (
-          <AuthStackScreen />
-        )
-      }
-    </NavigationContainer>
-    </themeContext.Provider>
+                    <Tab.Screen
+                      options={{
+                        title: "Profile",
+                        tabBarIcon: ({ color }) => (
+                          <TabBarIcon
+                            fontFamily={"AntDesign"}
+                            name="user"
+                            color={color}
+                          />
+                        ),
+                      }}
+                      name="ProfileTab"
+                      component={ProfileStackScreen}
+                    />
+                  </Tab.Navigator>
+                )
+          )
+          : (
+            <AuthStackScreen />
+          )
+        }
+      </NavigationContainer>
+    </themeContext.Provider >
   );
 }
