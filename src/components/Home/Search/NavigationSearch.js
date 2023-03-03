@@ -6,7 +6,7 @@ import { Ionicons } from '@expo/vector-icons';
 import { useNavigation } from '@react-navigation/native';
 
 
-export default function NavigationSearch({route}) {
+export default function NavigationSearch() {
   const { container, navigationSearchContainer } = styles;
   const navigation = useNavigation()
   return (

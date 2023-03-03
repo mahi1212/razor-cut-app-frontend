@@ -167,10 +167,12 @@ export default function Home() {
           ) : (
             shops &&
             shops
-              .slice(0, 3)
+              .slice(0, 3) // show only 3 shops
               .map((shop, index) => {
+                // total rating
                 var sum = shop.review.reduce((total, review) => total + review.rating, 0);
                 if (sum === 0) { shop.review.length = 1 }
+                // average rating
                 var average = sum / shop.review.length;
                 return (
                   <View key={index}>

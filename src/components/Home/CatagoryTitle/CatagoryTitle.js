@@ -5,7 +5,7 @@ import Text from '../../Text/Text';
 import { useNavigation } from '@react-navigation/native';
 
 // catagory list title and see all - Common component | ex: suggested for you 
-export default function CatagoryTitle({ title, btn, datalist }) {
+export default function CatagoryTitle({ title, btn }) {
     const { headerContainer, textStyle, btnStyle } = styles;
     const navigation = useNavigation();
     return (
@@ -15,7 +15,6 @@ export default function CatagoryTitle({ title, btn, datalist }) {
                 <Pressable onPress={() =>
                     navigation.navigate('SeeAll', {
                         title: title,
-                        datalist: datalist,
                     })
                 } style={{ padding: 10 }}>
                     <Text preset='title' style={btnStyle}>{btn}</Text>

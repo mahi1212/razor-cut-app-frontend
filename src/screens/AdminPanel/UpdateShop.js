@@ -9,6 +9,7 @@ import { colors } from '../../theme/colors';
 import axios from 'axios';
 
 export default function UpdateShop() {
+  // set all state of my shop
   const [shopName, setShopName] = useState('')
   const [shopEmail, setShopEmail] = useState('')
   const [shopimage, setShopimage] = useState('')
@@ -68,7 +69,7 @@ export default function UpdateShop() {
     gellery: [],
     review: [],
   }
-  console.log(myData)
+  // console.log(myData)
   const handleSubmit = () => {
     if (shopName === '' || shopEmail === '' || shopimage === '' || mobile === '' || shopAddress === '' || streetAddress === '' || Latitude === '' || Longitude === '' || website === '' || avgTime === '' || workingHours === '' || about === '') {
       Alert.alert('Please Fill All Fields')
@@ -89,7 +90,7 @@ export default function UpdateShop() {
   }
   const [shop, setShop] = useState([]);
   const [found, setFound] = useState(false);
-  console.log(shop);
+  // console.log(shop);
   const getShops = () => {
     if (shopEmail === '') {
       Alert.alert('Please Enter Shop Email')
@@ -98,7 +99,7 @@ export default function UpdateShop() {
         .then((res) => res.json())
         .then((data) => {
           setShop(data);
-          console.log(data);
+          // for toggle hiding and showing
           setFound(true);
         })
         .catch((err) => {
@@ -109,7 +110,7 @@ export default function UpdateShop() {
     }
   };
 
-
+  // main function
   return (
     <SafeAreaView style={{ flex: 1, }}>
       <ScrollView showsVerticalScrollIndicator={false} style={{ position: 'relative' }}>

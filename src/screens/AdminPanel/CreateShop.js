@@ -1,4 +1,4 @@
-import { Alert, Button, KeyboardAvoidingView, SafeAreaView, ScrollView, StyleSheet, TextInput, TouchableOpacity, View } from 'react-native'
+import { Alert, Button, KeyboardAvoidingView, Linking, SafeAreaView, ScrollView, StyleSheet, TextInput, TouchableOpacity, View } from 'react-native'
 import React, { useState } from 'react'
 import Text from '../../components/Text/Text'
 import { StatusBar } from 'expo-status-bar'
@@ -85,6 +85,9 @@ export default function AdminPanel() {
           <Text preset='catagory' style={styles.text}>Shop Details</Text>
           <TextInput placeholder='Shop Name' style={styles.input} onChangeText={(text) => { setShopName(text) }} />
           <TextInput placeholder='Shop Email' style={styles.input} onChangeText={(text) => { setShopEmail(text) }} />
+          <Pressable onPress={() => Linking.openURL("https://imgbb.com/")} style={styles.text} >
+            <Text preset="title">GET IMAGE LINK FROM HERE</Text>
+          </Pressable>
           <TextInput placeholder='IMAGE URL' style={styles.input} onChangeText={(text) => { setShopimage(text) }} />
           <TextInput placeholder='Mobile Number' style={styles.input} onChangeText={(text) => { setMobile(text) }} />
           <TextInput placeholder='Shop Address (ex: Bondor)' style={styles.input} onChangeText={(text) => { setShopAddress(text) }} />

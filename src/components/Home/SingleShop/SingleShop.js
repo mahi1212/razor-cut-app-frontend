@@ -45,7 +45,7 @@ export default function SingleShop({ shop, visibleIcon, avg, deleteIcon }) {
     if (waiting === undefined) {
         waiting = 0;
     }
-
+    // main function
     return (
         <Pressable style={shopContainer} onPress={
             () => {
