@@ -1,4 +1,4 @@
-import { View, Image, StyleSheet, ScrollView, RefreshControl } from "react-native";
+import { View, Image, StyleSheet, ScrollView, RefreshControl, Switch } from "react-native";
 import { StatusBar } from "expo-status-bar";
 import React, { useEffect, useReducer, useState } from "react";
 import { SafeAreaView } from "react-native-safe-area-context";
@@ -26,6 +26,10 @@ import I18n from "i18n-js";
 import { onAuthStateChanged } from "firebase/auth";
 import { auth } from "../../../navigation";
 import axios from "axios";
+import { useContext } from "react";
+import themeContext from "../../config/themeContext";
+import theme from "../../config/theme";
+import { EventRegister } from "react-native-event-listeners";
 
 export default function Profile({ navigation }) {
   //navigate to edit page
@@ -100,9 +104,15 @@ export default function Profile({ navigation }) {
     // }, 2000);
 
   }, []);
+  //themes
+  const [mode, setMode] = useState(false);
+
+  ///colors
+  const theme = useContext(themeContext);
   // main function
   return (
-    <SafeAreaView>
+    <SafeAreaView style={[styles.container, { backgroundColor: theme.background }]}
+    >
       <ScrollView style={{ padding: spacing[3] }} refreshControl={
         <RefreshControl refreshing={refreshing} onRefresh={getUser} />
       }>
@@ -132,7 +142,7 @@ export default function Profile({ navigation }) {
               Email: {email}
             </Text>
             <Text preset="h2" style={{ marginBottom: spacing[4] }}>
-              { number && `Number: ${number}`}
+              {number && `Number: ${number}`}
             </Text>
           </View>
         </View>}
@@ -144,13 +154,13 @@ export default function Profile({ navigation }) {
           <Icon
             fontFamily={"MaterialCommunityIcons"}
             name="account"
-            color={colors}
+            color={theme.colors}
           />
           <Lists title={i18n.t("EditProfile")} onPress={() => onPressEdit()} />
         </View>
         {/* language */}
         <View style={styles.field}>
-          <Icon fontFamily={"FontAwsome"} name="language" color={colors} />
+          <Icon fontFamily={"FontAwsome"} name="language" color={theme.iconcolors} />
           <Lists title={i18n.t("header")} onPress={() => onPressLng()} />
         </View>
 
@@ -159,9 +169,23 @@ export default function Profile({ navigation }) {
           <Icon
             fontFamily={"MaterialIcons"}
             name="privacy-tip"
-            color={colors}
+            color={theme.iconcolors}
           />
           <Lists title={i18n.t("Privacy")} onPress={() => onPressPrivacy()} />
+        </View>
+        {/* Mode changes */}
+        <View>
+          <View style={styles.darkmodestyle}>
+            <Text style={{ color: theme.color, fontSize: 18 }}>Dark Theme</Text>
+            <Switch
+              value={mode}
+              onValueChange={(value) => {
+                setMode(value);
+                EventRegister.emit("changeTheme", value);
+              }}
+            ></Switch>
+          </View>
+
         </View>
       </ScrollView>
       <StatusBar style="auto" />
@@ -180,6 +204,10 @@ const styles = StyleSheet.create({
     borderBottomWidth: 0.5,
     marginBottom: spacing[6],
   },
+  container: {
+    padding: spacing[3],
+    flex: 1,
+  },
   field: {
     marginBottom: spacing[4],
     padding: spacing[3],
@@ -193,5 +221,13 @@ const styles = StyleSheet.create({
     padding: spacing[3],
     borderTopLeftRadius: 10,
     borderTopRightRadius: 10,
+  },
+  darkmodestyle: {
+    display: "flex",
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "space-between",
+    marginTop: "-3%",
+    marginLeft: spacing[5],
   },
 });

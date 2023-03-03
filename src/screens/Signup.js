@@ -110,9 +110,9 @@ export default function Signup() {
       {/* or text */}
       <OrText />
       {/* google sign up */}
-      <GoogleButton title="up" />
+      {/* <GoogleButton title="up" /> */}
       {/* linking text */}
-      <View style={{ position: "absolute", bottom: 0, left: 50 }}>
+      <View style={{ marginTop: 20, alignSelf: 'center' }}>
         <Text>
           Already have an account?
           <Pressable
@@ -166,6 +166,5 @@ const styles = StyleSheet.create({
     color: "#FB9400",
     fontWeight: "bold",
     marginLeft: "6%",
-    marginBottom: -2,
   },
 });

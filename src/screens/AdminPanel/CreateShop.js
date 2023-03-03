@@ -69,6 +69,10 @@ export default function AdminPanel() {
     review: [],
   }
   const handleSubmit = () => {
+    // if any field is empty
+    if (shopName === '' || shopEmail === '' || shopimage === '' || mobile === '' || shopAddress === '' || streetAddress === '' || Latitude === '' || Longitude === '' || website === '' || avgTime === '' || workingHours === '' || about === '') {
+      return alert('Please Fill All Fields')
+    }
     axios.post("http://192.168.0.221:5000/shops", myData).then((res) => {
       if (res.data.insertedId) {
         alert("Shop Added Successfully");

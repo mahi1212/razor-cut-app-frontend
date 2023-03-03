@@ -37,7 +37,9 @@ import OwnerHome from "../src/screens/OwnerScreen/OwnerHome";
 import UpdatePage from "../src/screens/OwnerScreen/UpdatePage";
 import PaymentOption from "../src/screens/Appointment/PaymentOption";
 import Confirm from "../src/screens/Appointment/Confirm";
-
+import { EventRegister } from "react-native-event-listeners";
+import themeContext from "../src/config/themeContext";
+import theme from "../src/config/theme";
 const THEME = {
   ...DefaultTheme,
   colors: {
@@ -45,6 +47,7 @@ const THEME = {
     background: "white",
   },
 };
+
 
 const Tab = createBottomTabNavigator();
 
@@ -198,8 +201,19 @@ export default function Navigation() {
   };
   getUser();
 
+   const [mode, setMode] = useState(false);
+  useEffect(() => {
+    let eventListener = EventRegister.addEventListener("changeTheme", (data) => {
+      setMode(data);
+      console.log(data)
+    });
+    return () => {
+      EventRegister.removeEventListener(eventListener)
+    }
+  })
   // console.log("role", role);
   return (
+    <themeContext.Provider value={ mode === true ? theme.dark : theme.light }>
     <NavigationContainer theme={THEME}>
       {user ?
         (
@@ -397,5 +411,6 @@ export default function Navigation() {
         )
       }
     </NavigationContainer>
+    </themeContext.Provider>
   );
 }
