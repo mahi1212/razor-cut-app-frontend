@@ -29,6 +29,8 @@ import { auth } from "../../../navigation";
 import { onAuthStateChanged } from "firebase/auth";
 import { useEffect } from "react";
 import { useNavigation } from "@react-navigation/native";
+import themeContext from "../../config/themeContext";
+import { useContext } from "react";
 
 
 export default function Appointment({ route }) {
@@ -82,39 +84,44 @@ export default function Appointment({ route }) {
   //language
   i18n.fallbacks = true;
   i18n.translations = { en, sp, bn };
-
+  //modes
+  const theme=useContext(themeContext)
   return (
-    <ScrollView style={styles.detailsView}>
+    <ScrollView style={[styles.detailsView,{backgroundColor:theme.background}]} >
       <ProfileHeader backBtn={true} title={i18n.t("Appointment")} />
       {/* name */}
-      <Text preset="h6" style={{ marginBottom: 20 }} >SELECTED SHOP EMAIL : {route?.params?.shop?.email}</Text>
+      <Text preset="h6" style={{ marginBottom: 20,color:theme.color }} >SELECTED SHOP EMAIL : {route?.params?.shop?.email}</Text>
 
       <View>
-        <Text preset="h6">NAME</Text>
+        <Text preset="h6"style={{ color:theme.color }}>NAME</Text>
         <TextInput
-          style={styles.textSection}
-          placeholder="Enter Your Name"
+              style={[styles.textSection,{color:theme.color}]}
+              placeholder="Enter Your Name"
+              placeholderTextColor={colors.gray}
+
           onChangeText={(text) => setName(text)}
         />
       </View>
       {/* phone number */}
       <View style={{ marginTop: spacing[3] }}>
-        <Text preset="h6">PHONE NUMBER</Text>
+        <Text preset="h6"style={{ color:theme.color }}>PHONE NUMBER</Text>
         <TextInput
-          style={styles.textSection}
-          placeholder="Enter Phone Number"
+              style={[styles.textSection,{color:theme.color}]}
+              placeholder="Enter Phone Number"
           onChangeText={(text) => setPhone(text)}
+          placeholderTextColor={colors.gray}
+
         // keyboardType="numeric"
         />
       </View>
       {/* Dates */}
       <View style={{ marginTop: spacing[3] }}>
-        <CalendarPicker onDateChange={(date) => setSelectedStartDate(date)} />
-        <TextInput editable={false} style={styles.textSection}>Date selected : {startDate}</TextInput>
+        <CalendarPicker onDateChange={(date) => setSelectedStartDate(date)}/>
+        <TextInput editable={false} style={[styles.textSection,{color:theme.color}]}>Date selected : {startDate}</TextInput>
       </View>
 
       <View style={{ marginTop: spacing[3] }}>
-        <Text preset="h6">SELECT TIME</Text>
+        <Text preset="h6"style={{ color:theme.color }}>SELECT TIME</Text>
       </View>
       <ScrollView
         horizontal={true}

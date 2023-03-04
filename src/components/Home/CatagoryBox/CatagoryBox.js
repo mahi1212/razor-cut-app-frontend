@@ -6,6 +6,8 @@ import { colors } from '../../../theme/colors';
 import Text from '../../Text/Text';
 import { useNavigation } from '@react-navigation/native';
 import { catagories } from './CatagoryList';
+import themeContext from '../../../config/themeContext';
+import { useContext } from 'react';
 
 export default function CatagoryBox() {
     const { catagory, catagoryImage, singleCatagoryText, catagoryListStyle } = styles;
@@ -13,6 +15,9 @@ export default function CatagoryBox() {
 
     const SingleCatagory = ({ text, icon }) => {
         const navigation = useNavigation()
+        //modes
+        const theme=useContext(themeContext)
+
         return (
             <View style={catagoryListStyle}>
                 <Pressable onPress={() => {
@@ -23,14 +28,14 @@ export default function CatagoryBox() {
                         <Entypo name={icon} size={28} color={colors.orange} />
                     </View>
                     <View style={{ justifyContent: 'flex-start' }}>
-                        <Text preset='title' style={singleCatagoryText}>{text}</Text>
+                        <Text preset='title' style={[singleCatagoryText,{color:theme.color}]}>{text}</Text>
                     </View>
                 </Pressable>
             </View>
         )
     }
     // const getCatagories = () => {
-    //     fetch('http://192.168.0.221:5000/services')
+    //     fetch('http://192.168.68.228:5000/services')
     //         .then((response) => response.json())
     //         .then((data) => {
     //             // setRefreshing(false);

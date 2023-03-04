@@ -8,6 +8,8 @@ import * as Location from 'expo-location';
 import Pressable from 'react-native/Libraries/Components/Pressable/Pressable'
 import { SearchBar } from 'react-native-screens'
 import Search from '../components/Home/Search/Search'
+import { useContext } from 'react'
+import themeContext from '../config/themeContext'
 
 export default function Explore() {
   const [region, setRegion] = React.useState({
@@ -60,7 +62,7 @@ export default function Explore() {
   }
   const getShops = () => {
     setIsLoading(true)
-    fetch(`http://192.168.0.221:5000/shops`)
+    fetch(`http://192.168.68.228:5000/shops`)
       .then(res => res.json())
       .then(data => {
         setShops(data)
@@ -74,9 +76,9 @@ export default function Explore() {
   useEffect(() => {
     getShops();
   }, []);
-
+const theme=useContext(themeContext)
   return (
-    <SafeAreaView style={{ flex: 1, marginHorizontal: spacing[1] }}>
+    <SafeAreaView style={[styles.container,  {flex: 1, marginHorizontal: spacing[1] }]}>
       {/* select shop address in map and return to this */}
       {
         <MapView
@@ -96,6 +98,7 @@ export default function Explore() {
                 longitude: item.longitude,
               }}
               title={item.name}
+              style={{color:theme.color}}
               description={item.address}
               onPress={() => {
                 Linking.openURL(`https://www.google.com/maps/search/?api=1&query=${item.latitude},${item.longitude}`)
@@ -128,4 +131,5 @@ export default function Explore() {
   )
 }
 
-const styles = StyleSheet.create({})
+const styles = StyleSheet.create({    container: {flex:1}
+})

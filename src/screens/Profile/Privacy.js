@@ -15,12 +15,14 @@ import {
   bn,
 } from "../../components/ProfileCommonComponent/localizations";
 import theme from "../../config/theme";
+import themeContext from "../../config/themeContext";
+import { useContext } from "react";
 
 export default function Privacy({ backBtn, title }) {
   // Language change
   i18n.fallbacks = true;
   i18n.translations = { en, sp, bn };
-
+const theme=useContext(themeContext);
   return (
     <SafeAreaView style={[styles.container, { backgroundColor: theme.background }]}>
       <ScrollView>

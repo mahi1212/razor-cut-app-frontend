@@ -12,6 +12,9 @@ import ProfileHeader from "../../components/ProfileCommonComponent/ProfileHeader
 import { spacing } from "../../theme/spacing";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { useNavigation } from "@react-navigation/native";
+import { useContext } from "react";
+import themeContext from "../../config/themeContext";
+import { colors } from "../../theme/colors";
 
 export default function PaymentOption({route}) {
     const data = route.params.data;
@@ -20,14 +23,14 @@ export default function PaymentOption({route}) {
     const onPressConfirm = () => {
         navigation.navigate("confirm", { data: data });
     };
-
+    const theme=useContext(themeContext)
     return (
-        <SafeAreaView>
+        <SafeAreaView style={[styles.container, { backgroundColor: theme.background }]}>
             <ProfileHeader backBtn={true} title="Payment Method" />
 
             <Pressable onPress={() => onPressConfirm()}
                     style={styles.liststyle}>
-                    <Text style={{ fontSize: 20 }}>bKash</Text>
+                    <Text style={{ fontSize: 20 ,color:colors.gray}}>bKash</Text>
                     <Image
                         source={{
                             uri: "https://the-potato.net/extra-images/404_text_01.png",
@@ -52,4 +55,7 @@ const styles = StyleSheet.create({
         // borderWidth: 1,
         // borderColor: "black",
     },
+    container:{
+        flex: 1,
+    }
 });

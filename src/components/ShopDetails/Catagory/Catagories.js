@@ -5,12 +5,15 @@ import { useNavigation } from '@react-navigation/native'
 import { spacing } from '../../../theme/spacing'
 import { SimpleLineIcons } from '@expo/vector-icons';
 import { colors } from '../../../theme/colors'
+import themeContext from '../../../config/themeContext'
+import { useContext } from 'react'
 
 export default function Catagories({ shop }) {
     const SingleCatagory = ({ text, icon }) => {
         const navigation = useNavigation()
         const { catagoryImage, singleCatagoryText, catagoryListStyle } = styles;
-
+//mode
+const theme = useContext(themeContext);
         return (
             <View style={catagoryListStyle}>
                 <Pressable onPress={() => {
@@ -30,7 +33,7 @@ export default function Catagories({ shop }) {
                         <SimpleLineIcons name={icon} size={28} color={colors.orange} />
                     </View>
                     <View style={{ justifyContent: 'flex-start' }}>
-                        <Text preset='title' style={singleCatagoryText}>{text}</Text>
+                        <Text preset='title' style={[singleCatagoryText,{color:theme.color}]}>{text}</Text>
                     </View>
                 </Pressable>
             </View>

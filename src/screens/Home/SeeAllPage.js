@@ -7,6 +7,8 @@ import { spacing } from '../../theme/spacing';
 import SingleShop from '../../components/Home/SingleShop/SingleShop';
 import { colors } from '../../theme/colors';
 import { catagoryList } from '../../components/Home/CatagoryBox/CatagoryList';
+import themeContext from '../../config/themeContext';
+import { useContext } from 'react';
 
 export default function SeeAll({ route }) {
   const [status, setStatus] = useState('All');
@@ -15,10 +17,13 @@ export default function SeeAll({ route }) {
   const [shops, setShops] = useState([]);
   const [cart, setCart] = useState([])
   const { title } = route.params;
+
+      //mode
+      const theme= useContext(themeContext)
   // console.log(title)
 
   const getShops = () => {
-    fetch(`http://192.168.0.221:5000/shops`)
+    fetch(`http://192.168.68.228:5000/shops`)
       .then(res => res.json())
       .then(data => {
         setShops(data)
@@ -41,7 +46,7 @@ export default function SeeAll({ route }) {
     if (status === 'All') {
       getShops();
     } else {
-      fetch(`http://192.168.0.221:5000/catagoryShops/${status}`)
+      fetch(`http://192.168.68.228:5000/catagoryShops/${status}`)
         .then(res => res.json())
         .then(data => {
           setFilterData(data);
@@ -101,7 +106,7 @@ export default function SeeAll({ route }) {
   }
 
   return (
-    <SafeAreaView >
+    <SafeAreaView  style={[styles.container, { backgroundColor: theme.background }]}>
       <ScrollView >
         <PageHeader title={title} />
         <ScrollStatusBar />
@@ -175,4 +180,7 @@ const styles = StyleSheet.create({
   normalItemText: {
     color: colors.orange,
   },
+  container:{
+    flex:1,
+  }
 })

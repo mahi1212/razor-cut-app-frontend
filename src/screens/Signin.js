@@ -11,6 +11,8 @@ import GoogleButton from "../components/Login/GoogleButton";
 import { signInWithEmailAndPassword } from "firebase/auth";
 import { auth } from "../../navigation";
 import Input from "../components/Login/input";
+import { useContext } from "react";
+import themeContext from "../config/themeContext";
 
 export default function Signin() {
   const navigation = useNavigation();
@@ -34,7 +36,7 @@ export default function Signin() {
       alert(error.message);
     });
   };
-
+ //modes
   return (
     <View style={{ marginHorizontal: 20, flex: 1 }}>
       {/* title */}
@@ -52,7 +54,7 @@ export default function Signin() {
           }}
           style={{ marginLeft: 10 }}
         >
-          <Text>Forgot Password?</Text>
+          {/* <Text>Forgot Password?</Text> */}
         </Pressable>
         {/* login button */}
         <Pressable
@@ -72,9 +74,9 @@ export default function Signin() {
           </Text>
         </Pressable>
         {/* Or text */}
-        <OrText />
+        {/* <OrText /> */}
         {/* google sign in */}
-        <GoogleButton title="in" />
+        {/* <GoogleButton title="in" /> */}
       </View>
       <View style={{ position: "absolute", bottom: 0, left: 50 }}>
         <Pressable

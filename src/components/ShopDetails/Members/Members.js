@@ -3,8 +3,12 @@ import { View, Text, FlatList, Image, StyleSheet } from "react-native";
 import React from "react";
 import { colors } from "../../../theme/colors";
 import { spacing } from "../../../theme/spacing";
+import themeContext from "../../../config/themeContext";
+import { useContext } from "react";
 
 export default function Members({ members }) {
+  //modes
+  const theme = useContext(themeContext);
   return (
     <FlatList
       data={members}
@@ -31,7 +35,7 @@ export default function Members({ members }) {
                 }}
               />
             </View>
-            <Text style={{ marginTop: 10 }}>{item.name}</Text>
+            <Text style={{ marginTop: 10,color:theme.color }}>{item.name}</Text>
             {/* <Text style={{ marginTop: 5, color: colors.gray }}>{item.position}</Text> */}
           </View>
         );

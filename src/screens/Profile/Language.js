@@ -14,6 +14,8 @@ import Text from "../../components/Text/Text";
 import Button from "../../components/Button";
 import { SafeAreaView } from "react-native-safe-area-context";
 import ProfileHeader from "../../components/ProfileCommonComponent/ProfileHeader";
+import themeContext from "../../config/themeContext";
+import { useContext } from "react";
 
 export default function Language() {
   // from docs: https://docs.expo.io/versions/latest/sdk/localization/
@@ -21,9 +23,9 @@ export default function Language() {
   i18n.fallbacks = true;
   i18n.translations = { en, sp, bn };
   i18n.locale = locale;
-
+const theme = useContext(themeContext);
   return (
-    <SafeAreaView>
+    <SafeAreaView style={[styles.container, { backgroundColor: theme.background }]}>
       <ProfileHeader backBtn={true} title={i18n.t("header")} />
       <View style={{ padding: spacing[3] }}>
         <Text style={styles.texts}>{i18n.t("language")}</Text>
@@ -54,4 +56,7 @@ const styles = StyleSheet.create({
     textAlign: "center",
     marginBottom: spacing[5],
   },
+  container:{
+    flex:1
+  }
 });

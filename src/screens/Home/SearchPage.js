@@ -7,6 +7,8 @@ import SingleShop from '../../components/Home/SingleShop/SingleShop'
 import { Ionicons } from '@expo/vector-icons';
 import { colors } from '../../theme/colors'
 import { useEffect } from 'react'
+import { useContext } from 'react'
+import themeContext from '../../config/themeContext'
 
 export default function SearchPage() {
     const [searchText, setSearchText] = React.useState("")
@@ -17,7 +19,7 @@ export default function SearchPage() {
 
 
     const fetchShops = () => {
-        fetch(`http://192.168.0.221:5000/shops`)
+        fetch(`http://192.168.68.228:5000/shops`)
             .then(res => res.json())
             .then(data => {
                 // setSearchResults(data);
@@ -55,10 +57,12 @@ export default function SearchPage() {
             setSearchText(text);
         }
     };
+    //mode
+    const theme= useContext(themeContext)
 
     return (
         // search page 
-        <View style={{ flex: 1, marginHorizontal: spacing[2] }}>
+        <View style={[styles.container, { backgroundColor: theme.background }]}>
             <PageHeader title="Search" />
             {/* search component */}
             <View style={{ marginTop: -spacing[2] }}>
@@ -75,3 +79,11 @@ export default function SearchPage() {
         </View>
     )
 }
+
+const styles = StyleSheet.create({
+    container:{
+      flex:1,
+    }
+  
+  });
+  

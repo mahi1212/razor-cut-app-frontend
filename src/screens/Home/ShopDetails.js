@@ -15,6 +15,8 @@ import * as Location from 'expo-location';
 import { AntDesign } from '@expo/vector-icons';
 import { auth } from '../../../navigation';
 import { onAuthStateChanged } from 'firebase/auth';
+import { useContext } from 'react';
+import themeContext from '../../config/themeContext';
 
 const width = Dimensions.get('window').width;
 
@@ -26,6 +28,11 @@ export default function ShopDetails({ route }) {
     const [data, setData] = useState([])
     const [textData, setTextData] = useState('')
     // console.log(data)
+
+    
+      //mode
+      const theme= useContext(themeContext)
+
     const { email } = route.params;
     // get when user varify his email
     const [emailVerified, setEmailVerified] = useState(null);
@@ -40,7 +47,7 @@ export default function ShopDetails({ route }) {
     }, []);
     const getmembers = () => {
         // 192.168.0.121
-        fetch(`http://192.168.0.221:5000/shops/${email}`)
+        fetch(`http://192.168.68.228:5000/shops/${email}`)
             .then(res => res.json())
             .then(data => {
                 setShop(data)
@@ -50,7 +57,7 @@ export default function ShopDetails({ route }) {
     }
     const getSingleShop = () => {
         setIsLoading(true)
-        fetch(`http://192.168.0.221:5000/shops/${email}`)
+        fetch(`http://192.168.68.228:5000/shops/${email}`)
             .then(res => res.json())
             .then(data => {
                 setShop(data)
@@ -65,37 +72,37 @@ export default function ShopDetails({ route }) {
 
     const setStatusFilter = status => {
         setIsLoading(true)
-        // http://192.168.0.221:5000
+        // http://192.168.68.228:5000
         if (status === 'About') {
-            fetch(`http://192.168.0.221:5000/shops/${email}`)
+            fetch(`http://192.168.68.228:5000/shops/${email}`)
                 .then(res => res.json())
                 .then(data => {
                     setTextData(data.about)
                     setIsLoading(false)
                 })
         } else if (status == 'Package') {
-            fetch(`http://192.168.0.221:5000/shops/${email}`)
+            fetch(`http://192.168.68.228:5000/shops/${email}`)
                 .then(res => res.json())
                 .then(data => {
                     setData(data.package)
                     setIsLoading(false)
                 })
         } else if (status == 'Gellary') {
-            fetch(`http://192.168.0.221:5000/shops/${email}`)
+            fetch(`http://192.168.68.228:5000/shops/${email}`)
                 .then(res => res.json())
                 .then(data => {
                     setData(data.gellary)
                     setIsLoading(false)
                 })
         } else if (status == 'Review') {
-            fetch(`http://192.168.0.221:5000/shops/${email}`)
+            fetch(`http://192.168.68.228:5000/shops/${email}`)
                 .then(res => res.json())
                 .then(data => {
                     setData(data.review)
                     setIsLoading(false)
                 })
         } else {
-            fetch(`http://192.168.0.221:5000/appointment/${email}`)
+            fetch(`http://192.168.68.228:5000/appointment/${email}`)
                 .then(res => res.json())
                 .then(data => {
                     setData(data)
@@ -132,7 +139,7 @@ export default function ShopDetails({ route }) {
     }
     // main code
     return (
-        <ScrollView contentContainerStyle={container} showsVerticalScrollIndicator={false}>
+        <ScrollView contentContainerStyle={[container,{ backgroundColor: theme.background }]} showsVerticalScrollIndicator={false}>
             {/* back button */}
             <TouchableOpacity style={styles.backButton} onPress={() => navigation.goBack()}>
                 <Entypo name='chevron-left' size={22} color={colors.darkOrange} />
@@ -141,7 +148,7 @@ export default function ShopDetails({ route }) {
             {/* heading view */}
             <View style={{ marginHorizontal: 10 }}>
                 <View style={heading}>
-                    <Text preset='h1'>{shop.name}</Text>
+                    <Text preset='h1' style={{color:theme.color}}>{shop.name}</Text>
                     <Pressable style={activeCatagoryButton}>
                         <Text style={{ fontSize: 18, color: 'white' }}>Open</Text>
                     </Pressable>
@@ -189,7 +196,7 @@ export default function ShopDetails({ route }) {
                                             <View style={{ flexDirection: 'row', marginVertical: 10, alignItems: 'center', padding: 7, borderWidth: .5, borderColor: '#EEEEEE', borderRadius: 35, marginRight: 5 }}>
                                                 <Image source={{ uri: item.image }} style={{ width: 100, height: 100, borderRadius: 25, overflow: 'hidden' }} />
                                                 <View style={{ marginLeft: 10 }}>
-                                                    <Text preset='title'>{item.name}</Text>
+                                                    <Text preset='title'style={{color:theme.color}}>{item.name}</Text>
                                                     <Text preset='info' style={{ marginVertical: 10 }}>Time: {item.time} Hours</Text>
                                                     <Text preset='info' style={{ color: colors.darkOrange }}>Price: {item.price} ৳</Text>
                                                 </View>
@@ -233,7 +240,7 @@ export default function ShopDetails({ route }) {
                                                         <View style={{ marginLeft: 10, alignItems: 'center', justifyContent: 'flex-start', width: '100%', flexDirection: 'row' }}>
                                                             <Image source={{ uri: item.image }} style={{ width: 60, height: 60, borderRadius: 50, overflow: 'hidden' }} />
                                                             <View style={{ width: '100%' }}>
-                                                                <Text preset='title' style={{ marginLeft: 15 }}>{item.name}</Text>
+                                                                <Text preset='title' style={{ marginLeft: 15 ,color:theme.color}}>{item.name}</Text>
                                                                 <Text preset='info' style={{ marginTop: 5, marginLeft: 15 }}> {item.description}</Text>
                                                                 <View style={{ position: 'absolute', right: 70 }}>
                                                                     {

@@ -25,6 +25,8 @@ import Image from "react-native-image-progress";
 import NavigationSearch from "../../components/Home/Search/NavigationSearch";
 import SingleShop from "../../components/Home/SingleShop/SingleShop";
 import CatagoryTitle from "../../components/Home/CatagoryTitle/CatagoryTitle";
+import { useContext } from "react";
+import themeContext from "../../config/themeContext";
 
 export default function Home() {
   // for watching loading and refreshing state
@@ -34,12 +36,14 @@ export default function Home() {
 
   const [shops, setShops] = useState([]);
   const [cart, setCart] = useState([]);
+//modes
+const theme=useContext(themeContext)
 
 
   const getShops = () => {
     setIsLoading(true);
     // 192.168.0.121
-    fetch(`http://192.168.0.221:5000/shops`)
+    fetch(`http://192.168.68.228:5000/shops`)
       .then((res) => res.json())
       .then((data) => {
         setShops(data);
@@ -71,7 +75,7 @@ export default function Home() {
     } else {
       setIsLoading(true);
       // https://good-pink-ant-slip.cyclic.app/
-      fetch(`http://192.168.0.221:5000/catagoryShops/${status}`)
+      fetch(`http://192.168.68.228:5000/catagoryShops/${status}`)
         .then((res) => res.json())
         .then((data) => {
           setShops(data);
@@ -132,7 +136,8 @@ export default function Home() {
 
   // Here is main function code
   return (
-    <SafeAreaView style={{ flex: 1, marginHorizontal: spacing[2] }} onLayout={refreshing}>
+    <SafeAreaView style={[styles.container, { backgroundColor: theme.background }]}
+   onLayout={refreshing}>
       <ScrollView
         style={styles.container}
         showsVerticalScrollIndicator={false}
@@ -240,6 +245,7 @@ export default function Home() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
+    // marginHorizontal: spacing[2]
   },
   nearbyHeading: {
     flexDirection: "row",

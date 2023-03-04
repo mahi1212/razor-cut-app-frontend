@@ -9,6 +9,8 @@ import { onAuthStateChanged } from 'firebase/auth'
 import { useState } from 'react'
 import { useNavigation } from "@react-navigation/native";
 import { MaterialIcons } from '@expo/vector-icons';
+import themeContext from '../../config/themeContext'
+import { useContext } from 'react'
 
 export default function MyBookings() {
     const [data, setData] = useState([]);
@@ -25,7 +27,7 @@ export default function MyBookings() {
         });
     }, []);
     const getDetails = () => {
-        fetch(`http://192.168.0.221:5000/history/${email}`)
+        fetch(`http://192.168.68.228:5000/history/${email}`)
             .then((res) => res.json())
             .then((data) => {
                 setData(data);
@@ -34,9 +36,9 @@ export default function MyBookings() {
     useEffect(() => {
         getDetails();
     }, [email]);
-
+const theme=useContext(themeContext)
     return (
-        <ScrollView style={{ flex: 1 }} onLayout={getDetails()}>
+        <ScrollView style={[styles.container, { backgroundColor: theme.background }]} onLayout={getDetails()}>
             <Text preset="catagory" style={styles.headerText} > FIND YOUR HISTORY </Text>
             {/* card with shadow for shop previously booked */}
             {
@@ -112,5 +114,6 @@ const styles = StyleSheet.create({
         right: 15,
         top: 20,
         padding: 5,
-    }
+    },
+    container: {flex:1}
 })

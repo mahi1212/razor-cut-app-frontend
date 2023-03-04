@@ -4,11 +4,17 @@ import Text from '../../Text/Text'
 import { colors } from '../../../theme/colors';
 import { Ionicons } from '@expo/vector-icons';
 import { useNavigation } from '@react-navigation/native';
+import theme from '../../../config/theme';
+import { useContext } from 'react';
+import themeContext from '../../../config/themeContext';
 
 
 export default function NavigationSearch() {
   const { container, navigationSearchContainer } = styles;
   const navigation = useNavigation()
+ //modes
+  const theme=useContext(themeContext)
+
   return (
     <View style={container}>
       <Pressable onPress={
@@ -16,8 +22,8 @@ export default function NavigationSearch() {
             navigation.navigate('SearchPage')
         }
       } style={navigationSearchContainer}>
-        <Ionicons name="ios-search-sharp" size={24} color={colors.gray} />
-        <Text preset="h3" style={{ marginLeft: 10, fontSize: 16, width: '100%', color: 'gray' }}>Search shop</Text>
+        <Ionicons name="ios-search-sharp" size={24} color='Black' />
+        <Text preset="h3" style={{ marginLeft: 10, fontSize: 16, width: '100%', color: 'gray'}}>Search shop</Text>
       </Pressable>
     </View>
   )

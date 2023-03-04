@@ -9,10 +9,13 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import { useState } from 'react';
 import axios from 'axios';
 import { MaterialIcons } from '@expo/vector-icons';
+import themeContext from '../../../config/themeContext';
+import { useContext } from 'react';
 
 let deviceWidth = Dimensions.get('window').width
 
 export default function SingleShop({ shop, visibleIcon, avg, deleteIcon }) {
+    
     const [cart, setCart] = useState([]);
     const getCart = async () => {
         try {
@@ -26,7 +29,7 @@ export default function SingleShop({ shop, visibleIcon, avg, deleteIcon }) {
     getCart();
     const deleteShop = (id) => {
         // console.log(id)
-        axios.delete(`http://192.168.0.221:5000/shops/${id}`)
+        axios.delete(`http://192.168.68.228:5000/shops/${id}`)
             .then(res => {
                 // console.log(res)
                 alert('Shop deleted successfully')
@@ -45,9 +48,11 @@ export default function SingleShop({ shop, visibleIcon, avg, deleteIcon }) {
     if (waiting === undefined) {
         waiting = 0;
     }
+    //modes
+const theme=useContext(themeContext)
     // main function
     return (
-        <Pressable style={shopContainer} onPress={
+        <Pressable style={[shopContainer,{backgroundColor:theme.shopBackground}]} onPress={
             () => {
                 navigation.navigate('shopDetails', { email: email })
             }
@@ -144,7 +149,7 @@ const styles = StyleSheet.create({
         paddingVertical: 10,
         marginVertical: 5,
         borderWidth: .4,
-        backgroundColor: '#fff',
+        // backgroundColor: '#fff',
         borderColor: '#f5f4f2',
         borderRadius: 10,
         shadowColor: '#f5f4f2',

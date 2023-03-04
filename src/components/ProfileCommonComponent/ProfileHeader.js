@@ -4,9 +4,11 @@ import { useNavigation } from "@react-navigation/native";
 import { AntDesign } from "@expo/vector-icons";
 import { spacing } from "../../theme/spacing";
 import Text from "../Text/Text";
+import { useContext } from "react";
+import themeContext from "../../config/themeContext";
 
 export default function ProfileHeader({ backBtn, title }) {
-  
+  const theme = useContext(themeContext);
   const navigation = useNavigation();
 
   return (
@@ -26,8 +28,8 @@ export default function ProfileHeader({ backBtn, title }) {
           }}
    
         >
-          <AntDesign name="arrowleft" size={24} color="black" />
-          <Text preset="title" style={{marginTop:-21,marginLeft:spacing[10] }}>{title}</Text>
+          <AntDesign name="arrowleft" size={24} style={{color:theme.iconcolors}} />
+          <Text preset="title" style={{marginTop:-21,marginLeft:spacing[10],color:theme.color }}>{title}</Text>
 
         </Pressable>
       )}

@@ -7,6 +7,10 @@ import { useEffect } from 'react';
 import { onAuthStateChanged } from 'firebase/auth';
 import { auth } from '../../../navigation';
 import { useNavigation } from '@react-navigation/native';
+import themeContext from '../../config/themeContext';
+import { useContext } from 'react';
+import { spacing } from '../../theme/spacing';
+import { colors } from '../../theme/colors';
 
 export default function Review({ route }) {
     const { email } = route.params;
@@ -34,7 +38,7 @@ export default function Review({ route }) {
 
     // Get user data
     const getUser = () => {
-        axios.get(`http://192.168.0.221:5000/users/${userEmail}`)
+        axios.get(`http://192.168.68.228:5000/users/${userEmail}`)
             .then((res) => {
                 // console.log(res.data);
                 setPhotoUrl(res.data.photoUrl);
@@ -54,7 +58,7 @@ export default function Review({ route }) {
             Alert.alert("Please write your review");
             return;
         }
-        axios.post(`http://192.168.0.221:5000/shops/review/${email}`, data).then((res) => {
+        axios.post(`http://192.168.68.228:5000/shops/review/${email}`, data).then((res) => {
             if (res.data) {
                 Alert.alert("Thanks for your review :)");
             }
@@ -71,9 +75,11 @@ export default function Review({ route }) {
         setDescription('');
         // clear text input
     }
+    //modes
+    const theme=useContext(themeContext)
     // main function
     return (
-        <SafeAreaView >
+        <SafeAreaView style={[styles.container, { backgroundColor: theme.background }]}>
             <PageHeader title="Review" />
             <View style={styles.container}>
                 <View style={styles.popUp}>
@@ -81,10 +87,10 @@ export default function Review({ route }) {
                         source={require("../../../assets/images/rating.gif")}
                         style={{ width: 200, height: 200, }}
                     />
-                    <Text style={{ fontSize: 20, fontWeight: 'bold', color: '#00000080' }}>Share your experience!</Text>
+                    <Text style={{ fontSize: 20, fontWeight: 'bold', color: theme.color }}>Share your experience!</Text>
                     {/* rating */}
                     <View style={styles.containerRating}>
-                        <Text style={styles.text}>Rating </Text>
+                        <Text style={{ fontSize: 20, marginRight:spacing[3], color: theme.color }}>Rating </Text>
                         {[...Array(5)].map((star, i) => {
                             const ratingValue = i + 1;
                             return (
@@ -97,19 +103,22 @@ export default function Review({ route }) {
                                 </TouchableOpacity>
                             );
                         })}
-                        <Text style={styles.text}> {rating}/5 </Text>
+                        <Text style={{ fontSize: 16, marginRight:spacing[3], color: theme.color }}> {rating}/5 </Text>
                     </View>
                     {/* review text */}
-                    <TextInput style={styles.reviewInput}
+                    <TextInput style={[styles.reviewInput,{color:theme.color},{backgroundColor:theme.placeholderBackColor}]}
                         placeholder="Write your review here"
                         // onChangeText={(text) => {
                         //     setDescription(text);
                         // }}
+
                         value={description}
                         onChangeText={setDescription}
+                        placeholderTextColor={colors.gray}
+
                     />
                     <View style={{ flexDirection: 'row', justifyContent: 'space-between', width: '100%' }}>
-                        <Pressable style={styles.btn} onPress={
+                        <Pressable style={[styles.btn,{backgroundColor:theme.placeholderBackColor}]} onPress={
                             () => {
                                 reset();
                             }
@@ -150,11 +159,6 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         marginVertical: 10,
     },
-    text: {
-        fontSize: 20,
-        marginRight: 5,
-        color: '#00000080',
-    },
     selectedStar: {
         color: '#FFC107',
         fontSize: 30,
@@ -166,7 +170,7 @@ const styles = StyleSheet.create({
     reviewInput: {
         width: '100%',
         height: 100,
-        backgroundColor: '#00000005',
+        // backgroundColor: '#00000005',
         borderRadius: 10,
         borderWidth: 1,
         borderColor: '#00000010',
@@ -179,7 +183,7 @@ const styles = StyleSheet.create({
         height: 50,
         borderWidth: 1,
         borderColor: '#00000010',
-        backgroundColor: '#00000005',
+        // backgroundColor: '#00000005',
         borderRadius: 10,
         alignItems: 'center',
         justifyContent: 'center',
@@ -192,5 +196,7 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         justifyContent: 'center',
     },
-
+container:{
+    flex:1
+}
 });

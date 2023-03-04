@@ -3,15 +3,19 @@ import React from 'react'
 import { colors } from '../../../theme/colors';
 import Text from '../../Text/Text';
 import { useNavigation } from '@react-navigation/native';
+import themeContext from '../../../config/themeContext';
+import { useContext } from 'react';
 
 // catagory list title and see all - Common component | ex: suggested for you 
 export default function CatagoryTitle({ title, btn }) {
     const { headerContainer, textStyle, btnStyle } = styles;
     const navigation = useNavigation();
+    const theme=useContext(themeContext)
+
     return (
         <View>
             <View style={headerContainer}>
-                <Text preset='title' style={textStyle}>{title}</Text>
+                <Text preset='title' style={[textStyle,{color:theme.color}]}>{title}</Text>
                 <Pressable onPress={() =>
                     navigation.navigate('SeeAll', {
                         title: title,

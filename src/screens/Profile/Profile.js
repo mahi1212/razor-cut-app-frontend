@@ -52,15 +52,15 @@ export default function Profile({ navigation }) {
   //icons
   function Icon({ fontFamily, name, colors }) {
     if (fontFamily === "AntDesign") {
-      return <AntDesign name={name} size={24} color={colors} />;
+      return <AntDesign name={name} size={24} color={theme.iconcolors} />;
     } else if (fontFamily === "MaterialCommunityIcons") {
-      return <MaterialCommunityIcons name={name} size={24} color={colors} />;
+      return <MaterialCommunityIcons name={name} size={24} color={theme.iconcolors} />;
     } else if (fontFamily === "Ionicons") {
-      return <Ionicons name={name} size={24} color={colors} style={{ display: "flex" }} />
+      return <Ionicons name={name} size={24} color={theme.iconcolors} style={{ display: "flex" }} />
     } else if (fontFamily === "MaterialIcons") {
-      return <MaterialIcons name={name} size={24} color={colors} />;
+      return <MaterialIcons name={name} size={24} color={theme.iconcolors} />;
     } else if (fontFamily === "FontAwsome") {
-      return <FontAwesome name={name} size={24} color={colors} />;
+      return <FontAwesome name={name} size={24} color={theme.iconcolors} />;
     }
   }
 
@@ -86,7 +86,7 @@ export default function Profile({ navigation }) {
   }, []);
 
   const getUser = () => {
-    axios.get(`http://192.168.0.221:5000/users/${email}`)
+    axios.get(`http://192.168.68.228:5000/users/${email}`)
       .then((res) => {
         // console.log(res.data);
         setPhotoUrl(res.data.photoUrl);

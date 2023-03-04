@@ -9,9 +9,12 @@ import { useNavigation } from '@react-navigation/native';
 import { spacing } from '../../theme/spacing';
 import { colors } from '../../theme/colors';
 import { useEffect } from 'react';
+import themeContext from '../../config/themeContext';
 
 
 const Confirm = ({ route }) => {
+     //modes
+  const theme=useContext(themeContext)
     const data = route.params.data;
     console.log(data);
     const navigation = useNavigation();
@@ -45,7 +48,7 @@ const Confirm = ({ route }) => {
         try {
 
             if (otp == verificationCode) {
-                axios.post("http://192.168.0.221:5000/appointment", data).then((res) => {
+                axios.post("http://192.168.68.228:5000/appointment", data).then((res) => {
                     if (res.data.insertedId) {
                         // alert("Appointment Booked Successfully");
                         alert("Awesome, Appointment successfully done");
@@ -60,12 +63,8 @@ const Confirm = ({ route }) => {
         }
     };
 
-
-    //mode 
-    // const theme = useContext(themeContext)
-
     return (
-        <SafeAreaView style={styles.container}>
+        <SafeAreaView style={[styles.container, { backgroundColor: theme.background }]}>
             <ProfileHeader backBtn={true} title="Payment" />
             <View style={{ marginBottom: spacing[9] }}>
                 {/* <Text style={{ fontSize: 20, padding: spacing[5], color: colors.darkOrange }}>

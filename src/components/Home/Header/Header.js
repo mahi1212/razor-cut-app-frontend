@@ -11,6 +11,8 @@ import { useEffect } from "react";
 import { onAuthStateChanged } from "firebase/auth";
 import { auth } from "../../../../navigation";
 import axios from "axios";
+import { useContext } from "react";
+import themeContext from "../../../config/themeContext";
 export default function Header({ cart }) {
   const { container, logo, logoContainer, greetings, wave } = styles;
   // getting day or night in user local time
@@ -35,7 +37,7 @@ export default function Header({ cart }) {
     });
   }, []);
   const getUser = () => {
-    axios.get(`http://192.168.0.221:5000/users/${email}`)
+    axios.get(`http://192.168.68.228:5000/users/${email}`)
       .then((res) => {
         // console.log(res.data);
         setPhotoUrl(res.data.photoUrl);
@@ -55,6 +57,9 @@ export default function Header({ cart }) {
         console.log(error);
       });
   };
+  //modes
+  const theme=useContext(themeContext)
+
   return (
     <View>
       <View style={container}>
@@ -70,19 +75,19 @@ export default function Header({ cart }) {
             source={require("../../../../assets/images/logo.png")}
             style={logo}
           />}
-          <Text preset="catagory" style={{ fontFamily: typography.bold }}>
+          <Text preset="catagory" style={{color:theme.color, fontFamily: typography.bold }}>
             RazorCut
           </Text>
         </View>
         {/* logout & bookmark icon */}
-        <View style={styles.iconContainer}>
+        <View style={[styles.iconContainer,{color:theme.iconcolors}]}>
           <Pressable
             onPress={() => {
               //   console.log("pressed in notification");
               handleSignOut();
             }}
           >
-            <MaterialIcons name="logout" size={24} color="black" />
+            <MaterialIcons name="logout" size={24}color={theme.iconcolors} />
           </Pressable>
           <Pressable
             onPress={() => {
@@ -91,17 +96,17 @@ export default function Header({ cart }) {
             }}
             style={{ marginLeft: 10 }}
           >
-            <Ionicons name="bookmark-outline" size={24} color="black" />
+            <Ionicons name="bookmark-outline" size={24} color={theme.iconcolors} />
           </Pressable>
         </View>
       </View>
       <View style={greetings}>
         {isDayTime ? (
-          <Text preset="h1">Morning, </Text>
+          <Text preset="h1"style={{color:theme.color}}>Morning, </Text>
         ) : (
-          <Text preset="h1">Evening, </Text>
+          <Text preset="h1"style={{color:theme.color}}>Evening, </Text>
         )}
-        <Text preset="h1">{userName}</Text>
+        <Text preset="h1"style={{color:theme.color}}>{userName}</Text>
         <Image
           source={require("../../../../assets/images/so-so.png")}
           style={wave}

@@ -27,7 +27,9 @@ import { useRef } from "react";
 import { auth } from "../../../navigation";
 import { useEffect } from "react";
 import { onAuthStateChanged } from "firebase/auth";
-
+import { useContext } from "react";
+import themeContext from "../../config/themeContext";
+import theme from "../../config/theme";
 export default function EditProfile() {
   i18n.fallbacks = true;
   i18n.translations = { en, sp, bn };
@@ -78,7 +80,7 @@ export default function EditProfile() {
     }
     // put request
     console.log(user.email);
-    axios.put(`http://192.168.0.221:5000/users/${email}`, data)
+    axios.put(`http://192.168.68.228:5000/users/${email}`, data)
       .then((res) => {
         if (res.data) {
           alert("Profile updated successfully");
@@ -86,44 +88,51 @@ export default function EditProfile() {
         }
       });
   }
+  const theme = useContext(themeContext);
+
   // main function
   return (
-    <SafeAreaView>
+    <SafeAreaView  style={[styles.container, { backgroundColor: theme.background }]}>
       <ScrollView style={{ padding: spacing[2] }}>
         <ProfileHeader backBtn={true} title={i18n.t("EditProfile")} />
         <View>
           <View style={styles.detailsView}>
-            <Text preset="title">Name : </Text>
+            <Text preset="title" style={{color:theme.color}}>Name : </Text>
             <TextInput
               ref={input1Ref}
-              style={styles.textSection}
+              style={[styles.textSection,{color:theme.color}]}
               placeholder="Update Your Name"
               onChangeText={(text) => setName(text)}
+              placeholderTextColor={colors.gray}
             />
           </View>
           {/* image url upload */}
           <View style={styles.detailsView}>
             <View style={{ flexDirection: "row" }}>
-              <Text preset="title">Image URL :</Text>
+              <Text preset="title"style={{color:theme.color}}>Image URL :</Text>
               <Pressable onPress={() => Linking.openURL("https://imgbb.com/")} style={{ marginLeft: 10 }} >
                 <Text preset="title">GET LINK FROM HERE</Text>
               </Pressable>
             </View>
             <TextInput
               ref={input2Ref}
-              style={styles.textSection}
+              style={[styles.textSection,{color:theme.color}]}
               placeholder="Update Your Image"
               onChangeText={(text) => setPhotoUrl(text)}
+              placeholderTextColor={colors.gray}
+
             />
           </View>
           {/* phone number update */}
           <View style={styles.detailsView}>
-            <Text preset="title">Phone : </Text>
+            <Text preset="title"style={{color:theme.color}}>Phone : </Text>
             <TextInput
               ref={input3Ref}
-              style={styles.textSection}
+              style={[styles.textSection,{color:theme.color}]}
               placeholder="Update Your Number"
               onChangeText={(text) => setPhone(text)}
+              placeholderTextColor={colors.gray}
+
             />
           </View>
 
@@ -157,5 +166,8 @@ const styles = StyleSheet.create({
     borderBottomColor: colors.gray,
     borderBottomWidth: 0.5,
   },
+  container:{
+    flex:1
+  }
 
 });
