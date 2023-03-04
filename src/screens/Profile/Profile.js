@@ -85,6 +85,10 @@ export default function Profile({ navigation }) {
     });
   }, []);
 
+  // logout
+  const logOut = () => {
+    auth.signOut();
+  };
   const getUser = () => {
     axios.get(`http://192.168.0.221:5000/users/${email}`)
       .then((res) => {
@@ -173,6 +177,16 @@ export default function Profile({ navigation }) {
           />
           <Lists title={i18n.t("Privacy")} onPress={() => onPressPrivacy()} />
         </View>
+        {/* logout */}
+        <View style={styles.field}>
+          <Icon
+            fontFamily={"MaterialIcons"}
+            name="logout"
+            color={theme.iconcolors}
+          />
+          <Lists title={"Logout"} onPress={() => logOut()} />
+        </View>
+        
         {/* Mode changes */}
         <View>
           <View style={styles.darkmodestyle}>
