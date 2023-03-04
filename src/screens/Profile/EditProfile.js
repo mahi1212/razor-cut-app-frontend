@@ -80,7 +80,7 @@ export default function EditProfile() {
     }
     // put request
     console.log(user.email);
-    axios.put(`http://192.168.68.228:5000/users/${email}`, data)
+    axios.put(`http://192.168.0.221:5000/users/${email}`, data)
       .then((res) => {
         if (res.data) {
           alert("Profile updated successfully");

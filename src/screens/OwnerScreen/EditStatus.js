@@ -24,7 +24,7 @@ export default function EditStatus() {
         });
     }, []);
     const getDetails = () => {
-        fetch(`http://192.168.68.228:5000/ownerHistory/${email}`)
+        fetch(`http://192.168.0.221:5000/ownerHistory/${email}`)
             .then((res) => res.json())
             .then((data) => {
                 setData(data);
@@ -45,6 +45,8 @@ export default function EditStatus() {
 
                     data.map((item, index) => {
                         // console.log(item);
+                        const capitalizeStatus = item.status.toUpperCase();
+                        // console.log(capitalizeStatus);
                         return (
                             <Pressable style={styles.wraper} key={index}
                                 onPress={() => navigation.navigate('ChangeStatus', { item: item })}
@@ -53,8 +55,8 @@ export default function EditStatus() {
                                 <View style={{ flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center' }}>
                                     <Text preset="catagory" style={styles.text} > TIME: {item.time} </Text>
                                     {
-                                        item.status === 'pending' ?
-                                            <Text preset="catagory" style={styles.wariningText} > NOT VISITED </Text> :
+                                        capitalizeStatus == ('PENDING' || 'PENDING ') ?
+                                            <Text preset="catagory" style={styles.wariningText} > NOT VISITED</Text> :
                                             <Text preset="catagory" style={styles.wariningText} > VISITED </Text>
                                     }
                                 </View>

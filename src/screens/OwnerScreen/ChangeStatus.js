@@ -15,7 +15,7 @@ export default function ChangeStatus({ route }) {
             return;
         }
         // update status
-        axios.put(`http://192.168.68.228:5000/status/${data._id}`, { status: status })
+        axios.put(`http://192.168.0.221:5000/status/${data._id}`, { status: status })
             .then(response => {
                 console.log(response.data);
                 alert('Status Updated');
@@ -27,7 +27,7 @@ export default function ChangeStatus({ route }) {
         <View style={{ flex: 1, display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
             {data && <Text preset='h2'>CURRENT STATUS : {data.status.toUpperCase()}</Text>}
             <TextInput
-                placeholder='Enter Status here. Ex: pendin or visited'
+                placeholder='Enter Status here. Ex: pending or visited'
                 style={styles.inputField}
                 onChangeText={(text) => {
                     setStatus(text);

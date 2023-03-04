@@ -29,7 +29,7 @@ export default function SingleShop({ shop, visibleIcon, avg, deleteIcon }) {
     getCart();
     const deleteShop = (id) => {
         // console.log(id)
-        axios.delete(`http://192.168.68.228:5000/shops/${id}`)
+        axios.delete(`http://192.168.0.221:5000/shops/${id}`)
             .then(res => {
                 // console.log(res)
                 alert('Shop deleted successfully')
