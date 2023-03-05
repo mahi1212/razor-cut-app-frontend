@@ -35,7 +35,7 @@ export default function CatagoryBox() {
         )
     }
     // const getCatagories = () => {
-    //     fetch('http://192.168.0.221:5000/services')
+    //     fetch('http://192.168.68.228:5000/services')
     //         .then((response) => response.json())
     //         .then((data) => {
     //             // setRefreshing(false);

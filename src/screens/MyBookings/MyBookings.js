@@ -27,7 +27,7 @@ export default function MyBookings() {
         });
     }, []);
     const getDetails = () => {
-        fetch(`http://192.168.0.221:5000/history/${email}`)
+        fetch(`http://192.168.68.228:5000/history/${email}`)
             .then((res) => res.json())
             .then((data) => {
                 setData(data);

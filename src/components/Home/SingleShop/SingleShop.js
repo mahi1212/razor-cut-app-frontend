@@ -15,21 +15,32 @@ import { useContext } from 'react';
 let deviceWidth = Dimensions.get('window').width
 
 export default function SingleShop({ shop, visibleIcon, avg, deleteIcon }) {
-    
+
     const [cart, setCart] = useState([]);
+    // console.log(cart)
+    // const getCart = async () => {
+    //     try {
+    //         const value = await AsyncStorage.getItem('cart')
+    //         // console.log(value)
+    //         setCart(JSON.parse(value))
+    //     } catch (e) {
+    //         console.log(e)
+    //     }
+    // }
     const getCart = async () => {
         try {
-            const value = await AsyncStorage.getItem('cart')
-            // console.log(value)
-            setCart(JSON.parse(value))
+            const value = await AsyncStorage.getItem('cart');
+            if (value !== null) {
+                setCart(JSON.parse(value));
+            }
         } catch (e) {
-            console.log(e)
+            console.log(e);
         }
-    }
+    };
     getCart();
     const deleteShop = (id) => {
         // console.log(id)
-        axios.delete(`http://192.168.0.221:5000/shops/${id}`)
+        axios.delete(`http://192.168.68.228:5000/shops/${id}`)
             .then(res => {
                 // console.log(res)
                 alert('Shop deleted successfully')
@@ -49,10 +60,10 @@ export default function SingleShop({ shop, visibleIcon, avg, deleteIcon }) {
         waiting = 0;
     }
     //modes
-const theme=useContext(themeContext)
+    const theme = useContext(themeContext)
     // main function
     return (
-        <Pressable style={[shopContainer,{backgroundColor:theme.shopBackground}]} onPress={
+        <Pressable style={[shopContainer, { backgroundColor: theme.shopBackground }]} onPress={
             () => {
                 navigation.navigate('shopDetails', { email: email })
             }
@@ -95,7 +106,7 @@ const theme=useContext(themeContext)
             </View>
             {/* bookmark icon | this is last half of SingleShop component horizontally*/}
             {
-                (visibleIcon === true) &&
+                visibleIcon === true &&
                 (
                     cart.includes(email) ?
                         <Pressable
@@ -112,14 +123,14 @@ const theme=useContext(themeContext)
                             <MaterialCommunityIcons name="bookmark-minus" size={30} color={colors.darkOrange} />
                         </Pressable>
                         :
-                        <Pressable
-                            onPress={() => {
-                                AsyncStorage.setItem('cart', JSON.stringify([...cart, email]))
-                                console.log(email, 'added')
-                            }}
-                            style={styles.bookmarkIcon}>
-                            <Ionicons name="bookmark-outline" size={26} color="black" />
-                        </Pressable>
+                    <Pressable
+                        onPress={() => {
+                            AsyncStorage.setItem('cart', JSON.stringify([...cart, email]))
+                            console.log(email, 'added')
+                        }}
+                        style={styles.bookmarkIcon}>
+                        <Ionicons name="bookmark-outline" size={26} color="black" />
+                    </Pressable>
                 )
             }
             {

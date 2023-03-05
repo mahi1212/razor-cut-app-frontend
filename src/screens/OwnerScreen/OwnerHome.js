@@ -44,7 +44,7 @@ export default function OwnerHome() {
         const data = {
             waiting: selectedOption
         }
-        axios.put(`http://192.168.0.221:5000/shopss/${email}`, data)
+        axios.put(`http://192.168.68.228:5000/shopss/${email}`, data)
             .then(res => {
                 console.log(res);
                 alert('WAITING LIST UPDATED SUCCESSFULLY')

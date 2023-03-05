@@ -23,7 +23,7 @@ export default function Signup() {
   const saveUser = (name, phone, email, password, role) => {
     const user = { name, phone, email, password, role };
 
-    fetch("http://192.168.0.221:5000/users", {
+    fetch("http://192.168.68.228:5000/users", {
       method: "POST",
       headers: {
         "content-type": "application/json",
@@ -37,6 +37,15 @@ export default function Signup() {
     // validation
     if (phone.length !== 11 || phone.includes('017' || '016' || '013' || '019' || '018') == false) {
       alert('INVALID PHONE NUMBER')
+      return;
+    }
+    // regex for name - DOT AND NUMBER NOT ALLOWED
+    const nameRegex = /^[a-zA-Z ]+$/;
+
+    if (nameRegex.test(name)) {
+      console.log("Valid name");
+    } else {
+      alert("Invalid name");
       return;
     }
     createUserWithEmailAndPassword(auth, email, password)
@@ -113,16 +122,15 @@ export default function Signup() {
       {/* <GoogleButton title="up" /> */}
       {/* linking text */}
       <View style={{ marginTop: 20, alignSelf: 'center' }}>
-        <Text>
-          Already have an account?
-          <Pressable
-            onPress={() => {
-              navigation.navigate("Signin");
-            }}
-          >
-            <Text style={styles.signuptext}>Sign In</Text>
-          </Pressable>
-        </Text>
+        <Pressable
+          onPress={() => {
+            navigation.navigate("Signin");
+          }}
+          style={{justifyContent: 'center', alignItems: 'center', flexDirection: 'row'}}
+        >
+          <Text>Already have an account? </Text>
+          <Text style={styles.signuptext}>Sign In</Text>
+        </Pressable>
       </View>
     </KeyboardAvoidingView>
   );
@@ -165,6 +173,6 @@ const styles = StyleSheet.create({
   signuptext: {
     color: "#FB9400",
     fontWeight: "bold",
-    marginLeft: "6%",
+    marginLeft: 10,
   },
 });

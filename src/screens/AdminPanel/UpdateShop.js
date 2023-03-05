@@ -80,7 +80,7 @@ export default function UpdateShop() {
 
   }
   const updateShop = () => {
-    axios.put(`http://192.168.0.221:5000/shops/${shopEmail}`, myData)
+    axios.put(`http://192.168.68.228:5000/shops/${shopEmail}`, myData)
       .then(res => {
         console.log(res);
         alert('Shop Updated Successfully')
@@ -95,7 +95,7 @@ export default function UpdateShop() {
     if (shopEmail === '') {
       Alert.alert('Please Enter Shop Email')
     } else {
-      fetch(`http://192.168.0.221:5000/shops/${shopEmail}`)
+      fetch(`http://192.168.68.228:5000/shops/${shopEmail}`)
         .then((res) => res.json())
         .then((data) => {
           setShop(data);

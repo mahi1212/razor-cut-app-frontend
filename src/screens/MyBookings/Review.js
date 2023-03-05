@@ -38,7 +38,7 @@ export default function Review({ route }) {
 
     // Get user data
     const getUser = () => {
-        axios.get(`http://192.168.0.221:5000/users/${userEmail}`)
+        axios.get(`http://192.168.68.228:5000/users/${userEmail}`)
             .then((res) => {
                 // console.log(res.data);
                 setPhotoUrl(res.data.photoUrl);
@@ -58,7 +58,7 @@ export default function Review({ route }) {
             Alert.alert("Please write your review");
             return;
         }
-        axios.post(`http://192.168.0.221:5000/shops/review/${email}`, data).then((res) => {
+        axios.post(`http://192.168.68.228:5000/shops/review/${email}`, data).then((res) => {
             if (res.data) {
                 Alert.alert("Thanks for your review :)");
             }
