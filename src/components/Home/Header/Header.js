@@ -37,7 +37,7 @@ export default function Header({ cart }) {
     });
   }, []);
   const getUser = () => {
-    axios.get(`http://192.168.68.228:5000/users/${email}`)
+    axios.get(`http://172.20.10.2:5000/users/${email}`)
       .then((res) => {
         // console.log(res.data);
         setPhotoUrl(res.data.photoUrl);
@@ -75,7 +75,7 @@ export default function Header({ cart }) {
             source={require("../../../../assets/images/logo.png")}
             style={logo}
           />}
-          <Text preset="catagory" style={{color:theme.color, fontFamily: typography.bold }}>
+          <Text preset="catagory" style={{color:theme.color, fontFamily: typography.bold, marginLeft: 10 }}>
             RazorCut
           </Text>
         </View>
@@ -134,8 +134,9 @@ const styles = StyleSheet.create({
     marginHorizontal: 5,
   },
   logo: {
-    width: 50,
-    height: 45,
+    width: 40,
+    height: 40,
+    marginLeft: 10,
     borderRadius: '50%',
   },
   greetings: {

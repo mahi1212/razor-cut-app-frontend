@@ -90,7 +90,7 @@ export default function Profile({ navigation }) {
     auth.signOut();
   };
   const getUser = () => {
-    axios.get(`http://192.168.68.228:5000/users/${email}`)
+    axios.get(`http://172.20.10.2:5000/users/${email}`)
       .then((res) => {
         // console.log(res.data);
         setPhotoUrl(res.data.photoUrl);

@@ -43,7 +43,7 @@ const theme=useContext(themeContext)
   const getShops = () => {
     setIsLoading(true);
     // 192.168.0.121
-    fetch(`http://192.168.68.228:5000/shops`)
+    fetch(`http://172.20.10.2:5000/shops`)
       .then((res) => res.json())
       .then((data) => {
         setShops(data);
@@ -75,7 +75,7 @@ const theme=useContext(themeContext)
     } else {
       setIsLoading(true);
       // https://good-pink-ant-slip.cyclic.app/
-      fetch(`http://192.168.68.228:5000/catagoryShops/${status}`)
+      fetch(`http://172.20.10.2:5000/catagoryShops/${status}`)
         .then((res) => res.json())
         .then((data) => {
           setShops(data);

@@ -48,7 +48,7 @@ const Confirm = ({ route }) => {
         try {
 
             if (otp == verificationCode) {
-                axios.post("http://192.168.68.228:5000/appointment", data).then((res) => {
+                axios.post("http://172.20.10.2:5000/appointment", data).then((res) => {
                     if (res.data.insertedId) {
                         // alert("Appointment Booked Successfully");
                         alert("Awesome, Appointment successfully done");

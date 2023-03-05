@@ -12,7 +12,7 @@ export default function CatagoryPage({ route }) {
     const [searchResults, setSearchResults] = React.useState([])
     const [cart, setCart] = React.useState([])
     React.useEffect(() => {
-        fetch(`http://192.168.68.228:5000/shops`)
+        fetch(`http://172.20.10.2:5000/shops`)
             .then(res => res.json())
             .then(data => {
                 setSearchResults(data)

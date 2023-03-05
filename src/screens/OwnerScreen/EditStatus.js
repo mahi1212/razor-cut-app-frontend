@@ -24,7 +24,7 @@ export default function EditStatus() {
         });
     }, []);
     const getDetails = () => {
-        fetch(`http://192.168.68.228:5000/ownerHistory/${email}`)
+        fetch(`http://172.20.10.2:5000/ownerHistory/${email}`)
             .then((res) => res.json())
             .then((data) => {
                 setData(data);

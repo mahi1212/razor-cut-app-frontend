@@ -15,7 +15,7 @@ export default function ChangeStatus({ route }) {
             return;
         }
         // update status
-        axios.put(`http://192.168.68.228:5000/status/${data._id}`, { status: status })
+        axios.put(`http://172.20.10.2:5000/status/${data._id}`, { status: status })
             .then(response => {
                 console.log(response.data);
                 alert('Status Updated');
