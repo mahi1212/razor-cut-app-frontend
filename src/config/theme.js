@@ -19,9 +19,6 @@ const theme = {
         placeholderBackColor: "#fff",
         shopPageIcon:"darkOrange",
         shopBackground:"#E9E8E8",
-
-
-
     },
 };
 export default theme
